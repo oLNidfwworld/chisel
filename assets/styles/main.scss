@@ -1,0 +1,21 @@
+@import url("./base/resets.scss");
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("/assets/fonts/OpenSans/OpenSans-VariableFont_wdth\,wght.ttf")
+    format("truetype-variations");
+  font-weight: 1 999;
+}
+
+body {
+  font-family:
+    "Open Sans",
+    sans-serif,
+    -apple-system,
+    system-ui;
+}
+.nuxt-icon {
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+}

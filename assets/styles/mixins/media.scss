@@ -1,0 +1,37 @@
+@import "../base/variables/media.scss";
+
+@mixin min-xs {
+  @media (min-width: $md) {
+    @content;
+  }
+}
+
+@mixin min-sm {
+  @media (min-width: $sm) {
+    @content;
+  }
+}
+
+@mixin min-md {
+  @media (min-width: $md) {
+    @content;
+  }
+}
+
+@mixin min-lg {
+  @media (min-width: $lg) {
+    @content;
+  }
+}
+
+@mixin min-llg {
+  @media (min-width: $llg) {
+    @content;
+  }
+}
+
+@mixin min-xl {
+  @media (min-width: $xl) {
+    @content;
+  }
+}
