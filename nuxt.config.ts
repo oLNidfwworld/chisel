@@ -14,7 +14,7 @@ export default defineNuxtConfig({
   svgo: {
     autoImportPath: "./assets/icons/",
     componentPrefix: "i",
-    svgoConfig: {
+    svgoConfig: { 
       plugins: [
         {
           name: "preset-default",
@@ -22,6 +22,8 @@ export default defineNuxtConfig({
             overrides: {
               mergePaths: false,
               removeViewBox: false,
+              convertPathData : false,
+              cleanupIds: false
             },
           },
         },

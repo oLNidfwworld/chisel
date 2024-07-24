@@ -19,3 +19,22 @@ body {
     margin: auto;
   }
 }
+.page-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  background-color: $black-semi-transparize;
+}
+.overlay-appear-enter-active,
+.overlay-appear-leave-active{ 
+  transition: opacity 0.3s ease-out;
+}
+
+.overlay-appear-enter-to,
+.overlay-appear-leave-from{
+  opacity: 1;
+} 
+.overlay-appear-enter-from,
+.overlay-appear-leave-to{
+  opacity: 0;
+} 
