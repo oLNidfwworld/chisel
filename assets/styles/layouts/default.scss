@@ -13,10 +13,11 @@ body {
 .container {
   padding: 0 20px;
   max-width: 100%;
-
+  width: 100%;
   @include min-xl {
     max-width: 1360px;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 .page-overlay{

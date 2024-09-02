@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import EFilter from '~/components/base/ui/EFilter/index.vue';
+</script>
 <template>
-  <div>Begining of great</div>
+  <div>
+    <EFilter/>
+  </div>
 </template>

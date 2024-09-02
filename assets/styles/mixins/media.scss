@@ -1,11 +1,11 @@
 @import "../base/variables/media.scss";
-
+ 
 @mixin min-xs {
   @media (min-width: $md) {
     @content;
   }
 }
-
+ 
 @mixin min-sm {
   @media (min-width: $sm) {
     @content;
