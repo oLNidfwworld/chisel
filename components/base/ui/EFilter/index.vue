@@ -4,7 +4,7 @@ import Controls from './controls.vue';
 <template>
     <div class="e-filter-wrapper">
         <div class="e-filter-wrapper__container container">
-            <h1 class="title-big">Купить квартиру 
+            <h1 class="e-filter__title title-big">Купить квартиру 
                 в Павловском Посаде</h1>
             <Controls/>
         </div>
@@ -17,8 +17,12 @@ import Controls from './controls.vue';
     background-image: url('/filter-bg.png');
     background-size: cover;
     background-position: bottom;
-    flex-direction: column;
-    display: flex;
-    justify-content: space-around;
+
+    &__container{
+        display: flex; 
+        flex-direction: column;
+        justify-content: space-around;
+        height: 100%;
+    }
 }
 </style>
