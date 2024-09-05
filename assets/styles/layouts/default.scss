@@ -39,3 +39,6 @@ body {
 .overlay-appear-leave-to{
   opacity: 0;
 } 
+input::placeholder{
+  color: $gray-dark;
+}

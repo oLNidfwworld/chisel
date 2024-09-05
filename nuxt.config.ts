@@ -1,3 +1,5 @@
+import { resolve } from 'path';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
@@ -41,4 +43,28 @@ export default defineNuxtConfig({
       },
     },
   },
+  hooks : {
+    'pages:extend' ( pages ) {
+      pages.push({
+        name : 'city-level-catalog',
+        path : '/realty/:city/',
+        file :  resolve(__dirname, './pages/realty/realty-sections.vue')
+      }),
+      pages.push({
+        name : 'offer-type-catalog',
+        path : '/realty/:city/:offer-type/',
+        file :  resolve(__dirname, './pages/realty/realty-sections.vue')
+      }), 
+      pages.push({
+        name : 'object-catalog',
+        path : '/realty/:city/:offer-type/:object/',
+        file :  resolve(__dirname, './pages/realty/realty-sections.vue')
+      }), 
+      pages.push({
+        name : 'object-type-catalog',
+        path : '/realty/:city/:offer-type/:object/:object-type',
+        file :  resolve(__dirname, './pages/realty/realty-sections.vue')
+      })
+    }
+  }
 });

@@ -1,80 +1,109 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { ComboboxAnchor, ComboboxContent, ComboboxEmpty, ComboboxGroup, ComboboxItem, ComboboxItemIndicator, ComboboxLabel, ComboboxRoot, ComboboxTrigger, ComboboxViewport } from 'radix-vue'
+import { ref } from "vue";
+import {
+  ComboboxAnchor,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxItem,
+  ComboboxRoot,
+  ComboboxTrigger,
+  ComboboxViewport,
+} from "radix-vue";
 
-const v = ref([]);
-const options = ['Apple', 'Banana', 'Blueberry', 'Grapes', 'Pineapple'] 
-</script> 
+const v = defineModel();
+const isOpened = ref(false);
+const options = ["Apple", "Banana", "Blueberry", "Grapes", "Pineapple"];
+</script>
 <template>
-    <ComboboxRoot v-model="v" class="e-filter-combo" multiple>
-        <ComboboxAnchor class="e-filter-combo__anchor">
-            <ComboboxTrigger class="e-filter-combo__trigger">   
-                <template v-if="v.length <= 0">
-                    <span>Выбрать</span>
-                </template>
-                <template v-else>
-                    <span v-for="(item, index) in v" :key="index"> {{ item }}</span>
-                </template> 
-                    <IArrowDown class="e-filter-combo__arrow-down" filled/> 
-            </ComboboxTrigger>
-        </ComboboxAnchor>
+  <ComboboxRoot v-model:open="isOpened" v-model="v" class="e-filter-combo" multiple>
+    <ComboboxAnchor class="e-filter-combo__anchor">
+      <ComboboxTrigger class="e-filter-combo__trigger">
+        <template v-if="v.length <= 0">
+          <span>Выбрать</span>
+        </template>
+        <div v-else class="e-filter-combo__selected-items">
+          <span v-for="(item, index) in v" :key="index">
+            {{ item }}<template v-if="index != v.length - 1">, </template>
+          </span>
+        </div>
+        <IArrowDown
+          :style="{ transform: isOpened ? 'rotate(180deg)' : '' }"
+          class="e-filter-combo__arrow-down"
+          filled
+        />
+      </ComboboxTrigger>
+    </ComboboxAnchor>
 
-        <ComboboxContent class="e-filter-combo__drop">
-            <ComboboxViewport class="e-filter-combo__viewport">
-                <ComboboxEmpty class="e-filter-combo__empty" /> 
-                <ComboboxGroup> 
-                    <ComboboxItem v-for="(option, index) in options" :key="index" class="e-filter-combo__item" :value="option"> 
-                        <span>
-                            {{ option }}
-                        </span>
-                    </ComboboxItem> 
-                </ComboboxGroup> 
-            </ComboboxViewport>
-        </ComboboxContent>
-    </ComboboxRoot> 
+    <ComboboxContent class="e-filter-combo__drop">
+      <ComboboxViewport class="e-filter-combo__viewport">
+        <ComboboxEmpty class="e-filter-combo__empty" />
+        <ComboboxGroup>
+          <ComboboxItem
+            v-for="(option, index) in options"
+            :key="index"
+            class="e-filter-combo__item"
+            :value="option"
+          >
+            <span>
+              {{ option }}
+            </span>
+          </ComboboxItem>
+        </ComboboxGroup>
+      </ComboboxViewport>
+    </ComboboxContent>
+  </ComboboxRoot>
 </template>
-<style lang="scss" >
-.e-filter-combo{ 
-    max-width: 200px;
+<style lang="scss">
+.e-filter-combo {
+  max-width: 200px;
+  position: relative;
+  box-shadow: $base-inpt-shadow;
+  &__anchor {
+    background: $white;
+    border-radius: $border-sm;
+  }
+  &__trigger {
     position: relative;
-    &__anchor{
-        background: $white;
-        border-radius: $border-sm;
-    }
-    &__trigger{
-        position: relative;
-        width: 100%;
-        text-align: left;
-        font-size: 15px;
-        padding: 8px 14px;   
-        overflow: hidden;
-    }
-    &__arrow-down{
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        margin : auto 0;
-        width: fit-content;
-        height: fit-content;
-    }
-    &__drop{
-        position: absolute;
-        left : 0;
-        right: 0;
-        top: 100%;
-        background-color: $white;
-    }
-    &__item{ 
-        padding: 8px 14px;  
-        max-height: 200px;
-        overflow-y: scroll;
-        background-color: $white;
+    width: 100%;
+    text-align: left;
+    font-size: 15px;
+    padding: 9px 24px 9px 14px;
+    overflow: hidden;
+  }
+  &__arrow-down {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    right: 9px;
+    margin: auto 0 !important;
+    width: fit-content;
+    height: fit-content;
+  }
+  &__drop {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    background-color: $white;
+  }
+  &__item {
+    padding: 8px 14px;
+    max-height: 200px;
+    overflow-y: scroll;
+    background-color: $white;
 
-        &[data-state="checked"] {
-            background-color: $red;
-            color: $white;
-        }
+    &[data-state="checked"] {
+      background-color: $red;
+      color: $white;
     }
+  }
+  &__selected-items {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
 }
 </style>
