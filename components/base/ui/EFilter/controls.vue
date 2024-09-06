@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Btn from "../btn.vue";
 import AdditionalCombo from "./controls-ui/additional-combo.vue";
 import AdditionalRadio from "./controls-ui/additional-radio.vue";
 import AdditionalRange from "./controls-ui/additional-range.vue";
@@ -60,24 +61,39 @@ const currentObjectType = ref();
       </label>
     </div>
     <div class="e-filter-additional">
-      <!-- <div class="e-filter-additional__group">
+      <div class="e-filter-additional__wrapper">
+        <!-- <div class="e-filter-additional__group">
         <span class="e-filter-additional__group-title">Объект недвижимости</span>
         <AdditionalRadio />
       </div>
       <div class="e-filter-additional__group">
         <span class="e-filter-additional__group-title">Объект недвижимости</span>
         <AdditionalCombo />
-      </div>
-      <div class="e-filter-additional__group">
-        <span class="e-filter-additional__group-title">Объект недвижимости</span>
-        <AdditionalRange v-model="minmax" />
       </div> -->
+        <div class="e-filter-additional__group">
+          <span class="e-filter-additional__group-title">Объект недвижимости</span>
+          <AdditionalRange v-model="minmax" />
+        </div>
+        <div class="e-filter-additional__group">
+          <span class="e-filter-additional__group-title">Объект недвижимости</span>
+          <AdditionalRange v-model="minmax" />
+        </div>
+        <div class="e-filter-additional__group">
+          <span class="e-filter-additional__group-title">Объект недвижимости</span>
+          <AdditionalRange v-model="minmax" />
+        </div>
+      </div>
+      <div class="e-filter-additional__bottom">
+        <div class="e-filter-additional__submit-row">
+          <Btn type="submit">Показать 24 объекта</Btn>
+          <Btn class="e-filter-additional__expand">Расширенный фильтр</Btn>
+        </div>
+      </div>
     </div>
   </form>
 </template>
 <style lang="scss" scoped>
 @import url("/assets/styles/base/shortcuts.scss");
-
 .e-filter {
   &__toggler-group-1 {
     display: flex;
@@ -103,13 +119,14 @@ const currentObjectType = ref();
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 60px;
 
     .e-filter-toggler-2:last-child {
       grid-column: span 2;
     }
     @include min-md {
       display: flex;
+      margin-bottom: 5px;
     }
   }
 
@@ -121,7 +138,6 @@ const currentObjectType = ref();
     }
   }
 }
-
 .e-filter-toggler-1 {
   padding: 5px;
   text-align: center;
@@ -162,16 +178,40 @@ const currentObjectType = ref();
   border-radius: $border-sm;
   background-color: #f3f3f3;
   padding: 23px 20px;
-  display: flex;
-  gap: 24px;
-
-  @include min-md {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
     gap: 20px;
+
+    @include min-md {
+      gap: 20px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @include min-llg {
+      gap: 61px;
+      grid-template-columns: repeat(5, 1fr);
+    }
   }
-  @include min-llg {
-    gap: 61px;
+  &__bottom {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+  }
+  &__submit-row {
+    display: flex;
+    gap: 18px;
+    align-items: center;
   }
 
+  &__expand.btn {
+    display: none;
+    background-color: $green;
+
+    @include min-lg {
+      display: initial;
+    }
+  }
   &__group {
     line-height: 1.333;
     display: flex;

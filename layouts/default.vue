@@ -1,6 +1,6 @@
 <script setup>
-import EHeader from "~/components/base/layout/EHeader.vue";
-import EFooter from "~/components/base/layout/EFooter"; 
+import EHeader from "~/components/layout/EHeader.vue";
+import EFooter from "~/components/layout/EFooter";
 import { useUIstore } from "~/store/ui";
 
 const uiStore = useUIstore();
@@ -13,7 +13,7 @@ const uiStore = useUIstore();
     </main>
     <EFooter />
     <Transition name="overlay-appear">
-      <div v-if="uiStore.overlayVisibility" class="page-overlay"/>
+      <div v-if="uiStore.overlayVisibility" class="page-overlay" />
     </Transition>
   </div>
 </template>

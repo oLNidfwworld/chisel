@@ -1,8 +1,6 @@
 <script setup>
-import { useUIstore } from '~/store/ui';
+import { useUIstore } from "~/store/ui";
 
- 
- 
 const links = shallowReactive([
   {
     name: "Услуги",
@@ -32,15 +30,17 @@ const links = shallowReactive([
 
 const burgerOpened = shallowRef(false);
 const uiStore = useUIstore();
-watch( burgerOpened, ( newValue ) => {
-  uiStore.toggleOverlayVisibility( newValue );
-})
+watch(burgerOpened, (newValue) => {
+  uiStore.toggleOverlayVisibility(newValue);
+});
 </script>
 <template>
   <header class="page-header">
     <div class="page-header__wrapper container">
-      <ILogoTypeOne filled />
-      <nav class="page-header__nav" :class="{ 'opened': burgerOpened }">
+      <NuxtLink to="/">
+        <ILogoTypeOne filled />
+      </NuxtLink>
+      <nav class="page-header__nav" :class="{ opened: burgerOpened }">
         <button class="page-header__nav-cross" @click="burgerOpened = false">
           <ICross />
         </button>
@@ -49,19 +49,22 @@ watch( burgerOpened, ( newValue ) => {
             <NuxtLink>{{ link.name }}</NuxtLink>
           </li>
         </ul>
-        <ul  class="page-header__soc">
+        <ul class="page-header__soc">
           <a href="https://wa.me/79015178651" rel="noopener noreferrer">
-            <IWhatsupWhite filled/>
+            <IWhatsupWhite filled />
           </a>
           <a href="mailto:ekspert07@bk.ru" rel="noopener noreferrer">
-            <IEmailWhite filled/>
+            <IEmailWhite filled />
           </a>
           <a href="https://vk.com/nedvizhimostpp" rel="noopener noreferrer">
-            <IVKWhite filled/>
+            <IVKWhite filled />
           </a>
-          <a href="https://www.youtube.com/channel/UCMF6FOeygEuzxZ5Mk7rOIgg" rel="noopener noreferrer">
-            <IYTWhite filled/>
-           </a>
+          <a
+            href="https://www.youtube.com/channel/UCMF6FOeygEuzxZ5Mk7rOIgg"
+            rel="noopener noreferrer"
+          >
+            <IYTWhite filled />
+          </a>
         </ul>
       </nav>
       <button @click="burgerOpened = !burgerOpened" class="page-header__burger">
@@ -94,7 +97,7 @@ watch( burgerOpened, ( newValue ) => {
     justify-content: space-between;
   }
 
-  &__nav { 
+  &__nav {
     width: fit-content;
     height: fit-content;
     position: fixed;
@@ -110,14 +113,13 @@ watch( burgerOpened, ( newValue ) => {
     flex-direction: column;
     justify-content: center;
     z-index: 10;
-    
 
     transition: transform 0.3s ease-out;
     &.opened {
       transform: translate3d(-320px, 0, 0);
     }
 
-    &-cross{
+    &-cross {
       display: block;
       width: fit-content;
       height: fit-content;
@@ -136,9 +138,8 @@ watch( burgerOpened, ( newValue ) => {
       position: static;
       height: fit-content;
       width: auto;
-      box-shadow: unset; 
+      box-shadow: unset;
     }
-
   }
 
   &__num {
@@ -159,9 +160,9 @@ watch( burgerOpened, ( newValue ) => {
     }
   }
 
-  &__soc{
+  &__soc {
     display: flex;
-    gap : 8px;
+    gap: 8px;
 
     & * {
       fill: $red;
@@ -181,7 +182,7 @@ watch( burgerOpened, ( newValue ) => {
   font-size: 22px;
   font-weight: 700;
   flex-direction: column;
-  @include min-xl{
+  @include min-xl {
     font-size: 18px;
     flex-direction: row;
     gap: 20px;

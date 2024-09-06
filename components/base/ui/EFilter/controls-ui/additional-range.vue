@@ -15,13 +15,15 @@ const model = defineModel<{
 </template>
 <style lang="scss">
 .e-filter-range {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   border: 1px solid $gray;
   border-radius: $border-sm;
   background-color: $white;
   padding: 9px 14px;
   input[type="number"] {
     border: unset;
+    width: 100%;
     font-size: 15px;
     background-color: transparent;
   }
