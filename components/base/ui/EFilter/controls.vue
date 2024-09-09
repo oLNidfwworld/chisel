@@ -84,6 +84,7 @@ const currentObjectType = ref();
         </div>
       </div>
       <div class="e-filter-additional__bottom">
+        <div class="e-filter-additional__label-row"></div>
         <div class="e-filter-additional__submit-row">
           <Btn type="submit">Показать 24 объекта</Btn>
           <Btn class="e-filter-additional__expand">Расширенный фильтр</Btn>
@@ -194,18 +195,39 @@ const currentObjectType = ref();
     }
   }
   &__bottom {
-    display: grid;
-    grid-template-columns: 1fr auto;
+    display: flex;
+    flex-direction: column-reverse;
     gap: 40px;
+
+    @include min-md {
+      flex-direction: column;
+    }
+    @include min-llg {
+      display: grid;
+      grid-template-columns: 1fr auto;
+    }
   }
   &__submit-row {
     display: flex;
+    flex-direction: column;
     gap: 18px;
     align-items: center;
+    margin-top: 20px;
+    & .btn {
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      @include min-md {
+        width: fit-content;
+      }
+    }
+
+    @include min-md {
+      flex-direction: row;
+    }
   }
 
   &__expand.btn {
-    display: none;
     background-color: $green;
 
     @include min-lg {

@@ -8,7 +8,17 @@ body {
   min-height: 100dvh;
 }
 .page-content {
-  flex: 1 0;
+  flex: 1 0; 
+  padding : 40px 0 20px 0;
+  @include min-sm{
+    padding : 60px 0 20px 0;
+  }
+  @include min-md{
+    padding : 60px 0 100px 0;
+  }
+  @include min-lg{
+    padding : 60px 0 90px 0;
+  }
 }
 .container {
   padding: 0 20px;
@@ -41,4 +51,10 @@ body {
 } 
 input::placeholder{
   color: $gray-dark;
+}
+* + section {
+  margin-top: 60px;
+  @include min-sm{
+    margin-top: 40px;
+  }
 }

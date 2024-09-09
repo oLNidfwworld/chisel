@@ -1,6 +1,7 @@
 <script setup>
 import EHeader from "~/components/layout/EHeader.vue";
 import EFooter from "~/components/layout/EFooter";
+import EFilter from "~/components/base/ui/EFilter/index.vue";
 import { useUIstore } from "~/store/ui";
 
 const uiStore = useUIstore();
@@ -8,6 +9,7 @@ const uiStore = useUIstore();
 <template>
   <div class="page-wrapper">
     <EHeader />
+    <EFilter />
     <main class="page-content">
       <slot />
     </main>

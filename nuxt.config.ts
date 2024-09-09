@@ -43,6 +43,9 @@ export default defineNuxtConfig({
       },
     },
   },
+  swiper : {
+    modules : [ 'grid' ]
+  },
   hooks : {
     'pages:extend' ( pages ) {
       pages.push({
@@ -52,17 +55,17 @@ export default defineNuxtConfig({
       }),
       pages.push({
         name : 'offer-type-catalog',
-        path : '/realty/:city/:offer-type/',
+        path : '/realty/:city/:offerType/',
         file :  resolve(__dirname, './pages/realty/realty-sections.vue')
       }), 
       pages.push({
         name : 'object-catalog',
-        path : '/realty/:city/:offer-type/:object/',
+        path : '/realty/:city/:offerType/:object/',
         file :  resolve(__dirname, './pages/realty/realty-sections.vue')
       }), 
       pages.push({
         name : 'object-type-catalog',
-        path : '/realty/:city/:offer-type/:object/:object-type',
+        path : '/realty/:city/:offerType/:object/:objectType',
         file :  resolve(__dirname, './pages/realty/realty-sections.vue')
       })
     }

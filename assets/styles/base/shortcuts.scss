@@ -5,3 +5,12 @@
 .font-bold{
     font-weight: bold;
 } 
+
+.title-md-bottom-margin{
+    display: block;
+    margin-bottom: 40px;
+
+    @include min-md{ 
+        margin-bottom: 25px;
+    }
+}
