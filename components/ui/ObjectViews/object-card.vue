@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import Agent from "../agent.vue";
-import Btn from "../btn.vue";
+import Agent from "../Agent/agent.vue";
+import Btn from "../../base/btn.vue";
+import PropsRow from "../props-row.vue";
 const numIsVisible = ref(false);
 const swiperInstance = ref<unknown>();
 const onSwiperInitialized = (swiperInstance: unknown) => {
@@ -12,9 +13,9 @@ const onSwiperInitialized = (swiperInstance: unknown) => {
     <div class="object-card__slider-wrapper">
       <ClientOnly>
         <Swiper
-          @swiper="onSwiperInitialized"
-          space-between="15"
           class="object-card__slider"
+          space-between="15"
+          @swiper="onSwiperInitialized"
         >
           <SwiperSlide>
             <picture>
@@ -43,15 +44,12 @@ const onSwiperInitialized = (swiperInstance: unknown) => {
           Московская обл, Павловский Посад городской округ, г. Павловский Посад,
           ул. Кирова
         </div>
-        <ul class="object-card__props">
-          <li class="object-card__prop">
-            <span class="object-card__prop-title"> Пл. участка </span>
-            <span class="object-card__prop-desc">11</span>
-          </li>
-        </ul>
+        <PropsRow />
       </div>
       <div class="object-card__bottom">
-        <Btn class="object-card__link" to="/realty/immovable-1"> Подробнее </Btn>
+        <Btn class="object-card__link" to="/realty/immovable-1" preference="transparent"
+          >Подробнее
+        </Btn>
         <Btn v-if="!numIsVisible" @click="numIsVisible = !numIsVisible">
           Показать телефон
         </Btn>
@@ -136,24 +134,6 @@ const onSwiperInitialized = (swiperInstance: unknown) => {
     @include min-md {
       margin: 16px 0 4px 0;
     }
-  }
-
-  &__props {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    background-color: #d9d9d9;
-    padding: 12px 9px;
-  }
-
-  &__prop {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  &__prop-desc {
-    font-weight: 700;
   }
 
   &__red {

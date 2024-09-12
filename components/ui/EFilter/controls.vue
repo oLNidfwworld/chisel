@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Btn from "../btn.vue";
+import Btn from "../../base/btn.vue";
 import AdditionalCombo from "./controls-ui/additional-combo.vue";
 import AdditionalRadio from "./controls-ui/additional-radio.vue";
 import AdditionalRange from "./controls-ui/additional-range.vue";
@@ -87,7 +87,9 @@ const currentObjectType = ref();
         <div class="e-filter-additional__label-row"></div>
         <div class="e-filter-additional__submit-row">
           <Btn type="submit">Показать 24 объекта</Btn>
-          <Btn class="e-filter-additional__expand">Расширенный фильтр</Btn>
+          <Btn class="e-filter-additional__expand" preference="sea"
+            >Расширенный фильтр</Btn
+          >
         </div>
       </div>
     </div>
@@ -228,8 +230,6 @@ const currentObjectType = ref();
   }
 
   &__expand.btn {
-    background-color: $green;
-
     @include min-lg {
       display: initial;
     }

@@ -44,7 +44,7 @@ export default defineNuxtConfig({
     },
   },
   swiper : {
-    modules : [ 'grid' ]
+    modules : [ 'grid', 'thumbs']
   },
   hooks : {
     'pages:extend' ( pages ) {

@@ -1,6 +1,6 @@
 <script setup>
-import Agent from "../agent.vue";
-import Btn from "../btn.vue";
+import Agent from "../Agent/agent.vue";
+import Btn from "../../base/btn.vue";
 
 const numIsVisible = ref(false);
 </script>
@@ -19,6 +19,7 @@ const numIsVisible = ref(false);
       <Btn
         v-if="!numIsVisible"
         class="mini-card__btn"
+        preference="transparent"
         @click="numIsVisible = !numIsVisible"
         >Показать телефон</Btn
       >
@@ -53,14 +54,6 @@ const numIsVisible = ref(false);
   }
   &__btn.btn {
     margin: auto;
-    background-color: transparent;
-    color: $black;
-    border: 1px solid $red;
-    transition: 0.3s ease-out color, 0.3s ease-out background-color;
-    &:hover {
-      background-color: $red;
-      color: $white;
-    }
   }
   &__img {
     height: 246px;

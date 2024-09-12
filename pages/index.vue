@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import ObjectSlider from "~/components/base/ui/ObjectViews/object-slider.vue";
-import ServiceSlider from "~/components/base/ui/Services/service-slider.vue";
-import Submenu from "~/components/base/ui/submenu.vue";
+import ObjectSlider from "~/components/ui/ObjectViews/object-slider.vue";
+import ServiceSlider from "~/components/ui/Services/service-slider.vue";
+import Submenu from "~/components/ui/submenu.vue";
 </script>
 <template>
   <div class="container">
