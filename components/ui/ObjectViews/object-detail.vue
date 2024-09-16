@@ -1,4 +1,5 @@
 <script setup>
+import { YandexMap, YandexMapDefaultSchemeLayer } from "vue-yandex-maps";
 import Btn from "~/components/base/btn.vue";
 import AgentCard from "~/components/ui/Agent/agent-card.vue";
 import PropsRow from "~/components/ui/props-row.vue";
@@ -21,6 +22,7 @@ const slideThumb = (dir) => {
       break;
   }
 };
+
 </script>
 <template>
   <div class="object-detail container">
@@ -112,6 +114,22 @@ const slideThumb = (dir) => {
         вокзала 10 мин пешком. Квартира в собственности более 15 лет, 1 собственник,
         прямая продажа.
       </p>
+    </div>
+    <div class="object-detail__map-wrapper">
+      <!-- <ClientOnly>
+          <YandexMap :coordinates="[product.item.coordinates.lat, product.item.coordinates.lon]"> 
+            <YandexMarker :coordinates="[product.item.coordinates.lat, product.item.coordinates.lon]" :options="{
+              iconLayout: 'default#imageWithContent',
+              iconImageHref: '/ekspertMarker.svg',
+              iconImageSize: [50, 50],
+              iconImageOffset: [-25, -55]
+            }" :marker-id="product.item.id">
+              <template #component>
+                {{ product.item.location }}
+              </template>
+            </YandexMarker>
+          </YandexMap>
+      </ClientOnly> -->
     </div>
   </div>
 </template>

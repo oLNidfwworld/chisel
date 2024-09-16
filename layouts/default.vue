@@ -1,7 +1,7 @@
 <script setup>
 import EHeader from "~/components/layout/EHeader.vue";
 import EFooter from "~/components/layout/EFooter";
-import EFilter from "~/components/base/EFilter/index.vue";
+import EFilter from "~/components/ui/EFilter/index.vue";
 import { useUIstore } from "~/store/ui";
 
 const uiStore = useUIstore();
