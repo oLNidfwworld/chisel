@@ -1,0 +1,48 @@
+import type Agent from "./agent"
+
+interface ObjectDetail {
+    id: number,
+    name: string,
+    detailText: string,
+    section: string,
+    price: number,
+    photos: Array<Photo>,
+    objectType : {
+        code : string,
+        name: string
+    },
+    views: number,
+    roomsCount: number | string,
+
+    agent : Agent,
+    balcony : string, 
+    square: number | string
+    squareSec: number | string,
+    livingSquare: number | string,
+    kitchenSquare: number | string,
+    houseFloor: number | string,
+    location: string,
+    productId: string, 
+    houseType: string[],
+    description: string,
+    bathroom: string,
+    coordinates : {
+        lat : number,
+        lon : number,
+    }, 
+    elevator: string,
+    ipoteka: string,
+    floorCount: string | number,
+    rootSection: string, 
+    typeOffer: string,
+    seoProps: Array<unknown>,
+    communications : Array<{name : string}>
+}
+interface Photo { 
+    filename: string,
+    url: string,
+    src: string,
+    websrc: string
+} 
+
+export type { ObjectDetail, Photo }

@@ -54,7 +54,7 @@ withDefaults(defineProps<IProps>(), {
     color: $white;
   }
   &.gray {
-    background-color: #e2e2e2;
+    background-color: $gray;
     color: $black;
   }
 }

@@ -1,18 +1,25 @@
-<script setup>
-import { YandexMap, YandexMapDefaultSchemeLayer } from "vue-yandex-maps";
+<script setup lang="ts">
 import Btn from "~/components/base/btn.vue";
 import AgentCard from "~/components/ui/Agent/agent-card.vue";
 import PropsRow from "~/components/ui/props-row.vue";
+import type { Swiper } from "swiper";
+import type { ObjectDetail } from "~/assets/types/entity/object-detail";
+import { useFavoriteStore } from "~/store/fav";
+interface IProps {
+  objectItem: ObjectDetail;
+}
 
-const thumbsSwiper = ref(null);
-const setThumbsSwiper = (swiperInstance) => {
+const props = defineProps<IProps>();
+
+const thumbsSwiper = ref<Swiper>();
+const setThumbsSwiper = (swiperInstance: Swiper) => {
   thumbsSwiper.value = swiperInstance;
 };
-const slider = ref(null);
-const setSlider = (swiperInstance) => {
+const slider = ref<Swiper>(null);
+const setSlider = (swiperInstance: Swiper) => {
   slider.value = swiperInstance;
 };
-const slideThumb = (dir) => {
+const slideThumb = (dir: string) => {
   switch (dir) {
     case "next":
       slider.value.slideNext();
@@ -22,7 +29,22 @@ const slideThumb = (dir) => {
       break;
   }
 };
+const shareLinksShow = ref(false);
+const share = async () => {
+  if ("navigator" in window && "share" in navigator) {
+    await navigator.share({
+      title: "Name",
+      url: "http://localhost:3000/",
+      text: "kek",
+    });
+  } else {
+    shareLinksShow.value = !shareLinksShow.value;
+  }
+};
+const price = computed(() => props.objectItem.price.toLocaleString("ru-RU"));
 
+const favStore = useFavoriteStore();
+const isFav = favStore.isFavorite(props.objectItem.id);
 </script>
 <template>
   <div class="object-detail container">
@@ -36,9 +58,13 @@ const slideThumb = (dir) => {
             class="object-detail-slider"
             @swiper="setSlider"
           >
-            <SwiperSlide class="object-detail-slide">
+            <SwiperSlide
+              v-for="(photo, i) in objectItem.photos"
+              :key="i"
+              class="object-detail-slide"
+            >
               <picture>
-                <source srcset="/test.png" />
+                <source :srcset="apiServerUrl(photo.websrc)" />
                 <img class="object-detail-slide__image" alt="" />
               </picture>
             </SwiperSlide>
@@ -64,10 +90,14 @@ const slideThumb = (dir) => {
               class="object-detail-thumbs-slider"
               @swiper="setThumbsSwiper"
             >
-              <SwiperSlide class="object-detail-thumbs-slide">
+              <SwiperSlide
+                v-for="(photo, i) in objectItem.photos"
+                :key="i"
+                class="object-detail-thumbs-slide"
+              >
                 <div class="object-detail-thumbs-slide__wrapper">
                   <picture>
-                    <source srcset="/test.png" />
+                    <source :srcset="apiServerUrl(photo.websrc)" />
                     <img class="object-detail-thumbs-slide__image" alt="" />
                   </picture>
                 </div>
@@ -79,15 +109,12 @@ const slideThumb = (dir) => {
       <div class="object-detail__content">
         <div class="object-detail__block object-detail__block--flex">
           <div class="object-detail__mini-info">
-            <span> Просмотров: <span class="font-bold">4</span> </span>
-            <span> id538453 </span>
+            <!-- <span> Просмотров: <span class="font-bold">4</span> </span> -->
+            <span> id{{ objectItem.productId }} </span>
           </div>
-          <h1 class="object-detail__title">2 — комнатная квартира, 59.43 м²</h1>
-          <span class="object-detail__red">4500000 ₽</span>
-          <span class="object-detail__adr font-semibold"
-            >Московская обл, Павловский Посад городской округ, г. Павловский Посад,
-            ул. Кирова</span
-          >
+          <h1 class="object-detail__title" v-html="objectItem.name" />
+          <span class="object-detail__red">{{ price }} ₽</span>
+          <span class="object-detail__adr font-semibold">{{ objectItem.location }}</span>
         </div>
         <div class="object-detail__block">
           <PropsRow />
@@ -95,9 +122,47 @@ const slideThumb = (dir) => {
         </div>
         <div class="object-detail__block object-detail__block--2cols">
           <div class="object-detail__btns">
-            <Btn preference="gray"> <IFav filled /> В избранное </Btn>
-            <Btn preference="gray"> <IPlacemark filled />На карте </Btn>
-            <Btn preference="gray"> <IPrint filled /> Версия для печати </Btn>
+            <ClientOnly>
+              <Btn
+                class="object-detail__tool-btn"
+                preference="gray"
+                :class="{ 'object-detail__tool-btn--active': isFav }"
+                @click="favStore.changeFavorite(props.objectItem.id)"
+              >
+                <IFav filled /> <template v-if="isFav"> В избранном </template>
+                <template v-else> В избранное </template>
+              </Btn>
+            </ClientOnly>
+            <Btn class="object-detail__tool-btn" preference="gray">
+              <IPlacemark filled />На карте
+            </Btn>
+            <Btn class="object-detail__tool-btn" preference="gray">
+              <IPrint filled /> Версия для печати
+            </Btn>
+            <div class="share">
+              <Btn class="object-detail__tool-btn" preference="gray" @click="share">
+                <IShare filled /> Поделиться
+              </Btn>
+              <Transition name="share-show">
+                <div v-if="shareLinksShow" class="share__links">
+                  <a href="https://t.me/share/url?url=URL&text=TEXT" target="_blank">
+                    <ITelegram />
+                  </a>
+                  <a href="https://api.whatsapp.com/send?text=TEXT" target="_blank">
+                    <IWhatsupWhite />
+                  </a>
+                  <a
+                    href="https://connect.ok.ru/offer?url=URL&title=TITLE"
+                    target="_blank"
+                  >
+                    <IOk />
+                  </a>
+                  <a href="http://vk.com/share.php?url=URL&title=TEXT" target="_blank">
+                    <IVKWhite />
+                  </a>
+                </div>
+              </Transition>
+            </div>
           </div>
           <AgentCard />
         </div>
@@ -105,14 +170,7 @@ const slideThumb = (dir) => {
     </div>
     <div class="object-detail__description">
       <p>
-        Продам уютную 2-комнатную квартиру в сталинском доме в центральной части города.
-        Квартира в хорошем состоянии, комнаты изолированные, высокие потолки, санузел
-        раздельный, окна ПВХ, газ.колонка-автомат. Дом кирпичный, тёплый, в подъезде
-        сделан ремонт. Приличные соседи. Рядом с домом вся необходимая инфраструктура:
-        Лицей им.Тихонова, музыкальная школа, городской парк, магазины, банки, детские
-        садики, дворец культуры и спорта и многое другое — все в пешей доступности. До ж/д
-        вокзала 10 мин пешком. Квартира в собственности более 15 лет, 1 собственник,
-        прямая продажа.
+        {{ objectItem.description }}
       </p>
     </div>
     <div class="object-detail__map-wrapper">
@@ -134,6 +192,41 @@ const slideThumb = (dir) => {
   </div>
 </template>
 <style lang="scss">
+.share-show-enter-active,
+.share-show-leave-active {
+  transition: 0.3s ease-out transform, 0.4s ease opacity;
+}
+.share-show-enter-from,
+.share-show-leave-to {
+  transform: translate3d(0, -50%, 0);
+  opacity: 0;
+}
+.share-show-enter-to,
+.share-show-leave-from {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+.share {
+  position: relative;
+  &__links {
+    background-color: $gray;
+    box-shadow: $base-shadow;
+    border-radius: $border-md;
+    padding: 12px 16px;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    top: calc(100% + 12px);
+    a {
+      border-radius: $border-md;
+      overflow: hidden;
+      svg * {
+        fill: $green;
+      }
+    }
+  }
+}
 .object-detail {
   line-height: 1.33;
   display: flex;
@@ -150,7 +243,7 @@ const slideThumb = (dir) => {
       gap: 24px;
     }
     @include min-xl {
-      grid-template-columns: 675px auto;
+      grid-template-columns: 550px auto;
     }
   }
   &__block {
@@ -186,9 +279,18 @@ const slideThumb = (dir) => {
     @include min-md {
       display: flex;
     }
-    & > * {
-      padding: 6px 0;
-      width: 100%;
+  }
+  &__tool-btn {
+    padding: 6px 0;
+    width: 100%;
+
+    &--active {
+      background-color: $red !important;
+      color: $white !important;
+      & * {
+        transition: 0.3s ease-out fill;
+        fill: $white !important;
+      }
     }
   }
 
@@ -229,6 +331,7 @@ const slideThumb = (dir) => {
   &__image {
     object-fit: cover;
     width: 100%;
+    aspect-ratio: 1/1;
   }
 }
 

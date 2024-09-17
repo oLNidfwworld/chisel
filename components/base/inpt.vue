@@ -16,7 +16,7 @@ const model = defineModel<string | number | undefined>({
   width: 100%;
   border: unset;
   padding: 10px 14px;
-  border: 1px solid #e2e2e2;
+  border: 1px solid $gray;
   border-radius: $border-sm;
   background-color: $white;
   font-weight: 600;

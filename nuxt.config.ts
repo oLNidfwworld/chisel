@@ -46,6 +46,12 @@ export default defineNuxtConfig({
   swiper : {
     modules : [ 'grid', 'thumbs']
   },
+  runtimeConfig : {
+    public : {
+      apiUrl : process.env.API_BASE_URL,
+      siteUrl : process.env.BASE_URL,
+    }
+  },
   hooks : {
     'pages:extend' ( pages ) {
       pages.push({

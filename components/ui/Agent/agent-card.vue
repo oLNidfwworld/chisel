@@ -32,7 +32,7 @@ const submit = ( event ) => {
         gap: 4px;
     } 
     &__block + &__block {
-        border-top: 1px solid #e2e2e2; 
+        border-top: 1px solid $gray; 
     }
     &__show{
         color:$red;
