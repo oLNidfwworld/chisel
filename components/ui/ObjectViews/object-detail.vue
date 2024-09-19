@@ -9,13 +9,15 @@ interface IProps {
   objectItem: ObjectDetail;
 }
 
-const props = defineProps<IProps>();
+const route = useRoute(); 
+const props = defineProps<IProps>(); 
+const price = computed(() => props.objectItem.price.toLocaleString("ru-RU"));
 
 const thumbsSwiper = ref<Swiper>();
 const setThumbsSwiper = (swiperInstance: Swiper) => {
   thumbsSwiper.value = swiperInstance;
 };
-const slider = ref<Swiper>(null);
+const slider = ref<Swiper>();
 const setSlider = (swiperInstance: Swiper) => {
   slider.value = swiperInstance;
 };
@@ -29,22 +31,33 @@ const slideThumb = (dir: string) => {
       break;
   }
 };
+
+const seoData = reactive({
+  title : `${props.objectItem.name} | Эксперт`,
+  description : `Купить ${props.objectItem.name} по цене ${price.value}р. в АН "Эксперт"`
+});
+useSeoMeta({
+  title: seoData.title,
+  description : seoData.description
+}); 
 const shareLinksShow = ref(false);
 const share = async () => {
   if ("navigator" in window && "share" in navigator) {
     await navigator.share({
-      title: "Name",
-      url: "http://localhost:3000/",
-      text: "kek",
+      title: seoData.title,
+      url: route.fullPath,
+      text: seoData.description,
     });
   } else {
     shareLinksShow.value = !shareLinksShow.value;
   }
 };
-const price = computed(() => props.objectItem.price.toLocaleString("ru-RU"));
 
 const favStore = useFavoriteStore();
 const isFav = favStore.isFavorite(props.objectItem.id);
+const mapVisible = ref(false);
+
+console.log(props.objectItem);
 </script>
 <template>
   <div class="object-detail container">
@@ -133,7 +146,8 @@ const isFav = favStore.isFavorite(props.objectItem.id);
                 <template v-else> В избранное </template>
               </Btn>
             </ClientOnly>
-            <Btn class="object-detail__tool-btn" preference="gray">
+            <Btn
+            :class="{ 'object-detail__tool-btn--active': mapVisible }" class="object-detail__tool-btn" preference="gray"  @click="mapVisible = !mapVisible" >
               <IPlacemark filled />На карте
             </Btn>
             <Btn class="object-detail__tool-btn" preference="gray">
@@ -145,19 +159,19 @@ const isFav = favStore.isFavorite(props.objectItem.id);
               </Btn>
               <Transition name="share-show">
                 <div v-if="shareLinksShow" class="share__links">
-                  <a href="https://t.me/share/url?url=URL&text=TEXT" target="_blank">
+                  <a :href="`https://t.me/share/url?url=${route.fullPath}&text=${seoData.description} `" target="_blank">
                     <ITelegram />
                   </a>
-                  <a href="https://api.whatsapp.com/send?text=TEXT" target="_blank">
+                  <a :href="`https://api.whatsapp.com/send?text=${seoData.description} ${route.fullPath}`" target="_blank">
                     <IWhatsupWhite />
                   </a>
                   <a
-                    href="https://connect.ok.ru/offer?url=URL&title=TITLE"
+                    :href="`https://connect.ok.ru/offer?url=${route.fullPath}&title=${seoData.title}`"
                     target="_blank"
                   >
                     <IOk />
                   </a>
-                  <a href="http://vk.com/share.php?url=URL&title=TEXT" target="_blank">
+                  <a :href="`http://vk.com/share.php?url=${route.fullPath}&title=${seoData.title}`" target="_blank">
                     <IVKWhite />
                   </a>
                 </div>
@@ -173,21 +187,28 @@ const isFav = favStore.isFavorite(props.objectItem.id);
         {{ objectItem.description }}
       </p>
     </div>
-    <div class="object-detail__map-wrapper">
-      <!-- <ClientOnly>
-          <YandexMap :coordinates="[product.item.coordinates.lat, product.item.coordinates.lon]"> 
-            <YandexMarker :coordinates="[product.item.coordinates.lat, product.item.coordinates.lon]" :options="{
+    <div v-if="mapVisible" class="object-detail__map-wrapper">
+      <ClientOnly>
+        <YandexMap
+          class="object-detail__map"
+          :coordinates="[objectItem.coordinates.lat, objectItem.coordinates.lon]"
+        >
+          <YandexMarker
+            :coordinates="[objectItem.coordinates.lat, objectItem.coordinates.lon]"
+            :options="{
               iconLayout: 'default#imageWithContent',
               iconImageHref: '/ekspertMarker.svg',
               iconImageSize: [50, 50],
-              iconImageOffset: [-25, -55]
-            }" :marker-id="product.item.id">
-              <template #component>
-                {{ product.item.location }}
-              </template>
-            </YandexMarker>
-          </YandexMap>
-      </ClientOnly> -->
+              iconImageOffset: [-25, -55],
+            }"
+            :marker-id="objectItem.id"
+          >
+            <template #component>
+              {{ objectItem.location }}
+            </template>
+          </YandexMarker>
+        </YandexMap>
+      </ClientOnly>
     </div>
   </div>
 </template>
@@ -292,8 +313,7 @@ const isFav = favStore.isFavorite(props.objectItem.id);
         fill: $white !important;
       }
     }
-  }
-
+  } 
   &__mini-info {
     font-size: 14px;
     display: flex;
@@ -316,6 +336,10 @@ const isFav = favStore.isFavorite(props.objectItem.id);
   &__description {
     line-height: 1.56;
     font-weight: 300;
+  }
+  &__map {
+    width: 100%;
+    height: 500px;
   }
 }
 .object-detail-slider {
@@ -378,5 +402,9 @@ const isFav = favStore.isFavorite(props.objectItem.id);
   &.swiper-slide-thumb-active {
     border-color: $red;
   }
+}
+.yandex-balloon{
+  height: 80px;
+    width: 200px;
 }
 </style>

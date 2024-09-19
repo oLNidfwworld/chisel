@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import type IAgent from '~/assets/types/entity/agent';
+
 interface IProps {
-  visibleNumber? : boolean
+  visibleNumber? : boolean,
+  agent : IAgent 
 }
 withDefaults(defineProps<IProps>(), {
   visibleNumber: true
@@ -8,7 +11,7 @@ withDefaults(defineProps<IProps>(), {
 </script>
 <template>
   <div class="agent">
-    <span class="agent__name">Герцева Наталья</span>
+    <span class="agent__name">{{ agent.name }}</span>
     <span class="agent__phone">+7 (929) 599-<span v-if="visibleNumber">28-18</span><span v-else>xx-xx</span> </span>
   </div>
 </template>

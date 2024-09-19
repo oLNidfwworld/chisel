@@ -10,6 +10,7 @@ definePageMeta({
 });
 
 const props = defineProps(["error"]);
+console.log(props);
 const route = useRoute();
 
 const svg404 = ref(null);
@@ -125,7 +126,7 @@ onMounted(() => {
           </p>
         </div>
         <div class="error__debug-trace" v-if="route.query.admindebug == 1">
-          <pre>{{ error }}</pre>
+          <pre v-html="error.stack" />
         </div>
       </div>
     </main>

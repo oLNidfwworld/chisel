@@ -9,6 +9,7 @@ definePageMeta({
 const route = useRoute();
 const objectId = route?.params?.id;
 const { data: object } = await useApiFetch<Detail>(`/Catalog/${objectId}/`);
+console.log(object);
 if (!objectId && !object) {
   createError({
     statusCode: 404,
@@ -18,7 +19,7 @@ if (!objectId && !object) {
 </script>
 <template>
   <section>
-    <ObjectDetail v-if="object?.item" :object-item="object.item" />
+    <ObjectDetail v-if="object && object?.item" :object-item="object.item" />
   </section>
   <section class="container">
     <h2 class="title-md title-md-bottom-margin">Похожие объявления</h2>

@@ -2,6 +2,9 @@
 import Btn from '~/components/base/btn.vue';
 import Agent from './agent.vue';
 import Inpt from '~/components/base/inpt.vue';
+import type IAgent from '~/assets/types/entity/agent';
+
+const props = defineProps<{ agent : IAgent }>();
 
 const submit = ( event ) => {
     console.log('submited');
@@ -11,7 +14,7 @@ const submit = ( event ) => {
     <form class="agent-card" @submit.prevent="submit">
         <div class="agent-card__block agent-card__container">
             <h4 class="agent-card__title">Специалист по объекту</h4>
-            <Agent :visible-number="false"/>
+            <Agent :agent="agent" :visible-number="false"/>
             <button class="agent-card__show">Показать <IPhone filled/> </button>
         </div>
         <div class="agent-card__block">

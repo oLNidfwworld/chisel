@@ -1,4 +1,4 @@
-import type Agent from "./agent"
+import type IAgent from "./agent"
 
 interface ObjectDetail {
     id: number,
@@ -14,7 +14,7 @@ interface ObjectDetail {
     views: number,
     roomsCount: number | string,
 
-    agent : Agent,
+    agent : IAgent,
     balcony : string, 
     square: number | string
     squareSec: number | string,

@@ -1,4 +1,4 @@
-export default interface Agent {
+export default interface IAgent {
     name : string;
     phone : string
 }
