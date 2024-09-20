@@ -2,13 +2,41 @@
 import Btn from "../../base/btn.vue";
 import AdditionalCombo from "./controls-ui/additional-combo.vue";
 import AdditionalRadio from "./controls-ui/additional-radio.vue";
-import AdditionalRange from "./controls-ui/additional-range.vue";
+import AdditionalRange from "./controls-ui/additional-range.vue"; 
 
+interface IProps { 
+    controlsData : any 
+} 
+const props = defineProps<IProps>();
+const { controlsData } = toRefs(props); 
+const onlyFillableFields = computed( ( ) => {
+  const fields : { [index: string] : any } = {};
+  Object.keys(controlsData.value as Object).forEach( key => { 
+    if ( typeof controlsData.value[key] === 'object' ) { // убираем non-object types
+      if ( !('values' in controlsData.value[key] && controlsData.value[key].values.length > 0 && !controlsData.value[key].values[0].name) ) { // убираем неподходящие по заданному предикату
+        fields[key] = controlsData.value[key];
+      }
+      // TODO: filter filterdata 
+      if ( 'values' in fields[key] && fields[key].values.length > 0 && key !== 'city' ) 
+        fields[key]['type'] = 'list'
+      else 
+        fields[key]['type'] = 'dropdown-list';
+    } 
+    
+  }); 
+  return fields
+}, );
+console.log(onlyFillableFields);
+const modelSection = defineModel<string>('section', {
+    required : true
+})
+const modelOfferType = defineModel<string>('offerType', {
+    required : true
+});   
 const minmax = ref({
   min: undefined,
   max: undefined,
-});
-
+}); 
 const offerTypes = shallowReactive([
   {
     name: "Купить",
@@ -22,40 +50,40 @@ const offerTypes = shallowReactive([
 const objectTypes = shallowReactive([
   {
     name: "Вторичка",
-    value: "buy",
+    value: "vtorichka",
   },
   {
     name: "Загородная",
-    value: "rent",
+    value: "zagorodnaya",
   },
   {
     name: "Комерческая",
-    value: "rent",
+    value: "commerce",
   },
-]);
-const currentOfferType = ref();
-const currentObjectType = ref();
+]);  
 </script>
 <template>
-  <form @submit.prevent class="e-filter">
+  <form class="e-filter" @submit.prevent >
     <div class="e-filter__toggler-group-1">
       <label v-for="(item, index) in offerTypes" :key="index" class="e-filter-toggler-1">
-        <input
-          v-model="currentOfferType"
+        <input 
           type="radio"
           name="offer-type"
           :value="item.value"
+          :checked="item.value === modelOfferType"
+          :v-model="modelOfferType"
         />
         {{ item.name }}
       </label>
     </div>
     <div class="e-filter__toggler-group-2">
       <label v-for="(item, index) in objectTypes" :key="index" class="e-filter-toggler-2">
-        <input
-          v-model="currentObjectType"
+        <input 
           type="radio"
           name="object-type"
           :value="item.value"
+          :checked="item.value === modelSection"
+          :v-model="modelSection"
         />
         {{ item.name }}
       </label>
@@ -63,24 +91,16 @@ const currentObjectType = ref();
     <div class="e-filter-additional">
       <div class="e-filter-additional__wrapper">
         <!-- <div class="e-filter-additional__group">
-        <span class="e-filter-additional__group-title">Объект недвижимости</span>
-        <AdditionalRadio />
-      </div>
-      <div class="e-filter-additional__group">
-        <span class="e-filter-additional__group-title">Объект недвижимости</span>
-        <AdditionalCombo />
-      </div> -->
-        <div class="e-filter-additional__group">
           <span class="e-filter-additional__group-title">Объект недвижимости</span>
-          <AdditionalRange v-model="minmax" />
+          <AdditionalRadio />
         </div>
         <div class="e-filter-additional__group">
           <span class="e-filter-additional__group-title">Объект недвижимости</span>
-          <AdditionalRange v-model="minmax" />
-        </div>
-        <div class="e-filter-additional__group">
-          <span class="e-filter-additional__group-title">Объект недвижимости</span>
-          <AdditionalRange v-model="minmax" />
+          <AdditionalCombo />
+        </div> -->  
+        <div v-for="(control, index) in onlyFillableFields" :key="index" class="e-filter-additional__group">
+          <span class="e-filter-additional__group-title">{{ control.name }}</span>
+          <!-- <AdditionalRange v-model="minmax" /> -->
         </div>
       </div>
       <div class="e-filter-additional__bottom">
@@ -134,7 +154,7 @@ const currentObjectType = ref();
   }
 
   .e-filter-toggler-1 {
-    width: 100%;
+    width: 100%; 
 
     @include min-md {
       width: fit-content;

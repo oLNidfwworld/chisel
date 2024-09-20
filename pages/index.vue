@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type { ObjectShorted } from "~/assets/types/entity/object-detail";
 import ObjectSlider from "~/components/ui/ObjectViews/object-slider.vue";
 import ServiceSlider from "~/components/ui/Services/service-slider.vue";
 import Submenu from "~/components/ui/submenu.vue";
+const { data: recommended } = await useApiFetch<{ items: ObjectShorted[] }>(`/Catalog`); 
 </script>
 <template>
   <div class="container">
@@ -86,10 +88,10 @@ import Submenu from "~/components/ui/submenu.vue";
         </Submenu>
       </div>
     </section>
-    <section>
+    <section v-if="recommended?.items && recommended.items.length > 0">
       <h2 class="title-md-bottom-margin title-md">Выгодные предложения</h2>
       <ClientOnly>
-        <ObjectSlider />
+        <ObjectSlider :items="recommended?.items"/>
       </ClientOnly>
     </section>
     <section>

@@ -38,6 +38,21 @@ interface ObjectDetail {
     seoProps: Array<unknown>,
     communications : Array<{name : string}>
 }
+interface ObjectShorted {
+    agent : IAgent,
+    coordinates : {
+        lat : number,
+        lon : number,
+    },
+    detailText : null | string,
+    id : number,
+    location : string,
+    name : string,
+    photos : Photo[],
+    price : number,
+    productId : string | number,
+    rootSection : string
+}
 interface Photo { 
     filename: string,
     url: string,
@@ -45,4 +60,4 @@ interface Photo {
     websrc: string
 } 
 
-export type { ObjectDetail, Photo }
+export type { ObjectDetail, ObjectShorted, Photo }

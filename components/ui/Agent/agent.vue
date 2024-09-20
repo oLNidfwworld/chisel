@@ -1,18 +1,23 @@
 <script setup lang="ts">
-import type IAgent from '~/assets/types/entity/agent';
+import type IAgent from "~/assets/types/entity/agent";
 
 interface IProps {
-  visibleNumber? : boolean,
-  agent : IAgent 
+  visibleNumber?: boolean;
+  agent: IAgent;
 }
-withDefaults(defineProps<IProps>(), {
-  visibleNumber: true
-})
+const props = withDefaults(defineProps<IProps>(), {
+  visibleNumber: true,
+});
+const agentPhoneHidden = computed(() =>
+  props.visibleNumber
+    ? props.agent.phone
+    : props.agent.phone.slice(0, props.agent.phone.length - 5) + "XX-XX"
+);
 </script>
 <template>
   <div class="agent">
     <span class="agent__name">{{ agent.name }}</span>
-    <span class="agent__phone">+7 (929) 599-<span v-if="visibleNumber">28-18</span><span v-else>xx-xx</span> </span>
+    <span class="agent__phone">{{ agentPhoneHidden }}</span>
   </div>
 </template>
 <style lang="scss">

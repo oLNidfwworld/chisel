@@ -5,6 +5,8 @@ export default withNuxt(
   // Your custom configs here
   {
     rules: {
+      "@typescript-eslint/ban-types" : "off",
+      "@typescript-eslint/no-explicit-any" : "warn",
       "vue/html-self-closing": [
         "warn",
         {

@@ -1,5 +1,10 @@
-<script setup>
+<script setup lang="ts">
+import type { ObjectShorted } from "~/assets/types/entity/object-detail";
 import MiniCard from "./mini-card.vue";
+interface IProps{
+  items : ObjectShorted[],
+}
+defineProps<IProps>();
 </script>
 <template>
   <Swiper
@@ -22,17 +27,8 @@ import MiniCard from "./mini-card.vue";
       },
     }"
   >
-    <SwiperSlide>
-      <MiniCard />
-    </SwiperSlide>
-    <SwiperSlide>
-      <MiniCard />
-    </SwiperSlide>
-    <SwiperSlide>
-      <MiniCard />
-    </SwiperSlide>
-    <SwiperSlide>
-      <MiniCard />
-    </SwiperSlide>
+    <SwiperSlide v-for="(item, index) in items" :key="index">
+      <MiniCard :data="item"/>
+    </SwiperSlide> 
   </Swiper>
 </template>

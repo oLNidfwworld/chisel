@@ -66,12 +66,12 @@ export default defineNuxtConfig({
       }), 
       pages.push({
         name : 'object-catalog',
-        path : '/realty/:city/:offerType/:object/',
+        path : '/realty/:city/:offerType/:section/',
         file :  resolve(__dirname, './pages/realty/realty-sections.vue')
       }), 
       pages.push({
         name : 'object-type-catalog',
-        path : '/realty/:city/:offerType/:object/:objectType',
+        path : '/realty/:city/:offerType/:section/:objectType',
         file :  resolve(__dirname, './pages/realty/realty-sections.vue')
       })
     }

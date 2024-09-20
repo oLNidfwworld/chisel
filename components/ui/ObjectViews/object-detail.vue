@@ -178,7 +178,7 @@ console.log(props.objectItem);
               </Transition>
             </div>
           </div>
-          <AgentCard />
+          <AgentCard :agent="objectItem.agent"/>
         </div>
       </div>
     </div>

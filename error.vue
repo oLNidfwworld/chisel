@@ -27,27 +27,6 @@ onMounted(() => {
   let initialDelay = 300;
   groupOfPaths.forEach((svgPath) => {
     svgPath.style.opacity = 0;
-    // preset - 1
-    // let randStartTranslateX = randInt(-150,150);
-    // let randStartTranslateY = randInt(-150,150);
-    //
-    // let randStartScale = parseFloat(randInt(2,19)/10);
-
-    // when x is gonnna down y gonna up
-    // when y is gonnna down x gonna up
-
-    // preset - 2
-    // let offsettedInt = 0;
-    // if(randInt(0,1) === 1 ){
-    //   offsettedInt = -150;
-    // }else{
-    //   offsettedInt = 150;
-    // }
-    //
-    // let randStartTranslateX = offsettedInt
-    // let randStartTranslateY = -offsettedInt
-    //
-    // let randStartScale = 1;
 
     let offsettedInt = 0;
     if (randInt(0, 1) === 1) {
@@ -56,10 +35,10 @@ onMounted(() => {
       offsettedInt = 150;
     }
 
-    let randStartTranslateX = offsettedInt + randInt(-5, 5);
-    let randStartTranslateY = -offsettedInt + randInt(-5, 5);
+    const randStartTranslateX = offsettedInt + randInt(-5, 5);
+    const randStartTranslateY = -offsettedInt + randInt(-5, 5);
 
-    let randStartScale = 1;
+    const randStartScale = 1;
 
     const keyframes = [
       {
@@ -71,17 +50,6 @@ onMounted(() => {
         opacity: 1,
       },
     ];
-    // preset -1
-    // const timings = {
-    //   duration: randInt(500,1500),
-    //   iterations: 1,
-    // };
-
-    // preset -2
-    // const timings = {
-    //   duration: 1000,
-    //   iterations: 1,
-    // };
 
     const timings = {
       duration: 500,
@@ -103,7 +71,7 @@ onMounted(() => {
       <div class="container">
         <div v-if="error.statusCode == 404" class="error__description">
           <div class="error__wrapper">
-            <div ref="svg404" id="animate-it">
+            <div id="animate-it" ref="svg404">
               <INotFound filled />
             </div>
             <div class="error__desc-404">
@@ -118,14 +86,14 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        <div class="error__description" v-else>
+        <div v-else class="error__description">
           <div class="error__code">{{ error.statusCode }}</div>
           <p>
             Произошла непредвиденная ошибка! <br />
             Пожалуйста, свяжитесь с разработчиками
           </p>
         </div>
-        <div class="error__debug-trace" v-if="route.query.admindebug == 1">
+        <div v-if="route.query.admindebug == 1" class="error__debug-trace">
           <pre v-html="error.stack" />
         </div>
       </div>
