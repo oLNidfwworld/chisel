@@ -1,22 +1,29 @@
-<script setup lang="ts">
+<script setup lang="ts"> 
+interface IProps {
+  min: number | string;
+  max: number | string; 
+}
+defineProps<IProps>();
 const model = defineModel<{
   min: number | undefined;
   max: number | undefined;
 }>({
   required: true,
-});
+}); 
 </script>
 <template>
   <div class="e-filter-range">
-    <input v-model="model.min" placeholder="От" type="number" />
+    <input v-model="model.min" :min="min" :max="max"  placeholder="От" type="number" />
     <span class="e-filter-range__separator" />
-    <input v-model="model.max" placeholder="До" type="number" />
+    <input v-model="model.max" :min="min" :max="max"  placeholder="До" type="number" />
   </div>
 </template>
 <style lang="scss">
 .e-filter-range {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
+  min-width: 150px;
+  width: 100%;
   border: 1px solid $gray;
   border-radius: $border-sm;
   background-color: $white;

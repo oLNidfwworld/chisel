@@ -9,8 +9,7 @@ export const useFavoriteStore = defineStore('favorite', () =>{
         }
         return false
     })
-    const changeFavorite = async (id:number) => {
-        console.log('change ' +  id + ' ');
+    const changeFavorite = async (id:number) => { 
         if(favoriteList.value.find(el => el === id)){
             favoriteList.value = favoriteList.value.filter((e:number) => {
                 return e !== id;

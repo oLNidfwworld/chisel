@@ -10,7 +10,9 @@ definePageMeta({
 });
 
 const props = defineProps(["error"]);
-console.log(props);
+if ( props?.error ) {
+  console.error(props.error);
+}
 const route = useRoute();
 
 const svg404 = ref(null);
@@ -63,6 +65,7 @@ onMounted(() => {
     svgPath.animate(keyframes, timings);
   });
 });
+const handleError = () => clearError({ redirect: '/' })
 </script>
 <template>
   <div class="page-wrapper">
@@ -82,7 +85,7 @@ onMounted(() => {
                 Возможно она устарела, была удалена или был введен неверный адрес в
                 адресной строке.
               </p>
-              <Btn to="/">На главную</Btn>
+              <Btn @click="handleError">На главную</Btn>
             </div>
           </div>
         </div>
@@ -167,17 +170,8 @@ onMounted(() => {
       grid-template-columns: 1fr 1fr;
     }
   }
-
-  &__code {
-    @apply text-[100px] md:text-[200px] lg:text-[340px] my-8;
-  }
-
-  &__description {
-    @apply text-[15px] md:text-[30px];
-  }
-
-  &__debug-trace {
-    @apply text-left text-[20px];
+ 
+  &__debug-trace { 
     padding: 0 20px;
     margin: 30px 0;
     background: black;

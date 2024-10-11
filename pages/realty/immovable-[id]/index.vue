@@ -8,8 +8,7 @@ definePageMeta({
 });
 const route = useRoute();
 const objectId = route?.params?.id;
-const { data: object } = await useApiFetch<Detail>(`/Catalog/${objectId}/`);
-console.log(object);
+const { data: object } = await useApiFetch<Detail>(`/Catalog/${objectId}/`); 
 if (!objectId && !object) {
   createError({
     statusCode: 404,

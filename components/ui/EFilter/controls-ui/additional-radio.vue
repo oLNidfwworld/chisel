@@ -1,33 +1,38 @@
 <script setup lang="ts">
-import { RadioGroupItem, RadioGroupRoot } from 'radix-vue' 
-const modelValue = defineModel<string>({
-    required: false
-}); 
+import { ToggleGroupRoot, ToggleGroupItem } from 'radix-vue' 
+// TODO: make generic
+defineProps<{ items : Array<{ name : string, xmlId : string}>}>();
+const modelValue = defineModel<string[]>({
+  required: true
+});   
 </script> 
 <template>
-  <RadioGroupRoot
+  <ToggleGroupRoot
     v-model="modelValue"
-    class="e-filter-radio-group" 
-    aria-label="View density"
+    type="multiple"
+    class="e-filter-radio-group"  
   > 
-      <RadioGroupItem
-        id="r1"
+      <ToggleGroupItem
+        v-for="(item,index) in items" 
+        :id="'r-'+item.xmlId"
+        :key="index"
         class="e-filter-radio"
-        value="default"
-      >kekw</RadioGroupItem> 
-  </RadioGroupRoot>
+        :value="item.xmlId"
+      >{{item.name}}</ToggleGroupItem> 
+  </ToggleGroupRoot>
 </template>
 <style lang="scss" scoped>
 .e-filter-radio-group{
     display: flex;
+    flex-wrap: wrap;
     gap: 5px;
 }
 .e-filter-radio{
     background-color: $gray;
     border-radius: $border-sm;
     padding: 8px 7px;
-
-    &:has(input[type="radio"]:checked) {
+    transition: 0.3s ease-out all;
+    &[data-state='on'] {
         background-color: $red;
         color: $white;
     }

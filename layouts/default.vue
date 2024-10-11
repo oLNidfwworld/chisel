@@ -7,8 +7,7 @@ import type { NeededParams } from "~/assets/types/entity/filterParams";
 
 const uiStore = useUIstore();
 
-const route = useRoute();
-const routeQuery = route.query;  
+const route = useRoute(); 
 const routeParams = route.params as NeededParams; 
 
 const section = ref(routeParams?.section || "vtorichka");
@@ -21,6 +20,10 @@ const { data : filterInitial } = await useApiFetch<object>('/NewBack/MainPage/Fi
       "greatDeals" : ""
   }
 });  
+
+watch([offerType, section], ( ) => {
+  navigateTo(`/${}/${}`)
+})
 
 // const offerType = ['buy','rent'] as const;
 // type OfferType = (typeof offerType)[number];

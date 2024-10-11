@@ -11,20 +11,25 @@ import {
   ComboboxViewport,
 } from "radix-vue";
 
-const v = defineModel();
-const isOpened = ref(false);
-const options = ["Apple", "Banana", "Blueberry", "Grapes", "Pineapple"];
+defineProps<{
+  items : Array<any>
+}>()
+
+const model = defineModel<Array<any>>({
+  required: true
+});
+const isOpened = ref(false); 
 </script>
 <template>
-  <ComboboxRoot v-model:open="isOpened" v-model="v" class="e-filter-combo" multiple>
+  <ComboboxRoot v-model:open="isOpened" v-model="model" class="e-filter-combo" multiple>
     <ComboboxAnchor class="e-filter-combo__anchor">
       <ComboboxTrigger class="e-filter-combo__trigger">
-        <template v-if="v.length <= 0">
+        <template v-if="model.length <= 0">
           <span>Выбрать</span>
         </template>
         <div v-else class="e-filter-combo__selected-items">
-          <span v-for="(item, index) in v" :key="index">
-            {{ item }}<template v-if="index != v.length - 1">, </template>
+          <span v-for="(item, index) in model" :key="index">
+            {{ item?.name }}<template v-if="index != items.length - 1">, </template>
           </span>
         </div>
         <IArrowDown
@@ -40,13 +45,13 @@ const options = ["Apple", "Banana", "Blueberry", "Grapes", "Pineapple"];
         <ComboboxEmpty class="e-filter-combo__empty" />
         <ComboboxGroup>
           <ComboboxItem
-            v-for="(option, index) in options"
+            v-for="(option, index) in items"
             :key="index"
             class="e-filter-combo__item"
             :value="option"
           >
             <span>
-              {{ option }}
+              {{ option.name }}
             </span>
           </ComboboxItem>
         </ComboboxGroup>
@@ -56,7 +61,7 @@ const options = ["Apple", "Banana", "Blueberry", "Grapes", "Pineapple"];
 </template>
 <style lang="scss">
 .e-filter-combo {
-  max-width: 200px;
+  width: 200px; 
   position: relative;
   box-shadow: $base-inpt-shadow;
   &__anchor {

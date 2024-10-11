@@ -1,42 +1,60 @@
 <script setup lang="ts">
-import Btn from "../../base/btn.vue";
+import Btn from "../../base/btn.vue"; 
 import AdditionalCombo from "./controls-ui/additional-combo.vue";
 import AdditionalRadio from "./controls-ui/additional-radio.vue";
 import AdditionalRange from "./controls-ui/additional-range.vue"; 
 
 interface IProps { 
-    controlsData : any 
+    controlsData : { [index: string] : any } 
 } 
 const props = defineProps<IProps>();
-const { controlsData } = toRefs(props); 
+const { controlsData } = toRefs(props);  
 const onlyFillableFields = computed( ( ) => {
   const fields : { [index: string] : any } = {};
-  Object.keys(controlsData.value as Object).forEach( key => { 
-    if ( typeof controlsData.value[key] === 'object' ) { // убираем non-object types
+  Object.keys( controlsData.value ).forEach( key => {  
+    if ( typeof controlsData.value[key] === 'object' ) { // убираем non-object types 
       if ( !('values' in controlsData.value[key] && controlsData.value[key].values.length > 0 && !controlsData.value[key].values[0].name) ) { // убираем неподходящие по заданному предикату
-        fields[key] = controlsData.value[key];
-      }
-      // TODO: filter filterdata 
-      if ( 'values' in fields[key] && fields[key].values.length > 0 && key !== 'city' ) 
-        fields[key]['type'] = 'list'
-      else 
-        fields[key]['type'] = 'dropdown-list';
-    } 
-    
-  }); 
+        fields[key] = controlsData.value[key];  
+        if ( key !== 'city' ) 
+          fields[key]['type'] = 'list'
+        else 
+          fields[key]['type'] = 'dropdown-list';  
+      } 
+      if ( 'min' in controlsData.value[key] && 'max' in controlsData.value[key] ) {
+          fields[key] = controlsData.value[key];  
+          fields[key]['type'] = 'range'
+      } 
+    }  
+  });  
   return fields
-}, );
-console.log(onlyFillableFields);
+} ); 
+const prefillValues = ( onlyFillableFieldsVal : { [index: string] : any }  ) => {
+  const newValuesToPost : { [index: string] : any } = {}; 
+  Object.keys(onlyFillableFieldsVal).forEach(key => {
+    switch(onlyFillableFieldsVal[key].type) {
+      case 'list':
+      case 'dropdown-list':
+        newValuesToPost[key] = [];
+        break;
+      case 'range':
+        newValuesToPost[key] = {
+          min: undefined,
+          max: undefined
+        };
+        break;
+    }
+  }) 
+  return newValuesToPost;
+}  
+const valuesToPost = ref<{ [index: string] : any }>(prefillValues(onlyFillableFields.value));    
+watch(( ) => valuesToPost.value , ( newVal )  => console.log(newVal), { deep : true }); 
+watch(( ) => controlsData.value, ( ) => console.log('ddd'));
 const modelSection = defineModel<string>('section', {
     required : true
 })
 const modelOfferType = defineModel<string>('offerType', {
     required : true
-});   
-const minmax = ref({
-  min: undefined,
-  max: undefined,
-}); 
+});     
 const offerTypes = shallowReactive([
   {
     name: "Купить",
@@ -47,7 +65,7 @@ const offerTypes = shallowReactive([
     value: "rent",
   },
 ]);
-const objectTypes = shallowReactive([
+const sectionTypes = shallowReactive([
   {
     name: "Вторичка",
     value: "vtorichka",
@@ -67,17 +85,17 @@ const objectTypes = shallowReactive([
     <div class="e-filter__toggler-group-1">
       <label v-for="(item, index) in offerTypes" :key="index" class="e-filter-toggler-1">
         <input 
+          v-model="modelOfferType"
           type="radio"
           name="offer-type"
           :value="item.value"
           :checked="item.value === modelOfferType"
-          :v-model="modelOfferType"
         />
         {{ item.name }}
       </label>
     </div>
     <div class="e-filter__toggler-group-2">
-      <label v-for="(item, index) in objectTypes" :key="index" class="e-filter-toggler-2">
+      <label v-for="(item, index) in sectionTypes" :key="index" class="e-filter-toggler-2">
         <input 
           type="radio"
           name="object-type"
@@ -97,14 +115,22 @@ const objectTypes = shallowReactive([
         <div class="e-filter-additional__group">
           <span class="e-filter-additional__group-title">Объект недвижимости</span>
           <AdditionalCombo />
-        </div> -->  
+        </div> -->
         <div v-for="(control, index) in onlyFillableFields" :key="index" class="e-filter-additional__group">
           <span class="e-filter-additional__group-title">{{ control.name }}</span>
-          <!-- <AdditionalRange v-model="minmax" /> -->
+          <template v-if="control.type === 'list'">
+            <AdditionalRadio  v-model="(valuesToPost[index] as unknown as string[])" :items="control.values"/> 
+          </template>
+          <template v-else-if="control.type === 'dropdown-list'">
+            <AdditionalCombo v-model="valuesToPost[index]" :items="control.values"/>
+          </template>
+          <template v-else-if="control.type === 'range'"> 
+            <AdditionalRange v-model="valuesToPost[index]"  :min="control.min" :max="control.max"/>
+          </template> 
         </div>
       </div>
       <div class="e-filter-additional__bottom">
-        <div class="e-filter-additional__label-row"></div>
+        <div class="e-filter-additional__label-row" />
         <div class="e-filter-additional__submit-row">
           <Btn type="submit">Показать 24 объекта</Btn>
           <Btn class="e-filter-additional__expand" preference="sea"
@@ -208,12 +234,15 @@ const objectTypes = shallowReactive([
 
     @include min-md {
       gap: 20px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      // display: grid;
+      // grid-template-columns: repeat(3, 1fr);
     }
     @include min-llg {
       gap: 61px;
-      grid-template-columns: repeat(5, 1fr);
+      // grid-template-columns: repeat(5, 1fr);
     }
   }
   &__bottom {

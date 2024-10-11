@@ -55,9 +55,7 @@ const share = async () => {
 
 const favStore = useFavoriteStore();
 const isFav = favStore.isFavorite(props.objectItem.id);
-const mapVisible = ref(false);
-
-console.log(props.objectItem);
+const mapVisible = ref(false); 
 </script>
 <template>
   <div class="object-detail container">
