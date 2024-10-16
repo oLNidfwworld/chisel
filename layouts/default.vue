@@ -8,21 +8,26 @@ import type { NeededParams } from "~/assets/types/entity/filterParams";
 const uiStore = useUIstore();
 
 const route = useRoute(); 
-const routeParams = route.params as NeededParams; 
+const routeParams = computed(( ) => {
+  return route.params as NeededParams;
+}); 
 
-const section = ref(routeParams?.section || "vtorichka");
-const offerType = ref(routeParams?.offerType || "buy"); 
-const { data : filterInitial } = await useApiFetch<object>('/NewBack/MainPage/Filter/', {
+
+const section = ref(routeParams.value?.section || "vtorichka");
+const offerType = ref(routeParams.value?.offerType || "buy"); 
+const { data : filterInitial, refresh, status } = await useApiFetch<object>('/NewBack/MainPage/Filter/', {
   method : 'post',
+  watch : false,
   body : {
-      "typeOffer" : offerType.value,
-      "section" : section.value,
+      "typeOffer" : offerType,
+      "section" : section,
       "greatDeals" : ""
   }
-});  
-
-watch([offerType, section], ( ) => {
-  navigateTo(`/${}/${}`)
+});   
+watch([offerType, section], async ( ) => { 
+  refresh();
+  // let resultNavigateTo = '/realty/all-cities/all-services-types/all-immovable-types/all-property';
+  // navigateTo(`/realty/all-cities/${offerType.value}/${section.value}`)
 })
 
 // const offerType = ['buy','rent'] as const;

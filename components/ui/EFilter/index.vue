@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import Controls from './controls.vue';
 interface IProps { 
-    controlsData? : object | null
+    controlsData? : { [index: string]: any; } | null | string
 } 
 defineProps<IProps>();
  
@@ -10,7 +10,7 @@ const modelSection = defineModel<string>('section', {
 })
 const modelOfferType = defineModel<string>('offerType', {
     required : true
-}) 
+}); 
 </script>
 <template>
     <div class="e-filter-wrapper">
@@ -21,7 +21,7 @@ const modelOfferType = defineModel<string>('offerType', {
                     v-if="controlsData" 
                     v-model:section="modelSection" 
                     v-model:offer-type="modelOfferType" 
-                    :controls-data="controlsData"/>
+                    :controls-data="(controlsData as object)"/> 
         </div>
     </div>
 </template>
