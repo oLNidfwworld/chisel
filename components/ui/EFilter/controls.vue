@@ -11,7 +11,7 @@ const props = defineProps<IProps>();
 const { controlsData } = toRefs(props);
 const onlyFillableFields = computed(() => {
   const fields: { [index: string]: any } = {};
-  if (controlsData.value && typeof controlsData.value === 'object') { 
+  if (controlsData.value && typeof controlsData.value === 'object') {
     const controlsDataValue = controlsData.value as { [index: string]: any; };
     Object.keys(controlsData.value).forEach(key => {
       if (typeof controlsDataValue[key] === 'object') { // убираем non-object types 
@@ -27,8 +27,8 @@ const onlyFillableFields = computed(() => {
           fields[key]['type'] = 'range'
         }
       }
-    }); 
-  }  
+    });
+  }
   return fields
 });
 const prefillValues = (onlyFillableFieldsVal: { [index: string]: any }) => {
@@ -50,6 +50,19 @@ const prefillValues = (onlyFillableFieldsVal: { [index: string]: any }) => {
   return newValuesToPost;
 }
 const valuesToPost = ref<{ [index: string]: any }>(prefillValues(onlyFillableFields.value));
+const nonNullishValues = computed(() => {
+  const nonFilteredObject = Object.assign({},valuesToPost.value);
+  const newObject: { [index: string]: any } = {};
+  Object.keys(nonFilteredObject).forEach((valueKey) => {
+    if (('min' in nonFilteredObject[valueKey] || 'max' in nonFilteredObject[valueKey]) && nonFilteredObject[valueKey].min  && nonFilteredObject[valueKey].max ) {
+      newObject[valueKey] = nonFilteredObject[valueKey];
+    } else if ( nonFilteredObject[valueKey].length > 0) {
+      newObject[valueKey] = nonFilteredObject[valueKey];
+    }
+  });
+
+  return newObject;
+})
 watch(controlsData, () => { valuesToPost.value = prefillValues(onlyFillableFields.value) })
 const modelSection = defineModel<string>('section', {
   required: true
@@ -80,25 +93,26 @@ const sectionTypes = shallowReactive([
     name: "Комерческая",
     value: "commerce",
   },
-]);  
-const submit = ( ) => {
-  const city = valuesToPost.value['city'] as Array<{xmlId : string}> | null;
+]);
+const submit = () => {
+  const city = valuesToPost.value['city'] as Array<{ xmlId: string }> | null;
   const objectRealty = valuesToPost.value['objectRealty'] as Array<string> | null;
   const params = Object.assign({}, valuesToPost.value);
   delete params['city'];
   delete params['objectRealty'];
 
   let resultUrl = '';
-  if ( objectRealty ) {
+  if (objectRealty) {
     resultUrl += '/' + objectRealty.join('-');
   }
   resultUrl = ('/' + modelSection.value) + resultUrl;
   resultUrl = ('/' + modelOfferType.value) + resultUrl;
-  if ( city && city.length > 0 ) { 
+  if (city && city.length > 0) {
     resultUrl = ('/realty/' + city.map(c => c.xmlId).join('-')) + resultUrl;
-  } else { 
+  } else {
     resultUrl = ('/realty/' + 'all-cities') + resultUrl;
   }
+  console.log(nonNullishValues.value);
   navigateTo(resultUrl);
 }
 </script>
