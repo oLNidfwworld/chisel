@@ -31,18 +31,7 @@ export default defineNuxtConfig({
         },
       ],
     },
-  },
-  vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          // TODO: group into one file
-          additionalData:
-            '@use "~/assets/styles/base/variables/colors.scss" as *;@use "~/assets/styles/mixins/media.scss" as *;',
-        },
-      },
-    },
-  },
+  }, 
   swiper : {
     modules : [ 'grid', 'thumbs']
   },

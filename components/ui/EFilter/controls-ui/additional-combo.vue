@@ -11,10 +11,12 @@ import {
   ComboboxViewport,
 } from "radix-vue";
 
-defineProps<{
-  items : Array<any>
-}>()
-
+const props = defineProps<{
+  items: Array<any>
+}>();
+const selectedValues = computed(() => {
+  return model.value.map(modelValue => props.items.find(item => item.xmlId === modelValue)?.name || '').join(', ');
+});
 const model = defineModel<Array<any>>({
   required: true
 });
@@ -28,15 +30,10 @@ const isOpened = ref(false);
           <span>Выбрать</span>
         </template>
         <div v-else class="e-filter-combo__selected-items">
-          <span v-for="(item, index) in model" :key="index">
-            {{ item?.name }}<template v-if="index != items.length - 1">, </template>
-          </span>
+          {{ selectedValues }}
         </div>
-        <IArrowDown
-          :style="{ transform: isOpened ? 'rotate(180deg)' : '' }"
-          class="e-filter-combo__arrow-down"
-          filled
-        />
+        <IArrowDown :style="{ transform: isOpened ? 'rotate(180deg)' : '' }" class="e-filter-combo__arrow-down"
+          filled />
       </ComboboxTrigger>
     </ComboboxAnchor>
 
@@ -44,12 +41,8 @@ const isOpened = ref(false);
       <ComboboxViewport class="e-filter-combo__viewport">
         <ComboboxEmpty class="e-filter-combo__empty" />
         <ComboboxGroup>
-          <ComboboxItem
-            v-for="(option, index) in items"
-            :key="index"
-            class="e-filter-combo__item"
-            :value="option"
-          >
+          <ComboboxItem v-for="(option, index) in items" :key="index" class="e-filter-combo__item"
+            :value="option.xmlId">
             <span>
               {{ option.name }}
             </span>
@@ -61,13 +54,15 @@ const isOpened = ref(false);
 </template>
 <style lang="scss">
 .e-filter-combo {
-  width: 200px; 
+  width: 200px;
   position: relative;
   box-shadow: $base-inpt-shadow;
+
   &__anchor {
     background: $white;
     border-radius: $border-sm;
   }
+
   &__trigger {
     position: relative;
     width: 100%;
@@ -76,6 +71,7 @@ const isOpened = ref(false);
     padding: 9px 24px 9px 14px;
     overflow: hidden;
   }
+
   &__arrow-down {
     position: absolute;
     right: 0;
@@ -86,6 +82,7 @@ const isOpened = ref(false);
     width: fit-content;
     height: fit-content;
   }
+
   &__drop {
     position: absolute;
     left: 0;
@@ -93,22 +90,26 @@ const isOpened = ref(false);
     top: 100%;
     background-color: $white;
   }
+
   &__item {
     padding: 8px 14px;
     max-height: 200px;
     overflow-y: scroll;
     background-color: $white;
+    cursor: pointer;
 
     &[data-state="checked"] {
       background-color: $red;
       color: $white;
     }
   }
+
   &__selected-items {
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
+    line-clamp: 1;
   }
 }
 </style>

@@ -45,6 +45,7 @@ const modelOfferType = defineModel<string>('offerType', {
         display: flex; 
         flex-direction: column;
         justify-content: space-around;
+        gap: 40px;
         height: 100%;
     }
 }

@@ -20,6 +20,7 @@ withDefaults(defineProps<IProps>(), {
   </button>
 </template>
 <style lang="scss">
+@use "/assets/styles/base/variables/colors.scss" as variable;
 .btn {
   display: flex;
   gap: 12px;
@@ -30,32 +31,32 @@ withDefaults(defineProps<IProps>(), {
   text-align: center;
   align-items: center;
   justify-content: center;
-  border-radius: $border-sm;
+  border-radius: variable.$border-sm;
   font-weight: 700;
   transition: 0.3s ease-out color, 0.3s ease-out background-color,
     0.3s ease-out border-color;
   &.red {
-    background-color: $red;
-    color: $white;
+    background-color: variable.$red;
+    color: variable.$white;
   }
   &.transparent {
     background-color: transparent;
-    color: $black;
-    border: 1px solid $red;
+    color: variable.$black;
+    border: 1px solid variable.$red;
     @media (hover: hover) {
       &:hover {
-        background-color: $red;
-        color: $white;
+        background-color: variable.$red;
+        color: variable.$white;
       }
     }
   }
   &.sea {
-    background-color: $green;
-    color: $white;
+    background-color: variable.$green;
+    color: variable.$white;
   }
   &.gray {
-    background-color: $gray;
-    color: $black;
+    background-color: variable.$gray;
+    color: variable.$black;
   }
 }
 </style>

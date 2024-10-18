@@ -1,18 +1,26 @@
 <script setup lang="ts">
+import type { DataObject, KeyedObject } from "~/assets/types/entity/data-object";
 import Btn from "../../base/btn.vue";
 import AdditionalCombo from "./controls-ui/additional-combo.vue";
 import AdditionalRadio from "./controls-ui/additional-radio.vue";
 import AdditionalRange from "./controls-ui/additional-range.vue";
+import ELabel from "../eLabel.vue";
+import type { NeededParams } from "~/assets/types/entity/filterParams";
+
+// TODO : non existing prop value bug (example : ?house-type=woob-stone-[kekkeelleel])
 
 interface IProps {
-  controlsData: { [index: string]: any; } | null | string
+  controlsData: KeyedObject | null | string
 }
 const props = defineProps<IProps>();
 const { controlsData } = toRefs(props);
-const onlyFillableFields = computed(() => {
-  const fields: { [index: string]: any } = {};
+const routeQuery = useRoute().query as KeyedObject;
+const routeParams = useRoute().params as NeededParams;
+
+const onlyFillableFields = computed<KeyedObject>(() => {
+  const fields: KeyedObject = {};
   if (controlsData.value && typeof controlsData.value === 'object') {
-    const controlsDataValue = controlsData.value as { [index: string]: any; };
+    const controlsDataValue = controlsData.value as KeyedObject;
     Object.keys(controlsData.value).forEach(key => {
       if (typeof controlsDataValue[key] === 'object') { // убираем non-object types 
         if (!('values' in controlsDataValue[key] && controlsDataValue[key].values.length > 0 && !controlsDataValue[key].values[0].name)) { // убираем неподходящие по заданному предикату
@@ -31,7 +39,8 @@ const onlyFillableFields = computed(() => {
   }
   return fields
 });
-const prefillValues = (onlyFillableFieldsVal: { [index: string]: any }) => {
+
+const prepareValues = (onlyFillableFieldsVal: KeyedObject): KeyedObject => {
   const newValuesToPost: { [index: string]: any } = {};
   Object.keys(onlyFillableFieldsVal).forEach(key => {
     switch (onlyFillableFieldsVal[key].type) {
@@ -49,21 +58,63 @@ const prefillValues = (onlyFillableFieldsVal: { [index: string]: any }) => {
   })
   return newValuesToPost;
 }
-const valuesToPost = ref<{ [index: string]: any }>(prefillValues(onlyFillableFields.value));
-const nonNullishValues = computed(() => {
-  const nonFilteredObject = Object.assign({},valuesToPost.value);
-  const newObject: { [index: string]: any } = {};
+const valuesToPost = ref<KeyedObject>(prepareValues(onlyFillableFields.value));
+if (Object.keys(routeQuery).length > 0) {
+  valuesToPost.value = {
+    ...valuesToPost.value,
+    ...dataObjectToKeyObject(parseFromQuery(routeQuery))
+  }
+}
+if (routeParams.city && routeParams.city !== 'all-cities') {
+  valuesToPost.value.city = routeParams.city.split('-');
+}
+
+const nonNullishValues = computed<DataObject>(() => {
+  const nonFilteredObject = Object.assign({}, valuesToPost.value);
+  const newObject: DataObject = {};
   Object.keys(nonFilteredObject).forEach((valueKey) => {
-    if (('min' in nonFilteredObject[valueKey] || 'max' in nonFilteredObject[valueKey]) && nonFilteredObject[valueKey].min  && nonFilteredObject[valueKey].max ) {
-      newObject[valueKey] = nonFilteredObject[valueKey];
-    } else if ( nonFilteredObject[valueKey].length > 0) {
-      newObject[valueKey] = nonFilteredObject[valueKey];
+    if (('min' in nonFilteredObject[valueKey] || 'max' in nonFilteredObject[valueKey]) && (nonFilteredObject[valueKey].min || nonFilteredObject[valueKey].max)) {
+      newObject[valueKey] = {
+        type: 'range',
+        value: nonFilteredObject[valueKey]
+      };
+    } else if (nonFilteredObject[valueKey].length > 0) {
+      newObject[valueKey] = {
+        type: 'list',
+        value: nonFilteredObject[valueKey]
+      };
     }
   });
-
+  console.log(newObject);
   return newObject;
+});
+const labelsData = computed(() => {
+  const data: { [index: string]: { name: string, value: string } } = {}; 
+  Object.keys(nonNullishValues.value).forEach((key) => {
+    if (key in onlyFillableFields.value) {
+      let resultStr = ''
+      if ((nonNullishValues.value[key].type === 'range')) {
+        if (nonNullishValues.value[key].value.min) {
+          resultStr += `от ${nonNullishValues.value[key].value.min} `;
+        }
+        if (nonNullishValues.value[key].value.max) {
+          resultStr += `до ${nonNullishValues.value[key].value.max} `;
+        }
+      } else if (nonNullishValues.value[key].type === 'list') {
+        console.log(key);
+        console.log(nonNullishValues.value[key]);
+        resultStr = (nonNullishValues.value[key].value.map(mapItem => onlyFillableFields.value[key].values.find(obj => obj.xmlId === mapItem)?.name || '')).join(', ');
+      }
+
+      data[key] = {
+        name: onlyFillableFields.value[key].name,
+        value: resultStr
+      };
+    }
+  });
+  return data;
 })
-watch(controlsData, () => { valuesToPost.value = prefillValues(onlyFillableFields.value) })
+watch(controlsData, () => { valuesToPost.value = prepareValues(onlyFillableFields.value) })
 const modelSection = defineModel<string>('section', {
   required: true
 });
@@ -95,53 +146,58 @@ const sectionTypes = shallowReactive([
   },
 ]);
 const submit = () => {
-  const city = valuesToPost.value['city'] as Array<{ xmlId: string }> | null;
-  const objectRealty = valuesToPost.value['objectRealty'] as Array<string> | null;
-  const params = Object.assign({}, valuesToPost.value);
+  const cities = nonNullishValues.value['city']?.value as Array<string> | null;
+  const objectRealty = nonNullishValues.value['objectRealty']?.value as Array<string> | null;
+  const params = Object.assign({}, nonNullishValues.value);
   delete params['city'];
   delete params['objectRealty'];
-
   let resultUrl = '';
   if (objectRealty) {
-    resultUrl += '/' + objectRealty.join('-');
+    resultUrl += '/' + objectRealty.join('-') + '/';
   }
   resultUrl = ('/' + modelSection.value) + resultUrl;
   resultUrl = ('/' + modelOfferType.value) + resultUrl;
-  if (city && city.length > 0) {
-    resultUrl = ('/realty/' + city.map(c => c.xmlId).join('-')) + resultUrl;
+  if (cities && cities.length > 0) {
+    resultUrl = ('/realty/' + cities.join('-')) + resultUrl;
   } else {
     resultUrl = ('/realty/' + 'all-cities') + resultUrl;
   }
-  console.log(nonNullishValues.value);
+  resultUrl += parseIntoQuery(params);
   navigateTo(resultUrl);
 }
+const removeFromValuesToPost = (key: string) => {
+  if (!nonNullishValues.value[key]) return;
+  switch (nonNullishValues.value[key].type) {
+    case 'range':
+      valuesToPost.value[key] = { min: undefined, max: undefined }
+      break;
+    case 'list':
+      valuesToPost.value[key] = [];
+      break;
+  }
+}
+const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key => removeFromValuesToPost(key)); 
 </script>
 <template>
   <form class="e-filter" @submit.prevent="submit">
     <div class="e-filter__toggler-group-1">
       <label v-for="(item, index) in offerTypes" :key="index" class="e-filter-toggler-1">
-        <input v-model="modelOfferType" type="radio" name="offer-type" :value="item.value"
+        <input 
+          v-model="modelOfferType" type="radio" name="offer-type" :value="item.value"
           :checked="item.value === modelOfferType" />
         {{ item.name }}
       </label>
     </div>
     <div class="e-filter__toggler-group-2">
       <label v-for="(item, index) in sectionTypes" :key="index" class="e-filter-toggler-2">
-        <input v-model="modelSection" type="radio" name="object-type" :value="item.value"
+        <input 
+          v-model="modelSection" type="radio" name="object-type" :value="item.value"
           :checked="item.value === modelSection" />
         {{ item.name }}
       </label>
     </div>
     <div v-if="Object.keys(onlyFillableFields).length > 0" class="e-filter-additional">
       <div class="e-filter-additional__wrapper">
-        <!-- <div class="e-filter-additional__group">
-          <span class="e-filter-additional__group-title">Объект недвижимости</span>
-          <AdditionalRadio />
-        </div>
-        <div class="e-filter-additional__group">
-          <span class="e-filter-additional__group-title">Объект недвижимости</span>
-          <AdditionalCombo />
-        </div> -->
         <div v-for="(control, index) in onlyFillableFields" :key="index" class="e-filter-additional__group">
           <span class="e-filter-additional__group-title">{{ control.name }}</span>
           <template v-if="control.type === 'list'">
@@ -156,7 +212,18 @@ const submit = () => {
         </div>
       </div>
       <div class="e-filter-additional__bottom">
-        <div class="e-filter-additional__label-row" />
+        <ul class="e-filter-additional__label-row">
+          <li v-for="(label, labelIndex) in labelsData" :key="labelIndex" class="e-filter-additional__label-item">
+            <ELabel @remove="() => removeFromValuesToPost(labelIndex.toString())">
+              {{ label.name }}: {{ label.value }}
+            </ELabel>
+          </li>
+          <li class="e-filter-additional__label-item">
+            <ELabel v-if="Object.keys(labelsData).length > 1" hightlighted @remove="removeAllValuesToPost">
+              Очистить
+            </ELabel>
+          </li>
+        </ul>
         <div class="e-filter-additional__submit-row">
           <Btn type="submit">Показать объекта</Btn>
           <!-- <Btn class="e-filter-additional__expand" preference="sea">Расширенный фильтр</Btn> -->
@@ -278,7 +345,7 @@ const submit = () => {
     }
 
     @include min-llg {
-      gap: 61px;
+      gap: 20px;
       // grid-template-columns: repeat(5, 1fr);
     }
   }
@@ -344,6 +411,14 @@ const submit = () => {
 
   @include min-md {
     padding: 23px;
+  }
+
+  &__label-row {
+    display: flex;
+    align-items: end;
+    flex-direction: row;
+    gap: 6px;
+    flex-wrap: wrap
   }
 }
 </style>

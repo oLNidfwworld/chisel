@@ -54,5 +54,7 @@ watch([offerType, section], async ( ) => {
   </div>
 </template>
 <style lang="scss">
-@import url("/assets/styles/layouts/default.scss");
+@use "/assets/styles/base/variables/colors.scss";
+@use "/assets/styles/mixins/media.scss";
+@use "/assets/styles/layouts/default.scss";
 </style>

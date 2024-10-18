@@ -1,5 +1,7 @@
+@use "/assets/styles/base/variables/colors.scss" as variable;
+
 .text-white{
-    color: $white;
+    color: variable.$white;
 }
 
 .font-bold{
