@@ -105,19 +105,19 @@ const currentYear = new Date().getFullYear();
     </footer>
 </template>
 <style lang="scss">
-@import url("/assets/styles/base/shortcuts.scss");
-
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/base/shortcuts.scss" as shortucts;
 .page-footer {
     font-size: 15px;
-    color: $white;
+    color: variable.$white;
     flex: 0 0;
     padding: 55px 0;
-    background-color: $red;
+    background-color: variable.$red;
 
     &.mob{
         display: block;
-        background-color: $white;
-        color: $black;
+        background-color: variable.$white;
+        color: variable.$black;
         text-align: center;
         @include min-md {
             display: none;

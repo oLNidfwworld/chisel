@@ -53,8 +53,6 @@ watch([offerType, section], async ( ) => {
     </Transition>
   </div>
 </template>
-<style lang="scss">
-@use "/assets/styles/base/variables/colors.scss";
-@use "/assets/styles/mixins/media.scss";
+<style lang="scss"> 
 @use "/assets/styles/layouts/default.scss";
 </style>

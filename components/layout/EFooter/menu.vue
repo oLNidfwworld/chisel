@@ -18,11 +18,11 @@ defineProps<IProps>();
         </ul>
     </div>
 </template>
-<style lang="scss">
-
+<style lang="scss"> 
+@use "/assets/styles/base/variables/colors.scss" as variable;
 .page-footer-menu{
   font-size: 15px;
-  color: $white; 
+  color: variable.$white; 
   &__title{
     font-weight: bold;
     display: block;

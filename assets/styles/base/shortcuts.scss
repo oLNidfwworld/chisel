@@ -1,4 +1,6 @@
 @use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/base/variables/media" as media;
+
 
 .text-white{
     color: variable.$white;
@@ -15,7 +17,7 @@
     display: block;
     margin-bottom: 40px;
 
-    @include min-md{ 
+    @include media.min-md{ 
         margin-bottom: 25px;
     }
 }
