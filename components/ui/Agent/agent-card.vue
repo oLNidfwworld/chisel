@@ -4,9 +4,9 @@ import Agent from "./agent.vue";
 import Inpt from "~/components/base/inpt.vue";
 import type IAgent from "~/assets/types/entity/agent";
 
-const props = defineProps<{ agent: IAgent }>();
+defineProps<{ agent: IAgent }>();
 
-const submit = (event: Event) => {
+const submit = () => {
   console.log("submited");
 };
 const visibleNumber = ref(false);
@@ -38,9 +38,12 @@ const visibleNumber = ref(false);
   </form>
 </template>
 <style lang="scss">
+
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/mixins/media.scss" as media;
 .agent-card {
   background-color: #f3f3f3;
-  border-radius: $border-sm;
+  border-radius: variable.$border-sm;
   &__block {
     padding: 11px;
     display: flex;
@@ -48,10 +51,10 @@ const visibleNumber = ref(false);
     gap: 4px;
   }
   &__block + &__block {
-    border-top: 1px solid $gray;
+    border-top: 1px solid variable.$gray;
   }
   &__show {
-    color: $red;
+    color: variable.$red;
     font-size: 14px;
     font-weight: 600;
     display: flex;

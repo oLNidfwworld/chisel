@@ -1,14 +1,15 @@
-
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/mixins/media.scss" as media;
 
 .title-big{
     font-size: 20px;
     font-weight: 700;
-    color: $black;
+    color: variable.$black;
 
-    @include min-sm {
+    @include media.min-sm {
         font-size: 24px;
     }
-    @include min-md {
+    @include media.min-md {
         font-size: 40px;
     }
 }
@@ -16,8 +17,8 @@
 
     font-size: 20px;
     font-weight: 700;
-    color: $black;
-    @include min-md {
+    color: variable.$black;
+    @include media.min-md {
         font-size: 30px;
     }
 }

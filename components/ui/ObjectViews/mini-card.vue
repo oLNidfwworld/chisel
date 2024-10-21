@@ -35,9 +35,11 @@ const price = computed(() => props.data.price.toLocaleString("ru-RU"));
   </div>
 </template>
 <style lang="scss">
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/mixins/media.scss" as media;
 .mini-card {
-  background-color: $light-gray;
-  border-radius: $border-sm;
+  background-color: variable.$light-gray;
+  border-radius: variable.$border-sm;
   overflow: hidden;
   &__content {
     padding: 17px 23px;
@@ -47,14 +49,14 @@ const price = computed(() => props.data.price.toLocaleString("ru-RU"));
     display: block; 
     height: 246px !important;
     & > * {
-      fill: $red;
-      background-color: $gray;
+      fill: variable.$red;
+      background-color: variable.$gray;
     }
   }
   &__red {
     font-size: 20px;
     font-weight: 700;
-    color: $red;
+    color: variable.$red;
     display: block;
     margin-bottom: 13px;
   }
@@ -64,7 +66,7 @@ const price = computed(() => props.data.price.toLocaleString("ru-RU"));
     margin-bottom: 9px;
   }
   &__desc {
-    color: $gray-dark;
+    color: variable.$gray-dark;
     display: block;
     margin-bottom: 25px;
   }
@@ -75,7 +77,7 @@ const price = computed(() => props.data.price.toLocaleString("ru-RU"));
     height: 246px;
     object-fit: cover;
     width: 100%;
-    background-color: $gray;
+    background-color: variable.$gray;
   }
 }
 </style>

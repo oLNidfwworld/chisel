@@ -103,6 +103,8 @@ const { data: recommended } = await useApiFetch<{ items: ObjectShorted[] }>(`/Ca
   </div>
 </template>
 <style lang="scss" scoped>
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/mixins/media.scss" as media;
 .menu-col {
   display: flex;
   flex-direction: column;
@@ -111,7 +113,7 @@ const { data: recommended } = await useApiFetch<{ items: ObjectShorted[] }>(`/Ca
 .submenus-wrapper {
   display: grid;
   gap: 27px;
-  @include min-llg {
+  @include media.min-llg {
     gap: 20px;
     grid-template-columns: repeat(4, 1fr);
   }

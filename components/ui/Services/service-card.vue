@@ -15,8 +15,10 @@
   </div>
 </template>
 <style lang="scss" scoped>
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/mixins/media.scss" as media;
 .service-card {
-  border-radius: $border-sm;
+  border-radius: variable.$border-sm;
   overflow: hidden;
   &__title {
     font-weight: 700;
@@ -33,13 +35,13 @@
     gap: 14px;
     background-color: #f3f3f3;
     padding: 20px;
-    @include min-sm {
+    @include media.min-sm {
       padding: 18px 20px;
     }
-    @include min-md {
+    @include media.min-md {
       padding: 18px 23px;
     }
-    @include min-llg {
+    @include media.min-llg {
       padding: 19px 31px;
     }
   }
@@ -47,14 +49,14 @@
     width: 100%;
     object-fit: cover;
     max-height: 217px;
-    @include min-llg {
+    @include media.min-llg {
       max-height: unset;
     }
   }
   &__picture {
     grid-area: A;
   }
-  @include min-llg {
+  @include media.min-llg {
     max-height: 240px;
     display: grid;
     grid-template-areas: "A B";

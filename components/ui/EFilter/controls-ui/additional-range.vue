@@ -19,14 +19,17 @@ const model = defineModel<{
   </div>
 </template>
 <style lang="scss">
+
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/mixins/media.scss" as media;
 .e-filter-range {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   min-width: 150px;
   width: 100%;
-  border: 1px solid $gray;
-  border-radius: $border-sm;
-  background-color: $white;
+  border: 1px solid variable.$gray;
+  border-radius: variable.$border-sm;
+  background-color: variable.$white;
   padding: 9px 14px;
   input[type="number"] {
     border: unset;
@@ -39,7 +42,7 @@ const model = defineModel<{
     margin: 0 10px;
     height: 100%;
     width: 1px;
-    background-color: $gray;
+    background-color: variable.$gray;
   }
 }
 </style>

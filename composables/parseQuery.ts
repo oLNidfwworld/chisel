@@ -8,9 +8,9 @@ export const parseFromQuery = (queryString: {
 }): DataObject => {
   const newObject: DataObject = {};
   Object.keys(queryString).forEach((key) => {
-    if (
-      key.includes("max") ||
-      (key.includes("max") && !Number(parseInt(queryString[key])))
+    if ( 
+      key.includes("max") || key.includes("min") &&
+       !Number.isNaN(parseInt(queryString[key]))
     ) {
       const [keyProp, ending] = key.split("_") as [string, "min" | "max"];
       if (!newObject[keyProp])

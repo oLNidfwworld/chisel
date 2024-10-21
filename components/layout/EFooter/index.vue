@@ -107,6 +107,7 @@ const currentYear = new Date().getFullYear();
 <style lang="scss">
 @use "/assets/styles/base/variables/colors.scss" as variable;
 @use "/assets/styles/base/shortcuts.scss" as shortucts;
+@use "/assets/styles/mixins/media.scss" as media;
 .page-footer {
     font-size: 15px;
     color: variable.$white;
@@ -119,13 +120,13 @@ const currentYear = new Date().getFullYear();
         background-color: variable.$white;
         color: variable.$black;
         text-align: center;
-        @include min-md {
+        @include media.min-md {
             display: none;
         }
     }
     &.pc{
         display: none;
-        @include min-md {
+        @include media.min-md {
             display: block
         }
     }
@@ -134,7 +135,7 @@ const currentYear = new Date().getFullYear();
         display: grid;
         gap: 50px; 
         grid-template-columns: 1fr auto;
-        @include min-lg { 
+        @include media.min-lg { 
             grid-template-columns: 3fr 6fr 5fr;
         }
     }
@@ -168,7 +169,7 @@ const currentYear = new Date().getFullYear();
         justify-content: space-between;
         grid-column: span 2;
         
-        @include min-lg{
+        @include media.min-lg{
             grid-column: span 1;
             display: grid;
             gap: 12px;

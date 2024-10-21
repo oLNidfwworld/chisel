@@ -8,22 +8,24 @@ const model = defineModel<string | number | undefined>({
 </script>
 <template>
   <div class="inpt__outer">
-    <input v-model="model" class="inpt" v-bind="$attrs" />
+    <input v-model="model" class="inpt" v-bind="variable.$attrs" />
   </div>
 </template>
 <style lang="scss">
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/mixins/media.scss" as media;
 .inpt {
   width: 100%;
   border: unset;
   padding: 10px 14px;
-  border: 1px solid $gray;
-  border-radius: $border-sm;
-  background-color: $white;
+  border: 1px solid variable.$gray;
+  border-radius: variable.$border-sm;
+  background-color: variable.$white;
   font-weight: 600;
-  color: $black;
+  color: variable.$black;
 
   &::placeholder {
-    color: $gray;
+    color: variable.$gray;
   }
 
   &__outer {

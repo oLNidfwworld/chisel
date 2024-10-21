@@ -68,6 +68,9 @@ if (Object.keys(routeQuery).length > 0) {
 if (routeParams.city && routeParams.city !== 'all-cities') {
   valuesToPost.value.city = routeParams.city.split('-');
 }
+if (routeParams.objectType && routeParams.objectType !== 'all-object-types') {
+  valuesToPost.value.objectRealty = routeParams.objectType.split('-');
+}
 
 const nonNullishValues = computed<DataObject>(() => {
   const nonFilteredObject = Object.assign({}, valuesToPost.value);
@@ -84,8 +87,7 @@ const nonNullishValues = computed<DataObject>(() => {
         value: nonFilteredObject[valueKey]
       };
     }
-  });
-  console.log(newObject);
+  }); 
   return newObject;
 });
 const labelsData = computed(() => {
@@ -100,9 +102,7 @@ const labelsData = computed(() => {
         if (nonNullishValues.value[key].value.max) {
           resultStr += `до ${nonNullishValues.value[key].value.max} `;
         }
-      } else if (nonNullishValues.value[key].type === 'list') {
-        console.log(key);
-        console.log(nonNullishValues.value[key]);
+      } else if (nonNullishValues.value[key].type === 'list') { 
         resultStr = (nonNullishValues.value[key].value.map(mapItem => onlyFillableFields.value[key].values.find(obj => obj.xmlId === mapItem)?.name || '')).join(', ');
       }
 
@@ -236,28 +236,30 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
   </form>
 </template>
 <style lang="scss" scoped>
-@import url("/assets/styles/base/shortcuts.scss");
+@use "/assets/styles/base/shortcuts.scss";
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/mixins/media.scss" as media;
 
 .e-filter {
   &__toggler-group-1 {
     display: flex;
-    background-color: $gray;
+    background-color: variable.$gray;
     gap: 8px;
-    box-shadow: $inner-shadow;
+    box-shadow: variable.$inner-shadow;
     padding: 5px;
-    border-radius: $border-md;
+    border-radius: variable.$border-md;
     margin-bottom: 23px;
 
-    @include min-md {
+    @include media.min-md {
       width: fit-content;
       margin-bottom: 41px;
     }
 
-    @include min-md {
+    @include media.min-md {
       margin-bottom: 41px;
     }
 
-    @include min-llg {
+    @include media.min-llg {
       margin-bottom: 41px;
     }
   }
@@ -272,7 +274,7 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
       grid-column: span 2;
     }
 
-    @include min-md {
+    @include media.min-md {
       display: flex;
       margin-bottom: 5px;
     }
@@ -281,7 +283,7 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
   .e-filter-toggler-1 {
     width: 100%;
 
-    @include min-md {
+    @include media.min-md {
       width: fit-content;
     }
   }
@@ -292,14 +294,14 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
   text-align: center;
   font-weight: 700;
   transition: 0.3s ease-out background-color, 0.3s ease-out color;
-  border-radius: $border-sm;
+  border-radius: variable.$border-sm;
 
   &:has(input[type="radio"]:checked) {
-    background-color: $red;
-    color: $white;
+    background-color: variable.$red;
+    color: variable.$white;
   }
 
-  @include min-md {
+  @include media.min-md {
     padding: 5px 44px;
   }
 }
@@ -308,25 +310,25 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
   width: 100%;
   text-align: center;
   padding: 8px 0px;
-  background-color: $gray-dark;
-  color: $white;
+  background-color: variable.$gray-dark;
+  color: variable.$white;
   font-weight: 700;
-  border-radius: $border-sm;
+  border-radius: variable.$border-sm;
   transition: 0.3s ease-out background-color, 0.3s ease-out color;
 
   &:has(input[type="radio"]:checked) {
-    background-color: $red;
-    color: $white;
+    background-color: variable.$red;
+    color: variable.$white;
   }
 
-  @include min-md {
+  @include media.min-md {
     width: fit-content;
     padding: 8px 20px;
   }
 }
 
 .e-filter-additional {
-  border-radius: $border-sm;
+  border-radius: variable.$border-sm;
   background-color: #f3f3f3;
   padding: 23px 20px;
 
@@ -335,7 +337,7 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
     flex-direction: column;
     gap: 20px;
 
-    @include min-md {
+    @include media.min-md {
       gap: 20px;
       display: flex;
       flex-direction: row;
@@ -344,7 +346,7 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
       // grid-template-columns: repeat(3, 1fr);
     }
 
-    @include min-llg {
+    @include media.min-llg {
       gap: 20px;
       // grid-template-columns: repeat(5, 1fr);
     }
@@ -355,11 +357,11 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
     flex-direction: column-reverse;
     gap: 40px;
 
-    @include min-md {
+    @include media.min-md {
       flex-direction: column;
     }
 
-    @include min-llg {
+    @include media.min-llg {
       display: grid;
       grid-template-columns: 1fr auto;
     }
@@ -377,18 +379,18 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
       align-items: center;
       justify-content: center;
 
-      @include min-md {
+      @include media.min-md {
         width: fit-content;
       }
     }
 
-    @include min-md {
+    @include media.min-md {
       flex-direction: row;
     }
   }
 
   &__expand.btn {
-    @include min-lg {
+    @include media.min-lg {
       display: initial;
     }
   }
@@ -405,11 +407,11 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
     font-weight: 700;
   }
 
-  @include min-sm {
+  @include media.min-sm {
     padding: 23px 30px;
   }
 
-  @include min-md {
+  @include media.min-md {
     padding: 23px;
   }
 

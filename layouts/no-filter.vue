@@ -1,7 +1,6 @@
 <script setup>
 import EHeader from "~/components/layout/EHeader.vue";
-import EFooter from "~/components/layout/EFooter";
-import EFilter from "~/components/ui/EFilter/index.vue";
+import EFooter from "~/components/layout/EFooter"; 
 import { useUIstore } from "~/store/ui";
 
 const uiStore = useUIstore();
@@ -19,5 +18,5 @@ const uiStore = useUIstore();
   </div>
 </template>
 <style lang="scss">
-@import url("/assets/styles/layouts/default.scss");
+@use "/assets/styles/layouts/default.scss";
 </style>

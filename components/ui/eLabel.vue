@@ -15,6 +15,8 @@ defineEmits<{ (e: 'remove'): void }>();
     </div>
 </template>
 <style lang="scss">
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/mixins/media.scss" as media;
 .label-item {
     display: flex;
     gap: 4px;
@@ -22,24 +24,24 @@ defineEmits<{ (e: 'remove'): void }>();
     height: fit-content;
     font-size: 14px;
     padding: 2px 8px;
-    background-color: $gray;
-    border-radius: $border-sm;
+    background-color: variable.$gray;
+    border-radius: variable.$border-sm;
 
 
     &__cross {
         display: block;
 
         & svg {
-            fill: $green;
+            fill: variable.$green;
             width: 14px !important;
             height: 14px !important;
         }
     }
 
     &.red {
-        color: $red;
+        color: variable.$red;
         .label-item__cross svg{
-            fill: $red !important;
+            fill: variable.$red !important;
         }
     }
 }

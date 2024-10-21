@@ -1,37 +1,37 @@
-@import "../base/variables/media.scss";
+@use "../base/variables/media.scss" as variable;
  
 @mixin min-xs {
-  @media (min-width: $md) {
+  @media (min-width: variable.$md) {
     @content;
   }
 }
  
 @mixin min-sm {
-  @media (min-width: $sm) {
+  @media (min-width: variable.$sm) {
     @content;
   }
 }
 
 @mixin min-md {
-  @media (min-width: $md) {
+  @media (min-width: variable.$md) {
     @content;
   }
 }
 
 @mixin min-lg {
-  @media (min-width: $lg) {
+  @media (min-width: variable.$lg) {
     @content;
   }
 }
 
 @mixin min-llg {
-  @media (min-width: $llg) {
+  @media (min-width: variable.$llg) {
     @content;
   }
 }
 
 @mixin min-xl {
-  @media (min-width: $xl) {
+  @media (min-width: variable.$xl) {
     @content;
   }
 }

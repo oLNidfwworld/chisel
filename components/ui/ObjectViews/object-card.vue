@@ -2,11 +2,24 @@
 import Agent from "../Agent/agent.vue";
 import Btn from "../../base/btn.vue";
 import PropsRow from "../props-row.vue";
+import type { Swiper } from 'swiper';
+import type { KeyedObject } from "~/assets/types/entity/data-object";
 const numIsVisible = ref(false);
-const swiperInstance = ref<unknown>();
-const onSwiperInitialized = (swiperInstance: unknown) => {
-  swiperInstance.value = swiperInstance;
+const swiperInstance = ref<Swiper | null>();
+const onSwiperInitialized = (newSwiperInstance: Swiper) => {
+  swiperInstance.value = newSwiperInstance;
 };
+const props = defineProps<{
+  item: KeyedObject
+}>();
+console.log(props.item);
+const price = computed(( ) => {
+  if ( props.item.PRICE ) {
+    return Number(props.item.PRICE).toLocaleString('ru-RU');
+  } else {
+    return undefined;
+  }
+})
 </script>
 <template>
   <div class="object-card">
@@ -29,7 +42,7 @@ const onSwiperInitialized = (swiperInstance: unknown) => {
     <div class="object-card__content">
       <div class="object-card__top">
         <div class="object-card__top-row">
-          <h3 class="object-card__title">2 — комнатная квартира, 59.43 м²</h3>
+          <h3 class="object-card__title">{{ item.NAME }}</h3>
           <div class="object-card__additional">
             <span>id23123</span>
             <ClientOnly>
@@ -39,7 +52,7 @@ const onSwiperInitialized = (swiperInstance: unknown) => {
             </ClientOnly>
           </div>
         </div>
-        <div class="object-card__red">450 000 ₽</div>
+        <div class="object-card__red">{{ price }} ₽</div>
         <div class="object-card__desc">
           Московская обл, Павловский Посад городской округ, г. Павловский Посад,
           ул. Кирова
@@ -53,14 +66,17 @@ const onSwiperInitialized = (swiperInstance: unknown) => {
         <Btn v-if="!numIsVisible" @click="numIsVisible = !numIsVisible">
           Показать телефон
         </Btn>
-        <Agent v-else />
+        <!-- <Agent v-else /> -->
       </div>
     </div>
   </div>
 </template>
 <style lang="scss" scoped>
+
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/mixins/media.scss" as media;
 .object-card {
-  border-radius: $border-sm;
+  border-radius: variable.$border-sm;
   overflow: hidden;
 
   &__title {
@@ -89,10 +105,10 @@ const onSwiperInitialized = (swiperInstance: unknown) => {
       display: block;
     }
 
-    @include min-md {
+    @include media.min-md {
       height: 277px;
     }
-    @include min-llg {
+    @include media.min-llg {
       height: unset;
     }
   }
@@ -119,7 +135,7 @@ const onSwiperInitialized = (swiperInstance: unknown) => {
     padding: 30px 10px;
     background-color: #f3f3f3;
 
-    @include min-md {
+    @include media.min-md {
       padding: 30px 30px;
     }
   }
@@ -128,10 +144,10 @@ const onSwiperInitialized = (swiperInstance: unknown) => {
     font-weight: 600;
     margin: 16px 0 15px 0;
 
-    @include min-sm {
+    @include media.min-sm {
       margin: 16px 0 34px 0;
     }
-    @include min-md {
+    @include media.min-md {
       margin: 16px 0 4px 0;
     }
   }
@@ -139,7 +155,7 @@ const onSwiperInitialized = (swiperInstance: unknown) => {
   &__red {
     font-size: 24px;
     font-weight: 700;
-    color: $red;
+    color: variable.$red;
   }
   &__bottom {
     display: flex;
@@ -148,11 +164,11 @@ const onSwiperInitialized = (swiperInstance: unknown) => {
     & > * {
       width: 100%;
       justify-content: center;
-      @include min-sm {
+      @include media.min-sm {
         width: fit-content;
       }
     }
-    @include min-sm {
+    @include media.min-sm {
       flex-direction: row;
       justify-content: space-between;
     }
@@ -160,11 +176,11 @@ const onSwiperInitialized = (swiperInstance: unknown) => {
 
   &__link {
     background-color: transparent;
-    border: 1px solid $red;
-    color: $black;
+    border: 1px solid variable.$red;
+    color: variable.$black;
   }
 
-  @include min-llg {
+  @include media.min-llg {
     display: grid;
     grid-template-columns: 355px auto;
   }

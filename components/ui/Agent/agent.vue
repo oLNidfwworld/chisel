@@ -20,7 +20,9 @@ const agentPhoneHidden = computed(() =>
     <span class="agent__phone">{{ agentPhoneHidden }}</span>
   </div>
 </template>
-<style lang="scss">
+<style lang="scss"> 
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/mixins/media.scss" as media;
 .agent {
   display: flex;
   flex-direction: column;

@@ -32,7 +32,8 @@ const isOpened = ref(false);
         <div v-else class="e-filter-combo__selected-items">
           {{ selectedValues }}
         </div>
-        <IArrowDown :style="{ transform: isOpened ? 'rotate(180deg)' : '' }" class="e-filter-combo__arrow-down"
+        <IArrowDown 
+          :style="{ transform: isOpened ? 'rotate(180deg)' : '' }" class="e-filter-combo__arrow-down"
           filled />
       </ComboboxTrigger>
     </ComboboxAnchor>
@@ -41,7 +42,8 @@ const isOpened = ref(false);
       <ComboboxViewport class="e-filter-combo__viewport">
         <ComboboxEmpty class="e-filter-combo__empty" />
         <ComboboxGroup>
-          <ComboboxItem v-for="(option, index) in items" :key="index" class="e-filter-combo__item"
+          <ComboboxItem 
+            v-for="(option, index) in items" :key="index" class="e-filter-combo__item"
             :value="option.xmlId">
             <span>
               {{ option.name }}
@@ -53,14 +55,16 @@ const isOpened = ref(false);
   </ComboboxRoot>
 </template>
 <style lang="scss">
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/mixins/media.scss" as media;
 .e-filter-combo {
   width: 200px;
   position: relative;
-  box-shadow: $base-inpt-shadow;
+  box-shadow: variable.$base-inpt-shadow;
 
   &__anchor {
-    background: $white;
-    border-radius: $border-sm;
+    background: variable.$white;
+    border-radius: variable.$border-sm;
   }
 
   &__trigger {
@@ -88,19 +92,19 @@ const isOpened = ref(false);
     left: 0;
     right: 0;
     top: 100%;
-    background-color: $white;
+    background-color: variable.$white;
   }
 
   &__item {
     padding: 8px 14px;
     max-height: 200px;
     overflow-y: scroll;
-    background-color: $white;
+    background-color: variable.$white;
     cursor: pointer;
 
     &[data-state="checked"] {
-      background-color: $red;
-      color: $white;
+      background-color: variable.$red;
+      color: variable.$white;
     }
   }
 

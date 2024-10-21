@@ -26,7 +26,10 @@ const modelOfferType = defineModel<string>('offerType', {
     </div>
 </template>
 <style lang="scss">
-@import url('/assets/styles/base/typography.scss');
+@use '/assets/styles/base/typography.scss';
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/mixins/media.scss" as media;
+
 .e-filter-wrapper{
     // height: 640px;
     padding: 48px 0;
@@ -34,10 +37,10 @@ const modelOfferType = defineModel<string>('offerType', {
     background-size: cover;
     background-position: bottom;
 
-    @include min-md {
+    @include media.min-md {
         padding: 106px 0 66px 0;
     } 
-    @include min-llg {
+    @include media.min-llg {
         padding: 106px 0 80px 0;
     }
 

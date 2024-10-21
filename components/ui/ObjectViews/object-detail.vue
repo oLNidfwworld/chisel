@@ -210,7 +210,9 @@ const mapVisible = ref(false);
     </div>
   </div>
 </template>
-<style lang="scss">
+<style lang="scss"> 
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/mixins/media.scss" as media;
 .share-show-enter-active,
 .share-show-leave-active {
   transition: 0.3s ease-out transform, 0.4s ease opacity;
@@ -228,9 +230,9 @@ const mapVisible = ref(false);
 .share {
   position: relative;
   &__links {
-    background-color: $gray;
-    box-shadow: $base-shadow;
-    border-radius: $border-md;
+    background-color: variable.$gray;
+    box-shadow: variable.$base-shadow;
+    border-radius: variable.$border-md;
     padding: 12px 16px;
     position: absolute;
     display: flex;
@@ -238,10 +240,10 @@ const mapVisible = ref(false);
     width: 100%;
     top: calc(100% + 12px);
     a {
-      border-radius: $border-md;
+      border-radius: variable.$border-md;
       overflow: hidden;
       svg * {
-        fill: $green;
+        fill: variable.$green;
       }
     }
   }
@@ -256,12 +258,12 @@ const mapVisible = ref(false);
     flex-direction: column-reverse;
     gap: 30px;
 
-    @include min-llg {
+    @include media.min-llg {
       display: grid;
       grid-template-columns: 469px auto;
       gap: 24px;
     }
-    @include min-xl {
+    @include media.min-xl {
       grid-template-columns: 550px auto;
     }
   }
@@ -270,7 +272,7 @@ const mapVisible = ref(false);
       display: flex;
       flex-direction: column;
       gap: 30px;
-      @include min-md {
+      @include media.min-md {
         display: grid;
         gap: 90px;
         grid-template-columns: 4fr 6fr;
@@ -291,11 +293,11 @@ const mapVisible = ref(false);
     display: flex;
     flex-direction: column;
     gap: 22px;
-    @include min-sm {
+    @include media.min-sm {
       display: grid;
       grid-template-columns: 1fr 1fr;
     }
-    @include min-md {
+    @include media.min-md {
       display: flex;
     }
   }
@@ -304,11 +306,11 @@ const mapVisible = ref(false);
     width: 100%;
 
     &--active {
-      background-color: $red !important;
-      color: $white !important;
+      background-color: variable.$red !important;
+      color: variable.$white !important;
       & * {
         transition: 0.3s ease-out fill;
-        fill: $white !important;
+        fill: variable.$white !important;
       }
     }
   } 
@@ -321,13 +323,13 @@ const mapVisible = ref(false);
   &__title {
     font-size: 20px;
     font-weight: 700;
-    @include min-sm {
+    @include media.min-sm {
       font-size: 30px;
     }
   }
   &__red {
     display: block;
-    color: $red;
+    color: variable.$red;
     font-size: 24px;
     font-weight: bold;
   }
@@ -345,7 +347,7 @@ const mapVisible = ref(false);
   margin-bottom: 32px;
 }
 .object-detail-slide {
-  border-radius: $border-sm;
+  border-radius: variable.$border-sm;
   overflow: hidden;
   picture {
     width: 100%;
@@ -382,7 +384,7 @@ const mapVisible = ref(false);
   }
 }
 .object-detail-thumbs-slide {
-  border-radius: $border-sm;
+  border-radius: variable.$border-sm;
   overflow: hidden;
   max-width: 84px;
   border: 1px solid transparent;
@@ -398,7 +400,7 @@ const mapVisible = ref(false);
   }
 
   &.swiper-slide-thumb-active {
-    border-color: $red;
+    border-color: variable.$red;
   }
 }
 .yandex-balloon{

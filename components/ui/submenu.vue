@@ -23,11 +23,13 @@ const visible = ref(false);
   </div>
 </template>
 <style lang="scss">
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/mixins/media.scss" as media;
 .submenu {
   background: #f3f3f3;
-  color: $black;
+  color: variable.$black;
   padding: 19px 15px;
-  border-radius: $border-sm;
+  border-radius: variable.$border-sm;
 
   transition: 0.6s ease-out box-shadow;
 
@@ -56,7 +58,7 @@ const visible = ref(false);
     &.visible {
       grid-template-rows: 1fr;
     }
-    @include min-llg {
+    @include media.min-llg {
       grid-template-rows: 1fr;
     }
   }
@@ -65,7 +67,7 @@ const visible = ref(false);
     min-height: 0;
   }
   &__trigger {
-    @include min-llg {
+    @include media.min-llg {
       display: none;
     }
   }

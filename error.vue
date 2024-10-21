@@ -105,7 +105,9 @@ const handleError = () => clearError({ redirect: '/' })
   </div>
 </template>
 <style lang="scss">
-@import url("/assets/styles/layouts/default.scss");
+@use "/assets/styles/layouts/default.scss"; 
+@use "/assets/styles/mixins/media.scss" as media;
+@use "/assets/styles/base/variables/colors.scss" as color;
 
 .text-wrap-balance {
   text-wrap: balance;
@@ -139,7 +141,7 @@ const handleError = () => clearError({ redirect: '/' })
     justify-content: space-between;
     text-wrap: balance;
 
-    @include min-llg {
+    @include media.min-llg {
       text-align: left;
       align-items: center;
     }
@@ -166,7 +168,7 @@ const handleError = () => clearError({ redirect: '/' })
     gap: 93px;
     justify-items: center;
 
-    @include min-lg {
+    @include media.min-lg {
       grid-template-columns: 1fr 1fr;
     }
   }

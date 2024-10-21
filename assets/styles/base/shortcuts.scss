@@ -1,5 +1,5 @@
 @use "/assets/styles/base/variables/colors.scss" as variable;
-@use "/assets/styles/base/variables/media" as media;
+@use "/assets/styles/mixins/media.scss" as media;
 
 
 .text-white{

@@ -87,6 +87,8 @@ watch(burgerOpened, (newValue) => {
   </header>
 </template>
 <style lang="scss">
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/mixins/media.scss" as media;
 .page-header {
   flex: 0 0;
   padding: 26px 0;
@@ -104,8 +106,8 @@ watch(burgerOpened, (newValue) => {
     width: 320px;
     right: -320px;
     top: 0;
-    background-color: $white;
-    box-shadow: $base-shadow;
+    background-color: variable.$white;
+    box-shadow: variable.$base-shadow;
     height: 100vh;
     padding: 0 15px;
     gap: 20px;
@@ -127,12 +129,12 @@ watch(burgerOpened, (newValue) => {
       top: 15px;
       right: 15px;
 
-      @include min-xl {
+      @include media.min-xl {
         display: none;
       }
     }
 
-    @include min-xl {
+    @include media.min-xl {
       z-index: initial;
       display: block;
       position: static;
@@ -147,7 +149,7 @@ watch(burgerOpened, (newValue) => {
     font-size: 20px;
     font-weight: 700;
 
-    @include min-md {
+    @include media.min-md {
       display: block;
     }
   }
@@ -155,7 +157,7 @@ watch(burgerOpened, (newValue) => {
   &__burger {
     display: block;
 
-    @include min-xl {
+    @include media.min-xl {
       display: none;
     }
   }
@@ -165,10 +167,10 @@ watch(burgerOpened, (newValue) => {
     gap: 8px;
 
     & * {
-      fill: $red;
+      fill: variable.$red;
     }
 
-    @include min-xl {
+    @include media.min-xl {
       display: none;
     }
   }
@@ -182,7 +184,7 @@ watch(burgerOpened, (newValue) => {
   font-size: 22px;
   font-weight: 700;
   flex-direction: column;
-  @include min-xl {
+  @include media.min-xl {
     font-size: 18px;
     flex-direction: row;
     gap: 20px;

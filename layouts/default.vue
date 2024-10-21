@@ -7,24 +7,33 @@ import type { NeededParams } from "~/assets/types/entity/filterParams";
 
 const uiStore = useUIstore();
 
-const route = useRoute(); 
-const routeParams = computed(( ) => {
+const route = useRoute();
+const routeParams = computed(() => {
   return route.params as NeededParams;
-}); 
+});
 
 
-const section = ref(routeParams.value?.section || "vtorichka");
-const offerType = ref(routeParams.value?.offerType || "buy"); 
-const { data : filterInitial, refresh, status } = await useApiFetch<object>('/NewBack/MainPage/Filter/', {
-  method : 'post',
-  watch : false,
-  body : {
-      "typeOffer" : offerType,
-      "section" : section,
-      "greatDeals" : ""
+const section = ref(
+
+(!routeParams.value?.section || (routeParams.value?.section && routeParams.value?.section === 'all-sections'))
+  ? 'vtorichka' 
+  : routeParams.value?.section
+); 
+const offerType = ref(
+  (!routeParams.value?.offerType || (routeParams.value?.offerType && routeParams.value?.offerType === 'all-offer-types'))
+  ? 'buy' 
+  : routeParams.value?.offerType
+);
+const { data: filterInitial, refresh } = await useApiFetch<object>('/NewBack/MainPage/Filter/', {
+  method: 'post',
+  watch: false,
+  body: {
+    "typeOffer": offerType,
+    "section": section,
+    "greatDeals": ""
   }
-});   
-watch([offerType, section], async ( ) => { 
+}); 
+watch([offerType, section], async () => {
   refresh();
   // let resultNavigateTo = '/realty/all-cities/all-services-types/all-immovable-types/all-property';
   // navigateTo(`/realty/all-cities/${offerType.value}/${section.value}`)
@@ -53,6 +62,6 @@ watch([offerType, section], async ( ) => {
     </Transition>
   </div>
 </template>
-<style lang="scss"> 
+<style lang="scss">
 @use "/assets/styles/layouts/default.scss";
 </style>

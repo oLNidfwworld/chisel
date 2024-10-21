@@ -16,6 +16,9 @@ withDefaults(defineProps<IProps>(), {
   </ul>
 </template>
 <style lang="scss">
+
+@use "/assets/styles/base/variables/colors.scss" as variable;
+@use "/assets/styles/mixins/media.scss" as media;
 .props-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -24,7 +27,7 @@ withDefaults(defineProps<IProps>(), {
   padding: 12px 9px;
 
   &.light {
-    background-color: $white;
+    background-color: variable.$white;
   }
   &__prop {
     display: flex;

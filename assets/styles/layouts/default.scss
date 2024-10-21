@@ -1,6 +1,9 @@
+@use '/assets/styles/base/variables/colors.scss' as variable;
+@use "/assets/styles/mixins/media.scss" as media;
+
 body {
-  color: $black;
-  background-color: $white;
+  color: variable.$black;
+  background-color: variable.$white;
 }
 .page-wrapper {
   display: flex;
@@ -10,13 +13,13 @@ body {
 .page-content {
   flex: 1 0; 
   padding : 40px 0 20px 0;
-  @include min-sm{
+  @include media.min-sm{
     padding : 60px 0 20px 0;
   }
-  @include min-md{
+  @include media.min-md{
     padding : 60px 0 100px 0;
   }
-  @include min-lg{
+  @include media.min-lg{
     padding : 60px 0 90px 0;
   }
 }
@@ -24,7 +27,7 @@ body {
   padding: 0 20px;
   max-width: 100%;
   width: 100%;
-  @include min-xl {
+  @include media.min-xl {
     max-width: 1360px;
     margin-left: auto;
     margin-right: auto;
@@ -34,7 +37,7 @@ body {
   position: fixed;
   inset: 0;
   z-index: 9;
-  background-color: $black-semi-transparize;
+  background-color: variable.$black-semi-transparize;
 }
 .overlay-appear-enter-active,
 .overlay-appear-leave-active{ 
@@ -50,11 +53,11 @@ body {
   opacity: 0;
 } 
 input::placeholder{
-  color: $gray-dark;
+  color: variable.$gray-dark;
 }
 * + section {
   margin-top: 60px;
-  @include min-sm{
+  @include media.min-sm{
     margin-top: 40px;
   }
 }
