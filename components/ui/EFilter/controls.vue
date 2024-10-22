@@ -103,7 +103,7 @@ const labelsData = computed(() => {
           resultStr += `до ${nonNullishValues.value[key].value.max} `;
         }
       } else if (nonNullishValues.value[key].type === 'list') { 
-        resultStr = (nonNullishValues.value[key].value.map(mapItem => onlyFillableFields.value[key].values.find(obj => obj.xmlId === mapItem)?.name || '')).join(', ');
+        resultStr = (nonNullishValues.value[key].value.map(mapItem => onlyFillableFields.value[key].values.find(( obj : any ) => obj.xmlId === mapItem)?.name || '')).join(', ');
       }
 
       data[key] = {

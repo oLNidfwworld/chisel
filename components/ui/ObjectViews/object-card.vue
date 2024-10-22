@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Agent from "../Agent/agent.vue";
 import Btn from "../../base/btn.vue";
 import PropsRow from "../props-row.vue";
 import type { Swiper } from 'swiper';
@@ -11,40 +10,41 @@ const onSwiperInitialized = (newSwiperInstance: Swiper) => {
 };
 const props = defineProps<{
   item: KeyedObject
-}>();
-console.log(props.item);
-const price = computed(( ) => {
-  if ( props.item.PRICE ) {
+}>(); 
+const price = computed(() => {
+  if (props.item.PRICE) {
     return Number(props.item.PRICE).toLocaleString('ru-RU');
   } else {
     return undefined;
   }
-})
+}); 
 </script>
 <template>
   <div class="object-card">
     <div class="object-card__slider-wrapper">
-      <ClientOnly>
-        <Swiper
-          class="object-card__slider"
-          space-between="15"
-          @swiper="onSwiperInitialized"
-        >
-          <SwiperSlide>
+      <ClientOnly v-if="Array.isArray(item.PHOTO)">
+        <Swiper class="object-card__slider" space-between="15" @swiper="onSwiperInitialized">
+          <SwiperSlide v-for="(photo, index) in item.PHOTO" :key="index">
             <picture>
-              <source srcset="/test.png" />
-              <img alt="" />
+              <source :srcset="apiServerUrl(photo)" />
+              <img class="object-card__img" :alt="item.NAME" />
             </picture>
           </SwiperSlide>
         </Swiper>
       </ClientOnly>
+      <div v-else>
+        <picture>
+          <source :srcset="apiServerUrl(item.PHOTO)" />
+          <img class="object-card__img" :alt="item.NAME" />
+        </picture>
+      </div>
     </div>
     <div class="object-card__content">
       <div class="object-card__top">
         <div class="object-card__top-row">
           <h3 class="object-card__title">{{ item.NAME }}</h3>
           <div class="object-card__additional">
-            <span>id23123</span>
+            <span v-if="item.ID_OBJECT">id{{ item.ID_OBJECT }}</span>
             <ClientOnly>
               <button>
                 <IFav filled />
@@ -60,8 +60,7 @@ const price = computed(( ) => {
         <PropsRow />
       </div>
       <div class="object-card__bottom">
-        <Btn class="object-card__link" to="/realty/immovable-1" preference="transparent"
-          >Подробнее
+        <Btn class="object-card__link" to="/realty/immovable-1" preference="transparent">Подробнее
         </Btn>
         <Btn v-if="!numIsVisible" @click="numIsVisible = !numIsVisible">
           Показать телефон
@@ -72,9 +71,9 @@ const price = computed(( ) => {
   </div>
 </template>
 <style lang="scss" scoped>
-
 @use "/assets/styles/base/variables/colors.scss" as variable;
 @use "/assets/styles/mixins/media.scss" as media;
+
 .object-card {
   border-radius: variable.$border-sm;
   overflow: hidden;
@@ -84,12 +83,11 @@ const price = computed(( ) => {
     font-weight: 700;
   }
 
-  &__slider {
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+  &__img {
+    aspect-ratio: 1/1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   &__slider-wrapper {
@@ -100,6 +98,7 @@ const price = computed(( ) => {
     & .swiper {
       height: 100%;
     }
+
     & picture {
       height: 100%;
       display: block;
@@ -108,6 +107,7 @@ const price = computed(( ) => {
     @include media.min-md {
       height: 277px;
     }
+
     @include media.min-llg {
       height: unset;
     }
@@ -147,6 +147,7 @@ const price = computed(( ) => {
     @include media.min-sm {
       margin: 16px 0 34px 0;
     }
+
     @include media.min-md {
       margin: 16px 0 4px 0;
     }
@@ -157,17 +158,21 @@ const price = computed(( ) => {
     font-weight: 700;
     color: variable.$red;
   }
+
   &__bottom {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    & > * {
+
+    &>* {
       width: 100%;
       justify-content: center;
+
       @include media.min-sm {
         width: fit-content;
       }
     }
+
     @include media.min-sm {
       flex-direction: row;
       justify-content: space-between;

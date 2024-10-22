@@ -9,12 +9,12 @@ definePageMeta({
 const route = useRoute();
 const objectId = route?.params?.id;
 const { data: object } = await useApiFetch<Detail>(`/Catalog/${objectId}/`); 
-if (!objectId && !object) {
+if (!objectId || !object.value) {   
   createError({
     statusCode: 404,
     statusMessage: "Страница не найдена!",
   });
-}
+}  
 </script>
 <template>
   <section>
@@ -22,6 +22,6 @@ if (!objectId && !object) {
   </section>
   <section class="container">
     <h2 class="title-md title-md-bottom-margin">Похожие объявления</h2>
-    <ObjectList />
+    <!-- <ObjectList /> -->
   </section>
 </template>

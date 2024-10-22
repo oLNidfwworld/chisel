@@ -29,10 +29,10 @@ const postBodyObject = computed(( ) => {
   if ( routeParams.objectType && routeParams.objectType !== 'all-object-types' ) {
     newObject['objectRealty'] = routeParams.objectType;
   } 
+  console.log(newObject);
   return newObject;
 }); 
-
-console.log(postBodyObject.value);
+ 
 
 const { data: pageData} = useApiFetch<{ 
   elementsCatalog : {

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Btn from "~/components/base/btn.vue";
-import AgentCard from "~/components/ui/Agent/agent-card.vue";
-import PropsRow from "~/components/ui/props-row.vue";
+import AgentCard from "~/components/ui/Agent/agent-card.vue"; 
 import type { Swiper } from "swiper";
 import type { ObjectDetail } from "~/assets/types/entity/object-detail";
 import { useFavoriteStore } from "~/store/fav";
@@ -22,6 +21,7 @@ const setSlider = (swiperInstance: Swiper) => {
   slider.value = swiperInstance;
 };
 const slideThumb = (dir: string) => {
+  if (!slider.value) return;
   switch (dir) {
     case "next":
       slider.value.slideNext();
@@ -128,8 +128,8 @@ const mapVisible = ref(false);
           <span class="object-detail__adr font-semibold">{{ objectItem.location }}</span>
         </div>
         <div class="object-detail__block">
-          <PropsRow />
-          <PropsRow light />
+          <!-- <PropsRow />
+          <PropsRow light /> -->
         </div>
         <div class="object-detail__block object-detail__block--2cols">
           <div class="object-detail__btns">
@@ -213,198 +213,6 @@ const mapVisible = ref(false);
 <style lang="scss"> 
 @use "/assets/styles/base/variables/colors.scss" as variable;
 @use "/assets/styles/mixins/media.scss" as media;
-.share-show-enter-active,
-.share-show-leave-active {
-  transition: 0.3s ease-out transform, 0.4s ease opacity;
-}
-.share-show-enter-from,
-.share-show-leave-to {
-  transform: translate3d(0, -50%, 0);
-  opacity: 0;
-}
-.share-show-enter-to,
-.share-show-leave-from {
-  transform: translate3d(0, 0, 0);
-  opacity: 1;
-}
-.share {
-  position: relative;
-  &__links {
-    background-color: variable.$gray;
-    box-shadow: variable.$base-shadow;
-    border-radius: variable.$border-md;
-    padding: 12px 16px;
-    position: absolute;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    top: calc(100% + 12px);
-    a {
-      border-radius: variable.$border-md;
-      overflow: hidden;
-      svg * {
-        fill: variable.$green;
-      }
-    }
-  }
-}
-.object-detail {
-  line-height: 1.33;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  &__top-row {
-    display: flex;
-    flex-direction: column-reverse;
-    gap: 30px;
+@use "/assets/styles/components/object-detail.scss";
 
-    @include media.min-llg {
-      display: grid;
-      grid-template-columns: 469px auto;
-      gap: 24px;
-    }
-    @include media.min-xl {
-      grid-template-columns: 550px auto;
-    }
-  }
-  &__block {
-    &--2cols {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-      @include media.min-md {
-        display: grid;
-        gap: 90px;
-        grid-template-columns: 4fr 6fr;
-      }
-    }
-    &--flex {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-  }
-  &__content {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  &__btns {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    @include media.min-sm {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
-    @include media.min-md {
-      display: flex;
-    }
-  }
-  &__tool-btn {
-    padding: 6px 0;
-    width: 100%;
-
-    &--active {
-      background-color: variable.$red !important;
-      color: variable.$white !important;
-      & * {
-        transition: 0.3s ease-out fill;
-        fill: variable.$white !important;
-      }
-    }
-  } 
-  &__mini-info {
-    font-size: 14px;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  &__title {
-    font-size: 20px;
-    font-weight: 700;
-    @include media.min-sm {
-      font-size: 30px;
-    }
-  }
-  &__red {
-    display: block;
-    color: variable.$red;
-    font-size: 24px;
-    font-weight: bold;
-  }
-  &__description {
-    line-height: 1.56;
-    font-weight: 300;
-  }
-  &__map {
-    width: 100%;
-    height: 500px;
-  }
-}
-.object-detail-slider {
-  width: 100%;
-  margin-bottom: 32px;
-}
-.object-detail-slide {
-  border-radius: variable.$border-sm;
-  overflow: hidden;
-  picture {
-    width: 100%;
-  }
-  &__image {
-    object-fit: cover;
-    width: 100%;
-    aspect-ratio: 1/1;
-  }
-}
-
-.object-detail-thumbs-slider {
-  margin: 0 30px;
-
-  &__nav-btn {
-    width: fit-content;
-    height: fit-content;
-    position: absolute;
-    inset: 0;
-    margin: auto 0;
-
-    &--next {
-      left: auto;
-      right: 5px;
-      transform: rotate(180deg);
-    }
-    &--prev {
-      right: auto;
-      left: 5px;
-    }
-  }
-  &__outer {
-    position: relative;
-  }
-}
-.object-detail-thumbs-slide {
-  border-radius: variable.$border-sm;
-  overflow: hidden;
-  max-width: 84px;
-  border: 1px solid transparent;
-  transition: 0.3s ease-out border-color;
-  cursor: pointer;
-  picture {
-    width: 100%;
-  }
-  &__image {
-    object-fit: cover;
-    width: 100%;
-    aspect-ratio: 4/3;
-  }
-
-  &.swiper-slide-thumb-active {
-    border-color: variable.$red;
-  }
-}
-.yandex-balloon{
-  height: 80px;
-    width: 200px;
-}
 </style>

@@ -29,6 +29,9 @@ importers:
       vue:
         specifier: latest
         version: 3.5.12(typescript@5.6.3)
+      vue-to-print:
+        specifier: ^1.2.1
+        version: 1.2.1(vue@3.5.12(typescript@5.6.3))
       vue-yandex-maps:
         specifier: ^1.0.7
         version: 1.1.0
@@ -4131,6 +4134,11 @@ packages:
     resolution: {integrity: sha512-4fKZygS8cH1yCyuabAXGUAsyi1b2/o/OKgu/RUb+znIYOxPRxdkytJEx+0wGcpBE1pX6vUgh5jwWOKRGvuA/7Q==}
     peerDependencies:
       vue: ^3.2.0
+
+  vue-to-print@1.2.1:
+    resolution: {integrity: sha512-FmXjLukIPJKu5HdqlQXL0J7yQtx5OXkUTzXoey4BLBmw5zX0VU6xs1BqnXftaf8FmwMZQS7I8nu0s7+NVxnk/g==}
+    peerDependencies:
+      vue: ^3.0.0
 
   vue-yandex-maps@1.1.0:
     resolution: {integrity: sha512-pYgjEl8BRCkwK2BPF23/OwHD9Yk58wp2t0WSAHa+hKbb1JyMpbDTgVFXD4+7BkzGk6YpQT6zu1BV4aXOcyoJhQ==}
@@ -8858,6 +8866,10 @@ snapshots:
   vue-router@4.4.5(vue@3.5.12(typescript@5.6.3)):
     dependencies:
       '@vue/devtools-api': 6.6.4
+      vue: 3.5.12(typescript@5.6.3)
+
+  vue-to-print@1.2.1(vue@3.5.12(typescript@5.6.3)):
+    dependencies:
       vue: 3.5.12(typescript@5.6.3)
 
   vue-yandex-maps@1.1.0: {}
