@@ -6,12 +6,11 @@ import { inject } from "vue";
 import Btn from "~/components/base/btn.vue";
 import AgentCard from "../Agent/agent-card.vue";
 import PropsRow from "../props-row.vue";
-import BargainingMap from "./BargainingMap.vue";
-import EPopupForm from "../e-popup-form.vue";
+import BargainingMap from "./BargainingMap.vue";  
 import Pagination from "~/components/base/pagination.vue"; 
 import ObjectList from "../ObjectViews/object-list.vue";
-
-
+import { useVueToPrint } from "vue-to-print";
+ 
 const props = defineProps({
   similar: {
     type : Object,
@@ -32,46 +31,11 @@ const props = defineProps({
 });
 const route = useRoute();
 
-const price = computed(() => props.minPrice.toLocaleString('ru-RU'))
-const print = () => {
-  window.print()
-}
+const price = computed(() => props.minPrice.toLocaleString('ru-RU')) 
 
 const mapElement = ref(null)
-const myPhone = ref('')
-const validation = ref(false), validationMessage = ref('');
-const show = ref(false), title = ref(''), content = ref('');
-const callbackMe = async () => {
 
-  if (myPhone.value.length < 17) {
-    validationMessage.value = 'Неверный формат номера телефона'
-    validation.value = false;
-  } else {
-    validation.value = true;
-    validationMessage.value = ''
-  }
-
-  if (validation.value) {
-    const { data: res } = await useApiFetchWithRefresh('/Mail/', {
-      method: 'POST',
-      params: {
-        action: 'DETAIL_FORM_CALLBACK',
-        phone: myPhone.value,
-        TITLE: `Заявка на обратный звонок по участкам МКР Трубицыно`,
-      }
-    })
-    show.value = true;
-    if (res.value.status) {
-      title.value = 'Заявка успешно отправленна!'
-      content.value = 'Мы свяжемся с вами'
-    } else {
-      title.value = 'Ошибка'
-      content.value = 'Произошла непредвиденная ошибка'
-    }
-  }
-}
-
-
+  
 const transformIntoObjectCard = () => {
   const pageData = props.similar.slice((currentPage.value - 1) * pageSize, currentPage.value * pageSize);
   return pageData.map((pageEl) => {
@@ -79,6 +43,16 @@ const transformIntoObjectCard = () => {
       NAME: pageEl.NAME,
       PHOTO: (pageEl.PHOTOS.length > 0) ? pageEl.PHOTOS.map(photo => photo?.resizedPath || '') : pageEl?.PHOTOS[0]?.resizedPath || '',
       PRICE: pageEl.PRICE, 
+      CUSTOM_PROPS : [ 
+        {
+          name : "Статус",
+          value : pageEl.STATUS.NAME
+        },
+        {
+          name : "Площадь м<sup>2</sup>",
+          value : pageEl.SQUARE
+        },
+      ]
     }
   });
 }
@@ -86,7 +60,7 @@ const pageSize = 3, currentPage = ref(1);
 const pageContent = ref(transformIntoObjectCard());
 watch(() => currentPage.value, ( ) => {
   pageContent.value = transformIntoObjectCard();
-});
+}); 
 
 const injected = inject('fromIBargainingToPreview', null);
 
@@ -124,9 +98,15 @@ const slideThumb = (dir) => {
       break;
   }
 }; 
+const componentRef = ref();
+const { handlePrint } = useVueToPrint({
+  content: componentRef,
+  documentTitle: "AwesomeFileName",
+  removeAfterPrint: true
+});
 </script>
 <template>
-  <div class="object-detail container">
+  <div ref="componentRef" class="object-detail container">
     <div class="object-detail__top-row">
       <div>
         <Swiper 
@@ -183,7 +163,7 @@ const slideThumb = (dir) => {
         <div class="object-detail__block object-detail__block--2cols">
           <div class="object-detail__btns">
 
-            <Btn class="btn gray object-detail__tool-btn" @click="print">
+            <Btn class="btn gray object-detail__tool-btn" @click="handlePrint">
               <IPrint filled /> Версия для печати
             </Btn>
             <div class="share">
@@ -220,15 +200,15 @@ const slideThumb = (dir) => {
       </div>
     </div>
     <div class="object-detail__description">
-      <h3 class="mb-2 sm:mb-5 text-[18px] sm:text-[24px] font-semibold text-center">Микрорайон Трубицыно ищет жильцов!
+      <h3 class="title-md title-md-bottom-margin text-center">Микрорайон Трубицыно ищет жильцов!
       </h3>
-      <p class="text-[14px] sm:text-[18px] mb-3 sm:mb-6">Мечтаете жить в гармонии с природой и подальше от городского
+      <p class="p-text p-text-bottom-margin">Мечтаете жить в гармонии с природой и подальше от городского
         шума и суеты?
         Но при этом не готовы отказываться от благ цивилизации?
       </p>
-      <h3 class="mb-2 sm:mb-5 text-[18px] sm:text-[24px] font-semibold text-center">Тогда микрорайон Трубицыно – это как
+      <h3 class="title-md title-md-bottom-margin text-center">Тогда микрорайон Трубицыно – это как
         раз то, что вам нужно!</h3>
-      <p class="text-[14px] sm:text-[18px]">
+      <p class="p-text p-text-bottom-margin">
         Это уникальное место для жизни, в котором удивительным образом сочетаются удачное расположение, близость к
         природе и развитая инфраструктура. <br />
         Расположенный всего в 500 м. от г. Павловский Посад, на опушке смешанного леса близ реки Ходца, он удивительным
@@ -249,7 +229,7 @@ const slideThumb = (dir) => {
       <h2 class="title-md title-md-bottom-margin">Похожие объявления</h2>
       <div>
         <ClientOnly>
-          <ObjectList :items="pageContent"/>
+          <ObjectList :show-bottom-row="false" :show-fav="false" :items="pageContent"/>
           <div class="flex-baseline-wrap gap-4 mt-4">
             <span class="font-bold">Страницы:</span>
             <Pagination v-model="currentPage" :total-items="similar.length" :items-per-page="pageSize" />
@@ -257,21 +237,12 @@ const slideThumb = (dir) => {
         </ClientOnly>
       </div>
     </div>
-    <EPopupForm :is-visible="show" @close="show = !show">
-      <template #header>
-        {{ title }}
-      </template>
-      <template #content>
-        <p class="text-center">
-          {{ content }}
-        </p>
-      </template>
-    </EPopupForm>
   </div>
 </template>
 <style lang="scss" scoped>
 @use "/assets/styles/components/object-detail.scss";
 @use '/assets/styles/base/shortcuts.scss';
+@use '/assets/styles/base/typography.scss';
  
 .yandex-container {
   height: 400px !important;

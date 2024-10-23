@@ -46,7 +46,7 @@ watch(burgerOpened, (newValue) => {
         </button>
         <ul class="page-header-nav">
           <li v-for="(link, index) in links" :key="index" class="page-header-nav__item">
-            <NuxtLink>{{ link.name }}</NuxtLink>
+            <NuxtLink :href="link.href">{{ link.name }}</NuxtLink>
           </li>
         </ul>
         <ul class="page-header__soc">

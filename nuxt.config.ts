@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
   ssr: true,
-  modules: ["@pinia/nuxt", "nuxt-swiper", "nuxt-svgo", "@nuxt/image", "@nuxt/eslint", "radix-vue/nuxt"],
+  modules: ["@pinia/nuxt", "nuxt-swiper", "nuxt-svgo", "@nuxt/image", "@nuxt/eslint", "radix-vue/nuxt", "@nuxt/content"],
   css: ["./assets/styles/main.scss"], 
   svgo: {
     autoImportPath: "./assets/icons/",

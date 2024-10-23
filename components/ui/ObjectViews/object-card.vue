@@ -8,9 +8,14 @@ const swiperInstance = ref<Swiper | null>();
 const onSwiperInitialized = (newSwiperInstance: Swiper) => {
   swiperInstance.value = newSwiperInstance;
 };
-const props = defineProps<{
-  item: KeyedObject
-}>(); 
+const props = withDefaults(defineProps<{
+  item: KeyedObject,
+  showBottomRow? : boolean,
+  showFav? : boolean
+}>(), {
+  showBottomRow : true,
+  showFav : true
+}); 
 const price = computed(() => {
   if (props.item.PRICE) {
     return Number(props.item.PRICE).toLocaleString('ru-RU');
@@ -18,6 +23,12 @@ const price = computed(() => {
     return undefined;
   }
 }); 
+const rowProps = computed(( ) => {
+  const newProps : { name: string, value: string }[] = [...((props?.item?.CUSTOM_PROPS || []) as unknown as { name: string, value: string}[] )];
+ 
+
+  return newProps ;
+})
 </script>
 <template>
   <div class="object-card">
@@ -45,7 +56,7 @@ const price = computed(() => {
           <h3 class="object-card__title">{{ item.NAME }}</h3>
           <div class="object-card__additional">
             <span v-if="item.ID_OBJECT">id{{ item.ID_OBJECT }}</span>
-            <ClientOnly>
+            <ClientOnly v-if="showFav">
               <button>
                 <IFav filled />
               </button>
@@ -53,13 +64,12 @@ const price = computed(() => {
           </div>
         </div>
         <div class="object-card__red">{{ price }} ₽</div>
-        <div class="object-card__desc">
-          Московская обл, Павловский Посад городской округ, г. Павловский Посад,
-          ул. Кирова
+        <div v-if="item.ADDRESS" class="object-card__desc">
+          {{ item.ADDRESS }}
         </div>
-        <PropsRow />
+        <PropsRow :items="rowProps"/>
       </div>
-      <div class="object-card__bottom">
+      <div v-if="showBottomRow" class="object-card__bottom">
         <Btn class="object-card__link" to="/realty/immovable-1" preference="transparent">Подробнее
         </Btn>
         <Btn v-if="!numIsVisible" @click="numIsVisible = !numIsVisible">
