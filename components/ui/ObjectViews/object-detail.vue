@@ -4,6 +4,7 @@ import AgentCard from "~/components/ui/Agent/agent-card.vue";
 import type { Swiper } from "swiper";
 import type { ObjectDetail } from "~/assets/types/entity/object-detail";
 import { useFavoriteStore } from "~/store/fav";
+import { useVueToPrint } from "vue-to-print";
 interface IProps {
   objectItem: ObjectDetail;
 }
@@ -56,9 +57,16 @@ const share = async () => {
 const favStore = useFavoriteStore();
 const isFav = favStore.isFavorite(props.objectItem.id);
 const mapVisible = ref(false); 
+
+const componentRef = ref();
+const { handlePrint } = useVueToPrint({
+  content: componentRef,
+  documentTitle: props.objectItem.name,
+  removeAfterPrint: true
+});
 </script>
 <template>
-  <div class="object-detail container">
+  <div ref="componentRef" class="object-detail container">
     <div class="object-detail__top-row">
       <ClientOnly>
         <div>
@@ -144,11 +152,12 @@ const mapVisible = ref(false);
                 <template v-else> В избранное </template>
               </Btn>
             </ClientOnly>
-            <Btn
-            :class="{ 'object-detail__tool-btn--active': mapVisible }" class="object-detail__tool-btn" preference="gray"  @click="mapVisible = !mapVisible" >
+            <Btn 
+              v-if="!Array.isArray(objectItem.coordinates)"
+              :class="{ 'object-detail__tool-btn--active': mapVisible }" class="object-detail__tool-btn" preference="gray"  @click="mapVisible = !mapVisible" >
               <IPlacemark filled />На карте
             </Btn>
-            <Btn class="object-detail__tool-btn" preference="gray">
+            <Btn class="object-detail__tool-btn" preference="gray" @click="handlePrint" >
               <IPrint filled /> Версия для печати
             </Btn>
             <div class="share">
@@ -185,7 +194,7 @@ const mapVisible = ref(false);
         {{ objectItem.description }}
       </p>
     </div>
-    <div v-if="mapVisible" class="object-detail__map-wrapper">
+    <div v-if="mapVisible && !Array.isArray(objectItem.coordinates)" class="object-detail__map-wrapper">
       <ClientOnly>
         <YandexMap
           class="object-detail__map"

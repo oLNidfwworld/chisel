@@ -29,7 +29,7 @@ interface ObjectDetail {
     coordinates : {
         lat : number,
         lon : number,
-    }, 
+    } | [], 
     elevator: string,
     ipoteka: string,
     floorCount: string | number,

@@ -14,14 +14,14 @@ if (!objectId || !object.value) {
     statusCode: 404,
     statusMessage: "Страница не найдена!",
   });
-}  
+}   
 </script>
 <template>
   <section>
     <ObjectDetail v-if="object && object?.item" :object-item="object.item" />
   </section>
-  <section class="container">
+  <section v-if="object && object.similarItems && object.similarItems.length > 0" class="container">
     <h2 class="title-md title-md-bottom-margin">Похожие объявления</h2>
-    <!-- <ObjectList /> -->
+    <ObjectList :items="object.similarItems" />
   </section>
 </template>

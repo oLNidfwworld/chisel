@@ -24,9 +24,7 @@ const price = computed(() => {
   }
 }); 
 const rowProps = computed(( ) => {
-  const newProps : { name: string, value: string }[] = [...((props?.item?.CUSTOM_PROPS || []) as unknown as { name: string, value: string}[] )];
- 
-
+  const newProps : { name: string, value: string }[] = [...((props?.item?.CUSTOM_PROPS || []) as unknown as { name: string, value: string}[] )]; 
   return newProps ;
 })
 </script>

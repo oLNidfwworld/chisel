@@ -1,23 +1,32 @@
+<script setup lang="ts">
+defineProps<{
+  item : {
+    cardImage : string,
+    cardDescription : string,
+    h1 : string
+    _path: string
+  }
+}>();
+</script>
 <template>
-  <div class="service-card">
+  <NuxtLink :href="item._path" class="service-card">
     <picture class="service-card__picture">
-      <source srcset="/test.png" />
+      <source :srcset="item.cardImage" />
       <img class="service-card__img" alt="Name" />
     </picture>
     <div class="service-card__content">
-      <h3 class="service-card__title">Покупка недвижимости</h3>
+      <h3 class="service-card__title">{{ item.h1 }}</h3>
       <p class="service-card__desc">
-        Одно из основных направлений работы агентства недвижимости «Эксперт» – оказание
-        квалифицированной помощи клиентам, которые планируют приобрести жилую
-        или коммерческую недвижимость
+        {{ item.cardDescription }}
       </p>
     </div>
-  </div>
+  </NuxtLink>
 </template>
 <style lang="scss" scoped>
 @use "/assets/styles/base/variables/colors.scss" as variable;
 @use "/assets/styles/mixins/media.scss" as media;
 .service-card {
+  display: block;
   border-radius: variable.$border-sm;
   overflow: hidden;
   &__title {
@@ -45,10 +54,12 @@
       padding: 19px 31px;
     }
   }
-  &__img {
-    width: 100%;
+  &__img { 
     object-fit: cover;
     max-height: 217px;
+    aspect-ratio: 4/3;
+    width: 100%;
+    height: 100%;
     @include media.min-llg {
       max-height: unset;
     }

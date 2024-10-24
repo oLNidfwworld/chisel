@@ -21,7 +21,9 @@ const price = computed(() => props.data.price.toLocaleString("ru-RU"));
     <ICityPlaceholder v-else class="mini-card__placeholder" filled />
     <div class="mini-card__content">
       <span class="mini-card__red">{{ price }} ₽</span>
-      <h3 class="mini-card__title">{{ data.name }}</h3>
+      <NuxtLink :href="`/realty/immovable-${data.id}`">
+        <h3 class="mini-card__title">{{ data.name }}</h3>
+      </NuxtLink>
       <span class="mini-card__desc">{{ data.location }}</span>
       <Btn
         v-if="!numIsVisible"

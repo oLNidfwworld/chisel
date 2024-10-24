@@ -1,5 +1,10 @@
 <script setup>
 import ServiceCard from "./service-card.vue";
+
+
+const { data } = await useAsyncData(`content-/services`, () => {
+  return queryContent('services').find();
+});  
 </script>
 <template>
   <Swiper
@@ -19,8 +24,8 @@ import ServiceCard from "./service-card.vue";
     }"
     :modules="[SwiperGrid]"
   >
-    <SwiperSlide>
-      <ServiceCard />
+    <SwiperSlide v-for="(item,index) in data"  :key="index" >
+      <ServiceCard :item="item" />
     </SwiperSlide>
   </Swiper>
 </template>

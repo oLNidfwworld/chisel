@@ -4,55 +4,55 @@ import Menu from './menu.vue';
 const menu1 = shallowReactive([
     {
         name: "Вторичную",
-        path: "/to"
+        path: "/realty/all-cities/buy/vtorichka"
     },
     {
         name: "Загородную",
-        path: "/to"
+        path: "/realty/all-cities/buy/zagorodnaya"
     },
     {
         name: "Коммерческую",
-        path: "/to"
+        path: "/realty/all-cities/buy/commerce"
     },
 ]);
 const menu2 = shallowReactive([
     {
         name: "Вторичную",
-        path: "/to"
+        path: "/realty/all-cities/rent/vtorichka"
     },
     {
         name: "Загородную",
-        path: "/to"
+        path: "/realty/all-cities/rent/zagorodnaya"
     },
     {
         name: "Коммерческую",
-        path: "/to"
+        path: "/realty/all-cities/rent/commerce"
     },
 ]);
 const menu3 = shallowReactive([
     {
         name: "Покупателям",
-        path: "/to"
+        path: "/services/customers"
     },
     {
         name: "Продавцам",
-        path: "/to"
+        path: "/services/sellers"
     },
     {
         name: "Арендаторам",
-        path: "/to"
+        path: "/services/tenants"
     },
     {
         name: "Арендодателям",
-        path: "/to"
+        path: "/services/lessors"
     },
     {
         name: "Срочный выкуп",
-        path: "/to"
+        path: "/services/srochnyy-vykup-kvartir"
     },
     {
         name: "Ипотека",
-        path: "/to"
+        path: "/services/mortpage"
     },
 ]);
  

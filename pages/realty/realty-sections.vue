@@ -6,9 +6,7 @@ import ObjectList from '~/components/ui/ObjectViews/object-list.vue';
 const route = useRoute();
 const routeParams = route.params as NeededParams;
 const routeQuery = route.query as KeyedObject;
-
-// console.log(routeQuery);
-// console.log(routeParams);
+ 
 
 const postBodyObject = computed(( ) => {
   const query = parseFromQuery(routeQuery);
@@ -28,8 +26,7 @@ const postBodyObject = computed(( ) => {
   }
   if ( routeParams.objectType && routeParams.objectType !== 'all-object-types' ) {
     newObject['objectRealty'] = routeParams.objectType;
-  } 
-  console.log(newObject);
+  }  
   return newObject;
 }); 
  

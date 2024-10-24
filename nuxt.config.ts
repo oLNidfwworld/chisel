@@ -47,22 +47,41 @@ export default defineNuxtConfig({
         name : 'city-level-catalog',
         path : '/realty/:city/',
         file :  resolve(__dirname, './pages/realty/realty-sections.vue')
-      }),
+      })
       pages.push({
         name : 'offer-type-catalog',
         path : '/realty/:city/:offerType/',
         file :  resolve(__dirname, './pages/realty/realty-sections.vue')
-      }), 
+      }) 
       pages.push({
         name : 'object-catalog',
         path : '/realty/:city/:offerType/:section/',
         file :  resolve(__dirname, './pages/realty/realty-sections.vue')
-      }), 
+      }) 
       pages.push({
         name : 'object-type-catalog',
         path : '/realty/:city/:offerType/:section/:objectType',
         file :  resolve(__dirname, './pages/realty/realty-sections.vue')
-      })
+      }) 
+      
+      // pages.push({
+      //   name : 'content-data',
+      //   path : '/:contentSlug1',
+      //   'meta' : {
+      //     layout : 'content'
+      //   },
+      //   file :  resolve(__dirname, './pages/content-data.vue')
+      // })
+
+      // pages.push({
+      //   name : 'content-data', 
+      //   path : '/:contentSlug21/:contentSlug22',
+      //   'meta' : {
+      //     layout : 'content'
+      //   },
+      //   file :  resolve(__dirname, './pages/content-data.vue')
+      // })
+
     }
   }
 });

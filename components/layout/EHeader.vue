@@ -8,11 +8,11 @@ const links = shallowReactive([
   },
   {
     name: "Юр. услуги",
-    href: "/act-help/",
+    href: "/services/act-help/",
   },
   {
     name: "Ипотека",
-    href: "/mortpage/",
+    href: "/services/mortpage/",
   },
   {
     name: "О Компании",
@@ -46,7 +46,7 @@ watch(burgerOpened, (newValue) => {
         </button>
         <ul class="page-header-nav">
           <li v-for="(link, index) in links" :key="index" class="page-header-nav__item">
-            <NuxtLink :href="link.href">{{ link.name }}</NuxtLink>
+            <NuxtLink :href="link.href" @click="burgerOpened = false">{{ link.name }}</NuxtLink>
           </li>
         </ul>
         <ul class="page-header__soc">
@@ -70,7 +70,7 @@ watch(burgerOpened, (newValue) => {
       <button @click="burgerOpened = !burgerOpened" class="page-header__burger">
         <IBurger />
       </button>
-      <a class="page-header__num" href="89015178651">+7 901 517-86-51</a>
+      <a class="page-header__num" href="tel:89015178651">+7 901 517-86-51</a>
       <ul class="page-header-controls">
         <li class="page-header-controls__item">
           <button class="page-header-controls__button">

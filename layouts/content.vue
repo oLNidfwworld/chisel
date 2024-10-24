@@ -1,0 +1,21 @@
+<script setup>
+import EHeader from "~/components/layout/EHeader.vue";
+import EFooter from "~/components/layout/EFooter";
+import { useUIstore } from "~/store/ui";
+
+const uiStore = useUIstore(); 
+</script>
+<template>
+    <div class="page-wrapper">
+        <EHeader /> 
+        <slot /> 
+        <EFooter />
+        <Transition name="overlay-appear">
+            <div v-if="uiStore.overlayVisibility" class="page-overlay" />
+        </Transition>
+    </div>
+</template>
+<style lang="scss">
+@use "/assets/styles/layouts/default.scss"; 
+ 
+</style>

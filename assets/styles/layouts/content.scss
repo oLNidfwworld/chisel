@@ -1,0 +1,71 @@
+@use "/assets/styles/layouts/default.scss"; 
+@use '/assets/styles/base/typography.scss';
+@use '/assets/styles/base/shortcuts.scss';
+@use '/assets/styles/base/variables/colors.scss' as variable;
+@use "/assets/styles/mixins/media.scss" as media; 
+
+.typography {
+  h2 {
+    @extend .title-md;
+    @extend .title-md-bottom-margin;
+  }
+
+  p {
+    @extend .p-text-bottom-margin;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+
+    li {
+      // display: flex;
+      // align-items: baseline;
+
+      &::before {
+        background: variable.$red;
+        border-radius: 99px;
+        content: "";
+        display: inline-block;
+        height: 7px;
+        margin-right: 20px;
+        min-width: 7px;
+      }
+    }
+  }
+
+  .inline-images {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 20px;
+
+    &>img {
+      display: block;
+      aspect-ratio: 20/4;
+      object-fit: cover;
+      width: 100%;
+    }
+  }
+
+  @extend .p-text;
+}
+
+.content-bg {
+  background-image: url('/filter-bg.png');
+  height: 165px;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  background-position: bottom;
+
+  @include media.min-lg {
+    height: 260px
+  }
+
+  @include media.min-llg {
+    height: 340px;
+  }
+}
