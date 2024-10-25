@@ -4,88 +4,20 @@ import ObjectSlider from "~/components/ui/ObjectViews/object-slider.vue";
 import ServiceSlider from "~/components/ui/Services/service-slider.vue";
 import Submenu from "~/components/ui/submenu.vue";
 const { data: recommended } = await useApiFetch<{ items: ObjectShorted[] }>(`/Catalog`); 
+const { data : usefullLinks } = await useFetch('/api/usefull-links');   
 </script>
 <template>
   <div class="container">
     <section>
       <h2 class="title-md-bottom-margin title-md">Полезные ссылки</h2>
       <div class="submenus-wrapper">
-        <Submenu title="Купить квартиру">
+        <Submenu v-for="(linksTab, index) in usefullLinks" :key="index" title="Купить квартиру">
           <ul class="menu-col">
-            <li>
-              <NuxtLink>1-комнатные 1 933</NuxtLink>
-            </li>
-            <li>
-              <NuxtLink>2-комнатные 1 649</NuxtLink>
-            </li>
-            <li>
-              <NuxtLink>3-комнатные 759</NuxtLink>
-            </li>
-            <li>
-              <NuxtLink>Квартиры-студии 541</NuxtLink>
-            </li>
-            <li>
-              <NuxtLink>Комнаты в квартире 18</NuxtLink>
-            </li>
+            <li v-for="(link, linkIndex) in linksTab.links" :key="linkIndex" >
+              <NuxtLink :href="link.link">{{ link.name }}</NuxtLink>
+            </li> 
           </ul>
-        </Submenu>
-        <Submenu title="Купить квартиру">
-          <ul class="menu-col">
-            <li>
-              <NuxtLink>1-комнатные 1 933</NuxtLink>
-            </li>
-            <li>
-              <NuxtLink>2-комнатные 1 649</NuxtLink>
-            </li>
-            <li>
-              <NuxtLink>3-комнатные 759</NuxtLink>
-            </li>
-            <li>
-              <NuxtLink>Квартиры-студии 541</NuxtLink>
-            </li>
-            <li>
-              <NuxtLink>Комнаты в квартире 18</NuxtLink>
-            </li>
-          </ul>
-        </Submenu>
-        <Submenu title="Купить квартиру">
-          <ul class="menu-col">
-            <li>
-              <NuxtLink>1-комнатные 1 933</NuxtLink>
-            </li>
-            <li>
-              <NuxtLink>2-комнатные 1 649</NuxtLink>
-            </li>
-            <li>
-              <NuxtLink>3-комнатные 759</NuxtLink>
-            </li>
-            <li>
-              <NuxtLink>Квартиры-студии 541</NuxtLink>
-            </li>
-            <li>
-              <NuxtLink>Комнаты в квартире 18</NuxtLink>
-            </li>
-          </ul>
-        </Submenu>
-        <Submenu title="Купить квартиру">
-          <ul class="menu-col">
-            <li>
-              <NuxtLink>1-комнатные 1 933</NuxtLink>
-            </li>
-            <li>
-              <NuxtLink>2-комнатные 1 649</NuxtLink>
-            </li>
-            <li>
-              <NuxtLink>3-комнатные 759</NuxtLink>
-            </li>
-            <li>
-              <NuxtLink>Квартиры-студии 541</NuxtLink>
-            </li>
-            <li>
-              <NuxtLink>Комнаты в квартире 18</NuxtLink>
-            </li>
-          </ul>
-        </Submenu>
+        </Submenu> 
       </div>
     </section>
     <section v-if="recommended?.items && recommended.items.length > 0">

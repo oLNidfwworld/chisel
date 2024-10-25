@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { propsPush } from "~/composables/propsPush";
 import Btn from "../../base/btn.vue";
 import PropsRow from "../props-row.vue";
 import type { Swiper } from 'swiper';
 import type { KeyedObject } from "~/assets/types/entity/data-object";
+import Agent from "../Agent/agent.vue";
 const numIsVisible = ref(false);
 const swiperInstance = ref<Swiper | null>();
 const onSwiperInitialized = (newSwiperInstance: Swiper) => {
@@ -10,48 +12,50 @@ const onSwiperInitialized = (newSwiperInstance: Swiper) => {
 };
 const props = withDefaults(defineProps<{
   item: KeyedObject,
-  showBottomRow? : boolean,
-  showFav? : boolean
+  showBottomRow?: boolean,
+  showFav?: boolean
 }>(), {
-  showBottomRow : true,
-  showFav : true
-}); 
+  showBottomRow: true,
+  showFav: true
+});
 const price = computed(() => {
-  if (props.item.PRICE) {
-    return Number(props.item.PRICE).toLocaleString('ru-RU');
+  if (props.item.price) {
+    return Number(props.item.price).toLocaleString('ru-RU');
   } else {
-    return undefined;
+    return 'цена не указана';
   }
-}); 
-const rowProps = computed(( ) => {
-  const newProps : { name: string, value: string }[] = [...((props?.item?.CUSTOM_PROPS || []) as unknown as { name: string, value: string}[] )]; 
-  return newProps ;
+});
+const photos = computed(() => {
+  return props.item.photos.map((photo : any) => photo?.src || photo)
+});
+const propsData = computed(() => {
+  const detailData = props.item;
+  const arr = [...((props?.item?.customProps || []) as unknown as { name: string, value: string }[])]; 
+  propsPush(detailData, arr);
+
+  return arr;
 })
+const topPropsRow = computed(() => propsData.value.slice(0, 4));
+// const bottomPropsRow = computed(() => propsData.value.slice(5, 9));
 </script>
 <template>
   <div class="object-card">
     <div class="object-card__slider-wrapper">
-      <ClientOnly v-if="Array.isArray(item.PHOTO)">
+      <ClientOnly>
         <Swiper class="object-card__slider" space-between="15" @swiper="onSwiperInitialized">
-          <SwiperSlide v-for="(photo, index) in item.PHOTO" :key="index">
+          <SwiperSlide v-for="(photo, index) in photos" :key="index">
             <picture>
               <source :srcset="apiServerUrl(photo)" />
-              <img class="object-card__img" :alt="item.NAME" />
+              <img class="object-card__img" :alt="item?.name" />
             </picture>
           </SwiperSlide>
         </Swiper>
       </ClientOnly>
-      <div v-else>
-        <picture>
-          <source :srcset="apiServerUrl(item.PHOTO)" />
-          <img class="object-card__img" :alt="item.NAME" />
-        </picture>
-      </div>
     </div>
     <div class="object-card__content">
       <div class="object-card__top">
         <div class="object-card__top-row">
-          <h3 class="object-card__title">{{ item.NAME }}</h3>
+          <h3 class="object-card__title">{{ item.name }}</h3>
           <div class="object-card__additional">
             <span v-if="item.ID_OBJECT">id{{ item.ID_OBJECT }}</span>
             <ClientOnly v-if="showFav">
@@ -62,18 +66,18 @@ const rowProps = computed(( ) => {
           </div>
         </div>
         <div class="object-card__red">{{ price }} ₽</div>
-        <div v-if="item.ADDRESS" class="object-card__desc">
-          {{ item.ADDRESS }}
+        <div v-if="item.location" class="object-card__desc">
+          {{ item.location }}
         </div>
-        <PropsRow :items="rowProps"/>
+        <PropsRow v-if="topPropsRow && topPropsRow.length > 0" :items="topPropsRow" /> 
       </div>
       <div v-if="showBottomRow" class="object-card__bottom">
-        <Btn class="object-card__link" to="/realty/immovable-1" preference="transparent">Подробнее
+        <Btn class="object-card__link" :to="`/realty/immovable-${item.id}`" preference="transparent">Подробнее
         </Btn>
         <Btn v-if="!numIsVisible" @click="numIsVisible = !numIsVisible">
           Показать телефон
         </Btn>
-        <!-- <Agent v-else /> -->
+        <Agent v-else :agent="item.agent"  />
       </div>
     </div>
   </div>

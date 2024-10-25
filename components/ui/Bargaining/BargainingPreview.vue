@@ -40,10 +40,10 @@ const transformIntoObjectCard = () => {
   const pageData = props.similar.slice((currentPage.value - 1) * pageSize, currentPage.value * pageSize);
   return pageData.map((pageEl) => {
     return {
-      NAME: pageEl.NAME,
-      PHOTO: (pageEl.PHOTOS.length > 0) ? pageEl.PHOTOS.map(photo => photo?.resizedPath || '') : pageEl?.PHOTOS[0]?.resizedPath || '',
-      PRICE: pageEl.PRICE, 
-      CUSTOM_PROPS : [ 
+      name: pageEl.NAME,
+      photos: (pageEl.PHOTOS.length > 0) ? pageEl.PHOTOS.map(photo => photo?.resizedPath || '') : pageEl?.PHOTOS[0]?.resizedPath ? [pageEl.PHOTOS[0].resizedPath] : [],
+      price: pageEl.PRICE, 
+      customProps : [ 
         {
           name : "Статус",
           value : pageEl.STATUS.NAME

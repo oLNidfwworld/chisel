@@ -3,7 +3,7 @@ import { YandexMap } from "vue-yandex-maps";
 import btn from "~/components/base/btn.vue";
 import Inpt from "~/components/base/inpt.vue";
 // import ETextarea from "../../components/Base/E-textarea.vue";
-import { useBargainingStore } from "~/store/bargaining"
+// import { useBargainingStore } from "~/store/bargaining"
 import EPopupForm from "../e-popup-form.vue";
 const props = defineProps({
     mapCenter: Array,
@@ -159,15 +159,15 @@ const makeOrder = (id) => {
     isPopupVisible.value = true;
 }
 
-const router = useRouter(), route = useRoute();
-const useBarg = useBargainingStore()
-const lookOut = (id) => { 
-    const myObj = props.placements.items.find(x => x.NAME == id);
-    router.push({ path: route.path, query: { ...route.query, objectId: myObj.NAME } });
-    useBarg.setLookOutObject(myObj) 
-}
+// const router = useRouter(), route = useRoute();
+// const useBarg = useBargainingStore()
+// const lookOut = (id) => { 
+//     const myObj = props.placements.items.find(x => x.NAME == id);
+//     router.push({ path: route.path, query: { ...route.query, objectId: myObj.NAME } });
+//     useBarg.setLookOutObject(myObj) 
+// }
 
-const sendData = async (e) => { 
+const sendData = async () => { 
     if (userPhone.value.length < 16) {
         validationMessage.value = 'Неверный формат номера телефона'
         validation.value = false;

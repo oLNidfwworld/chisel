@@ -87,11 +87,11 @@ const nonNullishValues = computed<DataObject>(() => {
         value: nonFilteredObject[valueKey]
       };
     }
-  }); 
+  });
   return newObject;
 });
 const labelsData = computed(() => {
-  const data: { [index: string]: { name: string, value: string } } = {}; 
+  const data: { [index: string]: { name: string, value: string } } = {};
   Object.keys(nonNullishValues.value).forEach((key) => {
     if (key in onlyFillableFields.value) {
       let resultStr = ''
@@ -102,8 +102,8 @@ const labelsData = computed(() => {
         if (nonNullishValues.value[key].value.max) {
           resultStr += `до ${nonNullishValues.value[key].value.max} `;
         }
-      } else if (nonNullishValues.value[key].type === 'list') { 
-        resultStr = (nonNullishValues.value[key].value.map(mapItem => onlyFillableFields.value[key].values.find(( obj : any ) => obj.xmlId === mapItem)?.name || '')).join(', ');
+      } else if (nonNullishValues.value[key].type === 'list') {
+        resultStr = (nonNullishValues.value[key].value.map(mapItem => onlyFillableFields.value[key].values.find((obj: any) => obj.xmlId === mapItem)?.name || '')).join(', ');
       }
 
       data[key] = {
@@ -145,7 +145,7 @@ const sectionTypes = shallowReactive([
     value: "commerce",
   },
 ]);
-const submit = () => {
+const submit = (e: Event) => {
   const cities = nonNullishValues.value['city']?.value as Array<string> | null;
   const objectRealty = nonNullishValues.value['objectRealty']?.value as Array<string> | null;
   const params = Object.assign({}, nonNullishValues.value);
@@ -162,7 +162,11 @@ const submit = () => {
   } else {
     resultUrl = ('/realty/' + 'all-cities') + resultUrl;
   }
+
   resultUrl += parseIntoQuery(params);
+  if ((((e as SubmitEvent)?.submitter) as HTMLButtonElement).name === 'on-map') {
+    resultUrl.indexOf('?') !== -1 ? resultUrl += '&on-map=true' : resultUrl += '?on-map=true';
+  }
   navigateTo(resultUrl);
 }
 const removeFromValuesToPost = (key: string) => {
@@ -182,16 +186,14 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
   <form class="e-filter" @submit.prevent="submit">
     <div class="e-filter__toggler-group-1">
       <label v-for="(item, index) in offerTypes" :key="index" class="e-filter-toggler-1">
-        <input 
-          v-model="modelOfferType" type="radio" name="offer-type" :value="item.value"
+        <input v-model="modelOfferType" type="radio" name="offer-type" :value="item.value"
           :checked="item.value === modelOfferType" />
         {{ item.name }}
       </label>
     </div>
     <div class="e-filter__toggler-group-2">
       <label v-for="(item, index) in sectionTypes" :key="index" class="e-filter-toggler-2">
-        <input 
-          v-model="modelSection" type="radio" name="object-type" :value="item.value"
+        <input v-model="modelSection" type="radio" name="object-type" :value="item.value"
           :checked="item.value === modelSection" />
         {{ item.name }}
       </label>
@@ -225,8 +227,11 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
           </li>
         </ul>
         <div class="e-filter-additional__submit-row">
-          <Btn type="submit">Показать объекта</Btn>
-          <!-- <Btn class="e-filter-additional__expand" preference="sea">Расширенный фильтр</Btn> -->
+          <Btn type="submit">Показать</Btn>
+          <Btn type="submit" name="on-map" preference="gray">
+            <IPlacemark filled />
+            <span>На карте</span>
+          </Btn>
         </div>
       </div>
     </div>

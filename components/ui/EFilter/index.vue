@@ -16,8 +16,7 @@ const modelOfferType = defineModel<string>('offerType', {
 //     query: {
 //         'link': route.path,
 //     }
-// });
-// console.log(seoData.value);
+// }); 
 </script>
 <template>
     <div class="e-filter-wrapper">

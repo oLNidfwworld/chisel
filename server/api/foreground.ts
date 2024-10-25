@@ -1,5 +1,5 @@
 /* Здесь храним свойства фильтра для раздела квартир, при необходимости сортировки поменяйте местами объекты массива */
-export default defineEventHandler((event) => {
+export default defineEventHandler(() => {
     return    {
         type: 'Feature',
         id: 21234,

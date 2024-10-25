@@ -5,6 +5,8 @@ import type { Swiper } from "swiper";
 import type { ObjectDetail } from "~/assets/types/entity/object-detail";
 import { useFavoriteStore } from "~/store/fav";
 import { useVueToPrint } from "vue-to-print";
+import PropsRow from "../props-row.vue";
+import { propsPush } from "~/composables/propsPush";
 interface IProps {
   objectItem: ObjectDetail;
 }
@@ -64,6 +66,18 @@ const { handlePrint } = useVueToPrint({
   documentTitle: props.objectItem.name,
   removeAfterPrint: true
 });
+
+const propsData = computed(( ) => {
+  const detailData = props.objectItem;
+  const arr : {name : string, value : string }[] = []; 
+
+  propsPush(detailData, arr);
+
+  return arr;
+})
+const topPropsRow = computed(( ) => propsData.value.slice(0,4));
+const bottomPropsRow = computed(( ) => propsData.value.slice(5,9));
+
 </script>
 <template>
   <div ref="componentRef" class="object-detail container">
@@ -135,9 +149,9 @@ const { handlePrint } = useVueToPrint({
           <span class="object-detail__red">{{ price }} ₽</span>
           <span class="object-detail__adr font-semibold">{{ objectItem.location }}</span>
         </div>
-        <div class="object-detail__block">
-          <!-- <PropsRow />
-          <PropsRow light /> -->
+        <div class="object-detail__block"> 
+          <PropsRow v-if="topPropsRow" :items="topPropsRow"  />
+          <PropsRow v-if="bottomPropsRow" :items="bottomPropsRow" light /> 
         </div>
         <div class="object-detail__block object-detail__block--2cols">
           <div class="object-detail__btns">

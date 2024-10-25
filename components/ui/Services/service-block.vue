@@ -3,8 +3,7 @@ import ServiceCard from './service-card.vue';
 
 const { data } = await useAsyncData(`content-/services`, () => {
   return queryContent('services').find();
-}); 
-console.log(data.value);
+});  
 </script>
 <template>
     <div class="service-block">

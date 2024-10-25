@@ -1,50 +1,97 @@
 <script setup lang="ts">
 import type { KeyedObject } from '~/assets/types/entity/data-object';
 import type { NeededParams } from '~/assets/types/entity/filterParams';
+import Pagination from '~/components/base/pagination.vue';
 import ObjectList from '~/components/ui/ObjectViews/object-list.vue';
 
-const route = useRoute();
-const routeParams = route.params as NeededParams;
-const routeQuery = route.query as KeyedObject;
- 
 
-const postBodyObject = computed(( ) => {
+const route = useRoute();
+
+
+const postBodyObjectGenerate = (routeQuery: KeyedObject, routeParams: NeededParams) => {
   const query = parseFromQuery(routeQuery);
-  const newObject : KeyedObject = {};
+  const newObject: KeyedObject = {};
   Object.keys(query).forEach(filterPropKey => {
     newObject[filterPropKey] = query[filterPropKey].value
   });
- 
-  if ( routeParams.city && routeParams.city !== 'all-cities' ) {
+
+  if (routeParams.city && routeParams.city !== 'all-cities') {
     newObject['city'] = routeParams.city.split('-');
   }
-  if ( routeParams.section && routeParams.section !== 'all-sections' ) {
+  if (routeParams.section && routeParams.section !== 'all-sections') {
     newObject['section'] = routeParams.section.split('-');
+    if ( newObject['section'].length === 1 ) {
+      newObject['section'] = newObject['section'][0];
+    }
   }
-  if ( routeParams.offerType && routeParams.offerType !== 'all-offer-types' ) {
+  if (routeParams.offerType && routeParams.offerType !== 'all-offer-types') {
     newObject['typeOffer'] = routeParams.offerType?.split('-');
+    if ( newObject['typeOffer'].length === 1 ) {
+      newObject['typeOffer'] = newObject['typeOffer'][0];
+    }
   }
-  if ( routeParams.objectType && routeParams.objectType !== 'all-object-types' ) {
-    newObject['objectRealty'] = routeParams.objectType;
-  }  
+  if (routeParams.objectType && routeParams.objectType !== 'all-object-types') {
+    newObject['objectRealty'] = routeParams.objectType?.split('-');
+  }
   return newObject;
-}); 
- 
+}
 
-const { data: pageData} = useApiFetch<{ 
-  elementsCatalog : {
-    values : Array<KeyedObject>
+const { data: pageData } = useApiFetch<{
+  elementsCatalog: {
+    values: Array<KeyedObject>
   }
 }>('/NewBack/NewFilter/Filter/', {
-  method : 'POST',
-  body : postBodyObject
+  method: 'POST',
+  body: postBodyObjectGenerate(route.query, route.params),
+  watch: false
+}); 
+watch(route, async (oldVal, newVal) => {
+  if (  newVal.query.page === oldVal.query.page ) {  
+    const postBodyObject = postBodyObjectGenerate(newVal.query, newVal.params);
+    pageData.value = await $fetchApi<{
+      elementsCatalog: {
+        values: Array<KeyedObject>
+      }
+    }>('/NewBack/NewFilter/Filter/', {
+      method: 'post',
+      body: postBodyObject,
+    }) 
+  }
+}, {
+  deep: true
 });
- 
-
-
-</script> 
-<template> 
+const router = useRouter();
+const page = ref(Number(route.query.page) || 1); 
+const pageSize = ref(20)
+const slicedPageData = computed(( ) => {
+  if ( pageData.value?.elementsCatalog?.values ) {
+    return pageData.value?.elementsCatalog.values.slice((page.value - 1) * pageSize.value, (page.value) * pageSize.value );
+  } else {
+    return [];
+  }
+});
+watch(page, ( ) => { 
+  router.push({
+    query : {
+      ...route.query,
+      page : page.value
+    }
+  })
+});
+</script>
+<template>
   <div class="container">
-    <ObjectList v-if="pageData?.elementsCatalog" :items="pageData.elementsCatalog.values"/>
+    <template v-if="pageData">
+      <ObjectList v-if="slicedPageData.length > 0" :items="slicedPageData" />
+      <div class="text-center font-bold" v-else>
+        Объектов по данному запросу не найдено!
+      </div>
+      <div  v-if="pageData.elementsCatalog.values.length > pageSize" class="mt-4">
+        <Pagination v-model="page" :items-per-page="pageSize" :total-items="pageData.elementsCatalog.values.length"/>
+      </div>
+    </template>
   </div>
 </template>
+<style lang="scss">
+@use '/assets/styles/base/shortcuts.scss';
+</style>
