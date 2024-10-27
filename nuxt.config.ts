@@ -83,5 +83,10 @@ export default defineNuxtConfig({
       // })
 
     }
+  }, 
+  routeRules : {
+    '/favorites' : {
+      ssr : false
+    }
   }
 });

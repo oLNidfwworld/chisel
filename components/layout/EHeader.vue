@@ -1,5 +1,6 @@
 <script setup>
 import { useUIstore } from "~/store/ui";
+import ESearch from "./ESearch.vue";
 
 const links = shallowReactive([
   {
@@ -30,12 +31,25 @@ const links = shallowReactive([
 
 const burgerOpened = shallowRef(false);
 const uiStore = useUIstore();
-watch(burgerOpened, (newValue) => {
-  uiStore.toggleOverlayVisibility(newValue);
+const searchOpened = ref(false);
+watch(burgerOpened, (newValue) => { 
+  toggleOverlay(newValue)
 });
+watch(searchOpened, (newValue ) => {
+  toggleOverlay(newValue); 
+});
+const toggleOverlay = ( isOverlay ) => {
+  uiStore.toggleOverlayVisibility(isOverlay);
+
+  if ( isOverlay ) 
+    document.body.style.overflow = "hidden";
+   else 
+    document.body.style.overflow = "initial";
+}
+ 
 </script>
 <template>
-  <header class="page-header">
+  <header class="page-header" :class="{ 'on-top' : searchOpened}">
     <div class="page-header__wrapper container">
       <NuxtLink to="/">
         <ILogoTypeOne filled />
@@ -67,23 +81,27 @@ watch(burgerOpened, (newValue) => {
           </a>
         </ul>
       </nav>
-      <button @click="burgerOpened = !burgerOpened" class="page-header__burger">
+      <button  class="page-header__burger" @click="burgerOpened = !burgerOpened">
         <IBurger />
       </button>
       <a class="page-header__num" href="tel:89015178651">+7 901 517-86-51</a>
       <ul class="page-header-controls">
         <li class="page-header-controls__item">
-          <button class="page-header-controls__button">
-            <ISearch filled />
+          <button  class="page-header-controls__button" @click="searchOpened = !searchOpened"> 
+            <ISearch v-if="!searchOpened" filled />
+            <ICross v-else filled/>
           </button>
         </li>
         <li class="page-header-controls__item">
-          <button class="page-header-controls__button">
+          <NuxtLink href="/favorites" class="page-header-controls__button">
             <IFav filled />
-          </button>
+          </NuxtLink>
         </li>
       </ul>
     </div>
+    <Transition name="from-top"> 
+      <ESearch v-if="searchOpened" @submited="searchOpened = false" />
+    </Transition>
   </header>
 </template>
 <style lang="scss">
@@ -92,11 +110,20 @@ watch(burgerOpened, (newValue) => {
 .page-header {
   flex: 0 0;
   padding: 26px 0;
+  position: relative; 
+  transition: 0s 1s ease-out z-index;
+  &.on-top { 
+    z-index: 10;
+    background-color: variable.$white;  
+  }
 
   &__wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    z-index: 2;
+    position: relative;
+    background-color: variable.$white;
   }
 
   &__nav {
@@ -194,5 +221,22 @@ watch(burgerOpened, (newValue) => {
 .page-header-controls {
   display: flex;
   gap: 15px;
+
+  &__button svg{
+    fill: variable.$red;
+    max-width: 20px !important;
+    max-height: 20px !important;
+  }
+}
+
+.from-top-enter-from,
+.from-top-leave-to {
+  transform: translateY(-60%);
+  opacity: 0;
+}
+.from-top-enter-active,
+.from-top-leave-active {
+  transition: 0.3s ease-out transform, 0.3s ease-out opacity;
+  z-index: 1;
 }
 </style>

@@ -25,7 +25,7 @@ const model = defineModel<string | number | undefined>({
   color: variable.$black;
 
   &::placeholder {
-    color: variable.$gray;
+    color: variable.$gray-dark;
   }
 
   &__outer {
