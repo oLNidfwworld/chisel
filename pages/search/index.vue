@@ -7,16 +7,14 @@ definePageMeta({
 })
 
 const route = useRoute();
-const { data } = await useApiFetch('/CatalogSearch/', {
-      method: 'POST',
+const { data } = await useApiFetch('/CatalogSearch/', { 
       query : {
         query : route.query.q
       }
 });
 
 watch(( ) => route.query.q, async ( ) => {
-    data.value = await $fetchApi('/CatalogSearch/', {
-      method: 'POST',
+    data.value = await $fetchApi('/CatalogSearch/', { 
       query : {
         query : route.query.q
       }

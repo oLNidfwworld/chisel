@@ -8,6 +8,7 @@ export const useApiFetch: typeof useFetch = <T>(
 ) => {
   const config = useRuntimeConfig();
   return useFetch(url, { 
+    method : 'get',
     baseURL: ( config.public.apiUrl as string),
     // mode : 'no-cors',
     ...options,
@@ -22,6 +23,7 @@ export const $fetchApi = <T>( request : NitroFetchRequest, opts? : NitroFetchOpt
   
   const config = useRuntimeConfig();
   return $fetch<T>( request, {
+    method : 'get',
     baseURL : (config.public.apiUrl as string), 
     // mode : 'no-cors',
     ...opts

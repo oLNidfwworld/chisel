@@ -27,7 +27,7 @@ const offerType = ref(
     : routeParams.value?.offerType
 );
 const { data: filterInitial, refresh } = await useApiFetch<object>('/NewBack/MainPage/Filter/', {
-  method: 'post',
+  method: 'POST',
   watch: false,
   body: {
     "typeOffer": offerType,
