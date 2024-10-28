@@ -8,6 +8,11 @@ import Pagination from "~/components/base/pagination.vue";
 
 definePageMeta({
     layout: 'content'
+});
+
+useSeoMeta({
+    title: 'Блог | АН "Эксперт"',
+    description : "На электричке: С Курского вокзала доехать до ж/д станции Павловский Посад(приблизительное время в пути 1час 10минут), выйти в город на Привокзальную площадь. Далее 700 метров пешком до ДК «Октябрь»."
 })
 
 const route = useRoute();

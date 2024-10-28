@@ -5,20 +5,24 @@ const props = defineProps({
         required: true
     }
 });
-const router = useRouter();
+const router = useRouter(); 
+const defaultCenter = ref([55.780826, 38.670362]);
 const center = computed(( ) => {
-    return [
+    const newCenter = [
         (props.items.reduce((a, b) => a + Number(b.coordinates.lat), 0) / (props.items.length)),
         (props.items.reduce((a, b) => a + Number(b.coordinates.lon), 0) / (props.items.length))
     ];
+    console.log(newCenter);
+    if ( !Number.isNaN(newCenter[0]) && !Number.isNaN(newCenter[1]) ) return newCenter
+    else return defaultCenter.value
 }); 
 const goto = ( item ) => {
     router.push(`/realty/immovable-${item.id}`)
-}
+}  
 </script>
 <template>
     <ClientOnly>
-        <YandexMap :controls="[]" class="objects-map" :coordinates="center">
+        <YandexMap :controls="[]" class="objects-map" :coordinates="center || defaultCenter">
             <YandexMarker  
                 v-for="(item, index) in items" :key="index"
                 :coordinates="[item.coordinates.lat, item.coordinates.lon]" :options="{

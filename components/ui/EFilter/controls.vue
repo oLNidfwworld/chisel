@@ -164,9 +164,10 @@ const submit = (e: Event) => {
   }
 
   resultUrl += parseIntoQuery(params);
-  if ((((e as SubmitEvent)?.submitter) as HTMLButtonElement).name === 'on-map') {
-    resultUrl.indexOf('?') !== -1 ? resultUrl += '&on-map=true' : resultUrl += '?on-map=true';
+  if ((((e as SubmitEvent)?.submitter) as HTMLButtonElement).name === 'on-map') { 
+    resultUrl.indexOf('?') !== -1 ? resultUrl += '&onMap=1' : resultUrl += '?onMap=1';
   }
+  console.log((e as SubmitEvent).submitter);
   navigateTo(resultUrl);
 }
 const removeFromValuesToPost = (key: string) => {

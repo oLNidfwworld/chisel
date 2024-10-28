@@ -21,11 +21,7 @@ const slicedPageData = computed(( ) => {
   } else {
     return [];
   }
-});
-// onMounted(async () => {
-//     data.value = 
-//     console.log(data.value);
-// }) 
+}); 
 </script>
 <template>
     <div class="container">

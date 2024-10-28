@@ -9,8 +9,9 @@ import ObjectMap from '~/components/ui/ObjectViews/object-map.vue';
 const route = useRoute();
 
 const postBodyObjectGenerate = (routeQuery: KeyedObject, routeParams: NeededParams) => {
-  delete routeQuery['on-map'];
-  const query = parseFromQuery(routeQuery);
+  const _routeQuery = Object.assign({}, routeQuery);
+  delete _routeQuery['onMap'];
+  const query = parseFromQuery(_routeQuery);
   const newObject: KeyedObject = {};
   Object.keys(query).forEach(filterPropKey => {
     newObject[filterPropKey] = query[filterPropKey].value
@@ -46,6 +47,8 @@ const { data: pageData } = useApiFetch<{
   body: postBodyObjectGenerate(route.query, route.params),
   watch: false
 });
+
+const isMap = ref('onMap' in route.query); 
 watch(route, async (oldVal, newVal) => {
   if (newVal.query.page === oldVal.query.page) {
     const postBodyObject = postBodyObjectGenerate(newVal.query, newVal.params);
@@ -58,6 +61,7 @@ watch(route, async (oldVal, newVal) => {
       body: postBodyObject,
     })
   }
+  isMap.value = 'onMap' in route.query;
 }, {
   deep: true
 });
@@ -79,14 +83,11 @@ watch(page, () => {
     }
   })
 });
-
-const isMap = computed(() => {
-  return route.query['on-map'] ?? false
-});
+ 
 const objectWithLocation = computed(() => pageData.value?.elementsCatalog?.values.filter((catalogElement) => catalogElement.coordinates?.lat && catalogElement.coordinates?.lon) || []);
 </script>
 <template>
-  <div class="container">
+  <div class="container"> 
     <template v-if="isMap"> 
       <ObjectMap :items="objectWithLocation"/>
     </template>

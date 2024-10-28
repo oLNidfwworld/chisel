@@ -84,6 +84,13 @@ export default defineNuxtConfig({
 
     }
   }, 
+  app : {
+    head : {
+      meta : [
+        { name : 'keywords', content : "недвижимость,жильё,квартиры,дачи,дома,коттеджи,комнаты,аренда"}
+      ]
+    }
+  },
   routeRules : {
     '/favorites' : {
       ssr : false

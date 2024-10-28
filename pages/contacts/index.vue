@@ -4,6 +4,11 @@ import ContentInner from '~/components/ui/content-inner.vue';
 definePageMeta({
     layout: 'content'
 });
+
+useSeoMeta({
+    title: 'Контакты | АН "Эксперт"',
+    description : "На электричке: С Курского вокзала доехать до ж/д станции Павловский Посад(приблизительное время в пути 1час 10минут), выйти в город на Привокзальную площадь. Далее 700 метров пешком до ДК «Октябрь»."
+})
 const mapCenter = ref([55.780826, 38.670362])
 const controls = ['fullscreenControl'];
 const detailedControls = { zoomControl: { position: { right: 10, top: 50 } } };
