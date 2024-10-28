@@ -7,7 +7,7 @@ Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introdu
 ```bash  
 # pnpm
 node -v 
-# 22.5.1 or 20
+# 22.5.1 or 20 ( old v18.17.1 )
 pnpm install 
 # or 
 pnpm install --frozen-lockfile
