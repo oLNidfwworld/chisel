@@ -5,6 +5,7 @@ import PropsRow from "../props-row.vue";
 import type { Swiper } from 'swiper';
 import type { KeyedObject } from "~/assets/types/entity/data-object";
 import Agent from "../Agent/agent.vue";
+import { useFavoriteStore } from "~/store/fav";
 const numIsVisible = ref(false);
 const swiperInstance = ref<Swiper | null>();
 const onSwiperInitialized = (newSwiperInstance: Swiper) => {
@@ -34,8 +35,10 @@ const propsData = computed(() => {
   propsPush(detailData, arr);
 
   return arr;
-})
-const topPropsRow = computed(() => propsData.value.slice(0, 4));
+});
+const favStore = useFavoriteStore(); 
+const inFav = favStore.isFavorite(props.item.id);
+const topPropsRow = computed(() => propsData.value.slice(0, 5));
 // const bottomPropsRow = computed(() => propsData.value.slice(5, 9));
 </script>
 <template>
@@ -59,8 +62,8 @@ const topPropsRow = computed(() => propsData.value.slice(0, 4));
           <div class="object-card__additional">
             <span v-if="item.ID_OBJECT">id{{ item.ID_OBJECT }}</span>
             <ClientOnly v-if="showFav">
-              <button>
-                <IFav filled />
+              <button @click="favStore.changeFavorite(item.id)">
+                <IFav :class="{'is-fav' : inFav}" filled />
               </button>
             </ClientOnly>
           </div>
@@ -85,6 +88,12 @@ const topPropsRow = computed(() => propsData.value.slice(0, 4));
 <style lang="scss" scoped>
 @use "/assets/styles/base/variables/colors.scss" as variable;
 @use "/assets/styles/mixins/media.scss" as media;
+
+.is-fav {
+  // filter: brightness(0) saturate(100%) invert(27%) sepia(76%) saturate(2653%) hue-rotate(348deg) brightness(87%) contrast(103%);
+  // filter: brightness(0) saturate(100%) invert(60%) sepia(86%) saturate(1304%) hue-rotate(122deg) brightness(111%) contrast(80%);
+  // variable.$re
+}
 
 .object-card {
   border-radius: variable.$border-sm;

@@ -1,5 +1,4 @@
-<script setup lang="ts">
-import { YandexMap } from 'vue-yandex-maps';
+<script setup lang="ts"> 
 import type { KeyedObject } from '~/assets/types/entity/data-object';
 import type { NeededParams } from '~/assets/types/entity/filterParams';
 import Pagination from '~/components/base/pagination.vue';
@@ -7,6 +6,7 @@ import ObjectList from '~/components/ui/ObjectViews/object-list.vue';
 import ObjectMap from '~/components/ui/ObjectViews/object-map.vue';
 
 const route = useRoute();
+const routeParams = route.params as NeededParams;
 
 const postBodyObjectGenerate = (routeQuery: KeyedObject, routeParams: NeededParams) => {
   const _routeQuery = Object.assign({}, routeQuery);
@@ -20,13 +20,13 @@ const postBodyObjectGenerate = (routeQuery: KeyedObject, routeParams: NeededPara
   if (routeParams.city && routeParams.city !== 'all-cities') {
     newObject['city'] = routeParams.city.split('-');
   }
-  if (routeParams.section && routeParams.section !== 'all-sections') {
+  if (routeParams.section && routeParams.section !== 'all-immovable-types') {
     newObject['section'] = routeParams.section.split('-');
     if (newObject['section'].length === 1) {
       newObject['section'] = newObject['section'][0];
     }
   }
-  if (routeParams.offerType && routeParams.offerType !== 'all-offer-types') {
+  if (routeParams.offerType && routeParams.offerType !== 'all-services-types') {
     newObject['typeOffer'] = routeParams.offerType?.split('-');
     if (newObject['typeOffer'].length === 1) {
       newObject['typeOffer'] = newObject['typeOffer'][0];
@@ -48,7 +48,7 @@ const { data: pageData } = useApiFetch<{
   watch: false
 });
 
-const isMap = ref('onMap' in route.query); 
+const isMap = ref('onMap' in route.query);
 watch(route, async (oldVal, newVal) => {
   if (newVal.query.page === oldVal.query.page) {
     const postBodyObject = postBodyObjectGenerate(newVal.query, newVal.params);
@@ -75,7 +75,44 @@ const slicedPageData = computed(() => {
     return [];
   }
 });
+ 
+// TODO: REMOVE DUPLICATING REQUESTS
+const seoDataToPost = computed(() => {
+  const inputeSeo: KeyedObject = {};
+  if (routeParams.city && routeParams.city !== 'all-cities')
+    inputeSeo['cities'] = routeParams.city.split('-');
+  else inputeSeo['cities'] = 'all-cities';
+
+  if (routeParams.offerType && routeParams.offerType !== 'all-services-types')
+    inputeSeo['serviceTypes'] = routeParams.offerType.split('-');
+  else inputeSeo['serviceTypes'] = 'all-services-types';
+
+  if (routeParams.section && routeParams.section !== 'all-immovable-types')
+    inputeSeo['immovableTypes'] = routeParams.section.split('-');
+  else inputeSeo['immovableTypes'] = 'all-immovable-types';
+
+  if (routeParams.objectType && routeParams.objectType !== 'all-immovable-properties')
+    inputeSeo['immovableProperties'] = routeParams.objectType.split('-');
+  else inputeSeo['immovableProperties'] = 'all-immovable-properties';
+
+  return inputeSeo;
+}); 
+const { data: seoData, refresh : refreshSeo } = await useApiFetch<{
+  H1: string,
+  TITLE: string,
+  DESCRIPTION: string,
+}>('/realty-title', {
+  method: 'POST',
+  body: seoDataToPost,
+  key: `${seoDataToPost.value.cities}-${seoDataToPost.value.serviceTypes}-${seoDataToPost.value.immovableTypes}-${seoDataToPost.value.immovableProperties}`,
+});
+useSeoMeta({
+  title: seoData.value?.TITLE,
+  description: seoData.value?.DESCRIPTION,
+})
+
 watch(page, () => {
+  refreshSeo();
   router.push({
     query: {
       ...route.query,
@@ -83,13 +120,13 @@ watch(page, () => {
     }
   })
 });
- 
+
 const objectWithLocation = computed(() => pageData.value?.elementsCatalog?.values.filter((catalogElement) => catalogElement.coordinates?.lat && catalogElement.coordinates?.lon) || []);
 </script>
 <template>
-  <div class="container"> 
-    <template v-if="isMap"> 
-      <ObjectMap :items="objectWithLocation"/>
+  <div class="container">
+    <template v-if="isMap">
+      <ObjectMap :items="objectWithLocation" />
     </template>
     <template v-else-if="pageData">
       <ObjectList v-if="slicedPageData.length > 0" :items="slicedPageData" />

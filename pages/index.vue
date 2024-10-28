@@ -5,6 +5,10 @@ import ServiceSlider from "~/components/ui/Services/service-slider.vue";
 import Submenu from "~/components/ui/submenu.vue";
 const { data: recommended } = await useApiFetch<{ items: ObjectShorted[] }>(`/Catalog`); 
 const { data : usefullLinks } = await useFetch('/api/usefull-links');   
+useSeoMeta({
+  title : 'Купить, снять квартиру и другую недвижимость | Эксперт ',
+  description: 'Эксперт - аренда и продажа недвижимости в Москве и Московской области. Описание объектов, фото, контакты продавца.'
+})
 </script>
 <template>
   <div class="container">

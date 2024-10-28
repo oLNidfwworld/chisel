@@ -2,74 +2,26 @@
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-## Setup
+## Setup 
 
-Make sure to install the dependencies:
-
-```bash
-# npm
-npm install
-
+```bash  
 # pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
+node -v 
+# 22.5.1 or 20
+pnpm install 
+# or 
+pnpm install --frozen-lockfile
 pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
 pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
+## In TODO:
 
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- non existing prop value bug (example : ?house-type=woob-stone-[kekkeelleel])
+- REMOVE DUPLICATING REQUESTS
+- minor style fixes
+- minor style animations
+- minor refac
+- preview filtering object number on button "Показать"
+- return ETextarea
+ 

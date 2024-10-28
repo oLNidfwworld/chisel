@@ -145,7 +145,7 @@ const sectionTypes = shallowReactive([
     value: "commerce",
   },
 ]);
-const submit = (e: Event) => {
+const submit = async (e: Event) => {
   const cities = nonNullishValues.value['city']?.value as Array<string> | null;
   const objectRealty = nonNullishValues.value['objectRealty']?.value as Array<string> | null;
   const params = Object.assign({}, nonNullishValues.value);
@@ -166,8 +166,7 @@ const submit = (e: Event) => {
   resultUrl += parseIntoQuery(params);
   if ((((e as SubmitEvent)?.submitter) as HTMLButtonElement).name === 'on-map') { 
     resultUrl.indexOf('?') !== -1 ? resultUrl += '&onMap=1' : resultUrl += '?onMap=1';
-  }
-  console.log((e as SubmitEvent).submitter);
+  } 
   navigateTo(resultUrl);
 }
 const removeFromValuesToPost = (key: string) => {

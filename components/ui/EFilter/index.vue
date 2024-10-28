@@ -1,7 +1,12 @@
-<script lang="ts" setup>
-import Controls from './controls.vue';
+<script lang="ts" setup> 
+import Controls from './controls.vue'; 
 interface IProps {
-    controlsData?: { [index: string]: any; } | null | string
+    controlsData?: { [index: string]: any; } | null | string,
+    seoData : {
+        H1 : string,
+        TITLE : string,
+        DESCRIPTION : string
+    }
 }
 defineProps<IProps>();
 const modelSection = defineModel<string>('section', {
@@ -9,20 +14,13 @@ const modelSection = defineModel<string>('section', {
 })
 const modelOfferType = defineModel<string>('offerType', {
     required: true
-});
+});  
 
-// const route = useRoute();
-// const { data: seoData } = await useApiFetch(`/Seo/`, {
-//     query: {
-//         'link': route.path,
-//     }
-// }); 
 </script>
 <template>
     <div class="e-filter-wrapper">
         <div class="e-filter-wrapper__container container">
-            <h1 class="e-filter__title title-big">Купить квартиру
-                в Павловском Посаде</h1>
+            <h1 class="e-filter__title title-big"> {{ seoData.H1 }}</h1>
             <Controls 
                 v-if="controlsData" v-model:section="modelSection" v-model:offer-type="modelOfferType"
                 :controls-data="(controlsData as object)" />
@@ -34,6 +32,11 @@ const modelOfferType = defineModel<string>('offerType', {
 @use "/assets/styles/base/variables/colors.scss" as variable;
 @use "/assets/styles/mixins/media.scss" as media;
 
+.e-filter{
+    &__title::first-letter{
+        text-transform: uppercase; 
+    }
+}
 .e-filter-wrapper {
     // height: 640px;
     padding: 48px 0;
@@ -48,6 +51,8 @@ const modelOfferType = defineModel<string>('offerType', {
     @include media.min-llg {
         padding: 106px 0 80px 0;
     }
+
+    
 
     &__container {
         display: flex;
