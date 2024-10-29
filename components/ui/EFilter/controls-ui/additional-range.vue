@@ -9,19 +9,38 @@ const model = defineModel<{
   max: number | undefined;
 }>({
   required: true,
-}); 
+});  
+// const numberMax = computed( (  ) => Number(props.max))
+// const numberMin= computed( (  ) => Number(props.min))
 </script>
 <template>
   <div class="e-filter-range">
-    <input v-model="model.min" :min="min" :max="max"  placeholder="От" type="number" />
+    <input 
+      v-model="model.min"  
+      step="0.01" 
+      placeholder="От" type="number" />
     <span class="e-filter-range__separator" />
-    <input v-model="model.max" :min="min" :max="max"  placeholder="До" type="number" />
+    <input   
+      v-model="model.max" 
+      step="0.01" 
+      placeholder="До" type="number" />
   </div>
 </template>
-<style lang="scss">
-
+<style lang="scss" scoped>
 @use "/assets/styles/base/variables/colors.scss" as variable;
 @use "/assets/styles/mixins/media.scss" as media;
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 .e-filter-range {
   display: grid;
   grid-template-columns: 1fr auto 1fr;

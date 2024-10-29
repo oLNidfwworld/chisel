@@ -15,7 +15,7 @@ useSeoMeta({
     <section>
       <h2 class="title-md-bottom-margin title-md">Полезные ссылки</h2>
       <div class="submenus-wrapper">
-        <Submenu v-for="(linksTab, index) in usefullLinks" :key="index" title="Купить квартиру">
+        <Submenu v-for="(linksTab, index) in usefullLinks" :key="index" :title="linksTab.name">
           <ul class="menu-col">
             <li v-for="(link, linkIndex) in linksTab.links" :key="linkIndex" >
               <NuxtLink :href="link.link">{{ link.name }}</NuxtLink>

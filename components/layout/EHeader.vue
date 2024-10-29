@@ -32,15 +32,14 @@ const links = shallowReactive([
 const burgerOpened = shallowRef(false);
 const uiStore = useUIstore();
 const searchOpened = ref(false);
-watch(burgerOpened, (newValue) => { 
+watch(burgerOpened, (newValue) => {  
   toggleOverlay(newValue)
 });
 watch(searchOpened, (newValue ) => {
+  uiStore.toggleOverlayVisibility(newValue);
   toggleOverlay(newValue); 
 });
-const toggleOverlay = ( isOverlay ) => {
-  uiStore.toggleOverlayVisibility(isOverlay);
-
+const toggleOverlay = ( isOverlay ) => { 
   if ( isOverlay ) 
     document.body.style.overflow = "hidden";
    else 
@@ -141,7 +140,7 @@ const toggleOverlay = ( isOverlay ) => {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    z-index: 10;
+    z-index: 100;
 
     transition: transform 0.3s ease-out;
     &.opened {

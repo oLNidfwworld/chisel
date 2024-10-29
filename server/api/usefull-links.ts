@@ -22,7 +22,7 @@ export default defineEventHandler(() => {
       ],
     },
     {
-      name: "Снять",
+      name: "Снять квартиру",
       links: [
         {
           name: "1-комнатные",

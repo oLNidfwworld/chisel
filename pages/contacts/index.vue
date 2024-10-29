@@ -20,15 +20,15 @@ const detailedControls = { zoomControl: { position: { right: 10, top: 50 } } };
                 <img src="/contacts-photo.webp" />
                 <div class="contacts-blocks">
                     <div class="contacts-block">
-                        <div class="contacts-row">
+                        <a href="tel:+79015178651" class="contacts-row">
                             <IPhone filled /> +7 (901) 517-86-51
-                        </div>
-                        <div class="contacts-row">
+                        </a>
+                        <a target="_blank" href="https://yandex.ru/maps/-/CDhFmI8w" class="contacts-row">
                             <IPlacemark filled /> МО, г. Павловский Посад, ул. Кирова 91
-                        </div>
-                        <div class="contacts-row">
+                        </a>
+                        <a href="mailto:ekspert07@bk.ru"  class="contacts-row">
                             <IEmailWhite filled /> ekspert07@bk.ru
-                        </div>
+                        </a>
                     </div>
                     <div class="contacts-block bordered">
                         <div class="contacts-block__pre">
