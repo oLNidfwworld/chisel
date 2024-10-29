@@ -286,6 +286,7 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
   }
 
   .e-filter-toggler-1 {
+    cursor: pointer;
     width: 100%;
 
     @include media.min-md {
@@ -312,6 +313,8 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
 }
 
 .e-filter-toggler-2 {
+
+  cursor: pointer;
   width: 100%;
   text-align: center;
   padding: 8px 0px;
