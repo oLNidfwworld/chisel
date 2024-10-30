@@ -46,19 +46,22 @@ useSeoMeta({
 const shareLinksShow = ref(false);
 const share = async () => {
   if ("navigator" in window && "share" in navigator) {
-    await navigator.share({
-      title: seoData.title,
-      url: route.fullPath,
-      text: seoData.description,
-    });
+    try {
+      await navigator.share({
+        title: seoData.title,
+        url: route.fullPath,
+        text: seoData.description,
+      });
+    } catch {
+      console.warn('not shared');
+    }
   } else {
     shareLinksShow.value = !shareLinksShow.value;
   }
 };
 
 const favStore = useFavoriteStore();
-const isFav = favStore.isFavorite(props.objectItem.id);
-const mapVisible = ref(false); 
+const isFav = favStore.isFavorite(props.objectItem.id); 
 
 const componentRef = ref();
 const { handlePrint } = useVueToPrint({
@@ -165,12 +168,7 @@ const bottomPropsRow = computed(( ) => propsData.value.slice(5,9));
                 <IFav filled /> <template v-if="isFav"> В избранном </template>
                 <template v-else> В избранное </template>
               </Btn>
-            </ClientOnly>
-            <Btn 
-              v-if="!Array.isArray(objectItem.coordinates)"
-              :class="{ 'object-detail__tool-btn--active': mapVisible }" class="object-detail__tool-btn" preference="gray"  @click="mapVisible = !mapVisible" >
-              <IPlacemark filled />На карте
-            </Btn>
+            </ClientOnly> 
             <Btn class="object-detail__tool-btn" preference="gray" @click="handlePrint" >
               <IPrint filled /> Версия для печати
             </Btn>
@@ -208,7 +206,7 @@ const bottomPropsRow = computed(( ) => propsData.value.slice(5,9));
         {{ objectItem.description }}
       </p>
     </div>
-    <div v-if="mapVisible && !Array.isArray(objectItem.coordinates)" class="object-detail__map-wrapper">
+    <div v-if="!Array.isArray(objectItem.coordinates)" class="object-detail__map-wrapper">
       <ClientOnly>
         <YandexMap
           class="object-detail__map"

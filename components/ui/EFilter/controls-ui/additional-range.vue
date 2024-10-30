@@ -35,8 +35,7 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
-
+} 
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
@@ -62,6 +61,10 @@ input[type=number] {
     height: 100%;
     width: 1px;
     background-color: variable.$gray;
+  }
+
+  input::placeholder{
+    color: #69696978;
   }
 }
 </style>

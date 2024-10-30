@@ -25,10 +25,8 @@ cardImage : '/family-discuss.png'
 ## Банки-партнеры
  
 <div class="inline-images">
-    <img src="/rossel.webp">
-    <img src="/bank-russia.webp">
-    <img src="/delta-bank.webp">
-    <img src="/revive-bank.webp">
     <img src="/sber.webp">
     <img src="/vtb.webp"> 
+    <img src="/rossel.webp">
+    <img src="/bank-russia.webp">  
 </div>

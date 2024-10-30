@@ -6,6 +6,8 @@ import AdditionalRadio from "./controls-ui/additional-radio.vue";
 import AdditionalRange from "./controls-ui/additional-range.vue";
 import ELabel from "../eLabel.vue";
 import type { NeededParams } from "~/assets/types/entity/filterParams";
+import { filterControlsException } from "~/composables/filterControlsException";
+import SearchObjectId from "../Forms/SearchObjectId.vue";
 
 // TODO : non existing prop value bug (example : ?house-type=woob-stone-[kekkeelleel])
 
@@ -18,10 +20,11 @@ const routeQuery = useRoute().query as KeyedObject;
 const routeParams = useRoute().params as NeededParams;
 
 const onlyFillableFields = computed<KeyedObject>(() => {
+  const controlsDataValueCopy = Object.assign({}, toRaw(controlsData.value));
   const fields: KeyedObject = {};
-  if (controlsData.value && typeof controlsData.value === 'object') {
-    const controlsDataValue = controlsData.value as KeyedObject;
-    Object.keys(controlsData.value).forEach(key => {
+  if (controlsDataValueCopy && typeof controlsDataValueCopy === 'object') {
+    const controlsDataValue = controlsDataValueCopy as KeyedObject;
+    Object.keys(controlsDataValueCopy).forEach(key => {
       if (typeof controlsDataValue[key] === 'object') { // убираем non-object types 
         if (!('values' in controlsDataValue[key] && controlsDataValue[key].values.length > 0 && !controlsDataValue[key].values[0].name)) { // убираем неподходящие по заданному предикату
           fields[key] = controlsDataValue[key];
@@ -36,8 +39,8 @@ const onlyFillableFields = computed<KeyedObject>(() => {
         }
       }
     });
-  }
-  return fields
+  } 
+  return filterControlsException(fields);
 });
 
 const prepareValues = (onlyFillableFieldsVal: KeyedObject): KeyedObject => {
@@ -191,12 +194,17 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
         {{ item.name }}
       </label>
     </div>
-    <div class="e-filter__toggler-group-2">
-      <label v-for="(item, index) in sectionTypes" :key="index" class="e-filter-toggler-2">
-        <input v-model="modelSection" type="radio" name="object-type" :value="item.value"
-          :checked="item.value === modelSection" />
-        {{ item.name }}
-      </label>
+    <div class="e-filter__complex-row">
+      <div class="e-filter__toggler-group-2">
+        <label v-for="(item, index) in sectionTypes" :key="index" class="e-filter-toggler-2">
+          <input v-model="modelSection" type="radio" name="object-type" :value="item.value"
+            :checked="item.value === modelSection" />
+          {{ item.name }}
+        </label>
+      </div>
+      <div>
+        <SearchObjectId/>
+      </div>
     </div>
     <div v-if="Object.keys(onlyFillableFields).length > 0" class="e-filter-additional">
       <div class="e-filter-additional__wrapper">
@@ -269,19 +277,26 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
     }
   }
 
+  &__complex-row { 
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 60px;
+    @include media.min-md { 
+      margin-bottom: 5px;
+    }
+  }
+
   &__toggler-group-2 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 5px;
-    margin-bottom: 60px;
 
     .e-filter-toggler-2:last-child {
       grid-column: span 2;
     }
 
     @include media.min-md {
-      display: flex;
-      margin-bottom: 5px;
+      display: flex; 
     }
   }
 
