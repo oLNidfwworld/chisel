@@ -7,7 +7,10 @@ import EPopupForm from "../e-popup-form.vue";
 
 defineProps<{ agent: IAgent }>();
  
-const visibleNumber = ref(false);
+const visibleNumber = defineModel({
+  required: false,
+  type: Boolean
+}); 
 
 const myPhone = ref('')
 const validation = ref(false), validationMessage = ref('');

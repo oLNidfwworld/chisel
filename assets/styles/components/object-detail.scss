@@ -6,6 +6,20 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
+  position: relative;
+  &__header{
+    display: none;
+
+    // @media print {
+    //   display: block;
+    //   position: fixed;
+    //   right: 0;
+    //   bottom: 0; 
+    //   z-index: 100;
+    //   background: variable.$white;
+    //   padding: 0.25cm 1cm;
+    // }
+  }
   &__top-row {
     display: flex;
     flex-direction: column-reverse;
@@ -52,6 +66,9 @@
     }
     @include media.min-md {
       display: flex;
+    }
+    @media print {
+      display: none;
     }
   }
   &__tool-btn {

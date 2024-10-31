@@ -30,16 +30,6 @@ const model = defineModel<{
 @use "/assets/styles/base/variables/colors.scss" as variable;
 @use "/assets/styles/mixins/media.scss" as media;
 
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-} 
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
 .e-filter-range {
   display: grid;
   grid-template-columns: 1fr auto 1fr;

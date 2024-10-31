@@ -37,11 +37,33 @@ const onlyFillableFields = computed<KeyedObject>(() => {
           fields[key] = controlsDataValue[key];
           fields[key]['type'] = 'range'
         }
+        if (fields[key]) {
+          if ((fields[key]?.type && fields[key].type === 'range') || key === 'objectRealty' || key === 'city') {
+            fields[key]['inExpandedFilter'] = false;
+          } else {
+            fields[key]['inExpandedFilter'] = true;
+          }
+        }
       }
     });
-  } 
+  }
   return filterControlsException(fields);
 });
+
+const isExpanded = ref(false);
+const expandFields = computed(() => {
+  const fillable = onlyFillableFields.value;
+  const newFields: KeyedObject = {}; 
+  Object.keys(fillable).forEach((key) => {
+    if (key !== 'city' && key !== 'objectRealty' && fillable[key].type !== 'range') {
+      if (isExpanded.value) {
+        newFields[key] = fillable[key]
+      }
+    } else newFields[key] = fillable[key]
+  })
+
+  return newFields
+})
 
 const prepareValues = (onlyFillableFieldsVal: KeyedObject): KeyedObject => {
   const newValuesToPost: { [index: string]: any } = {};
@@ -124,6 +146,9 @@ const modelSection = defineModel<string>('section', {
 const modelOfferType = defineModel<string>('offerType', {
   required: true
 });
+watch( [modelOfferType, modelSection], ( ) => {
+  isExpanded.value = false;
+})
 const offerTypes = shallowReactive([
   {
     name: "Купить",
@@ -167,9 +192,9 @@ const submit = async (e: Event) => {
   }
 
   resultUrl += parseIntoQuery(params);
-  if ((((e as SubmitEvent)?.submitter) as HTMLButtonElement).name === 'on-map') { 
+  if ((((e as SubmitEvent)?.submitter) as HTMLButtonElement).name === 'on-map') {
     resultUrl.indexOf('?') !== -1 ? resultUrl += '&onMap=1' : resultUrl += '?onMap=1';
-  } 
+  }
   navigateTo(resultUrl);
 }
 const removeFromValuesToPost = (key: string) => {
@@ -189,7 +214,8 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
   <form class="e-filter" @submit.prevent="submit">
     <div class="e-filter__toggler-group-1">
       <label v-for="(item, index) in offerTypes" :key="index" class="e-filter-toggler-1">
-        <input v-model="modelOfferType" type="radio" name="offer-type" :value="item.value"
+        <input 
+          v-model="modelOfferType" type="radio" name="offer-type" :value="item.value"
           :checked="item.value === modelOfferType" />
         {{ item.name }}
       </label>
@@ -197,18 +223,21 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
     <div class="e-filter__complex-row">
       <div class="e-filter__toggler-group-2">
         <label v-for="(item, index) in sectionTypes" :key="index" class="e-filter-toggler-2">
-          <input v-model="modelSection" type="radio" name="object-type" :value="item.value"
+          <input 
+            v-model="modelSection" type="radio" name="object-type" :value="item.value"
             :checked="item.value === modelSection" />
           {{ item.name }}
         </label>
       </div>
       <div>
-        <SearchObjectId/>
+        <SearchObjectId />
       </div>
     </div>
     <div v-if="Object.keys(onlyFillableFields).length > 0" class="e-filter-additional">
-      <div class="e-filter-additional__wrapper">
-        <div v-for="(control, index) in onlyFillableFields" :key="index" class="e-filter-additional__group">
+      <TransitionGroup class="e-filter-additional__wrapper" tag="div" name="adding-filter">
+        <div 
+          v-for="(control, index) in expandFields" :key="index" class="e-filter-additional__group"
+          :class="[control.type, index]">
           <span class="e-filter-additional__group-title">{{ control.name }}</span>
           <template v-if="control.type === 'list'">
             <AdditionalRadio v-model="(valuesToPost[index] as unknown as string[])" :items="control.values" />
@@ -220,9 +249,9 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
             <AdditionalRange v-model="valuesToPost[index]" :min="control.min" :max="control.max" />
           </template>
         </div>
-      </div>
+      </TransitionGroup>
       <div class="e-filter-additional__bottom">
-        <ul class="e-filter-additional__label-row">
+        <TransitionGroup name="adding-filter" tag="ul" class="e-filter-additional__label-row">
           <li v-for="(label, labelIndex) in labelsData" :key="labelIndex" class="e-filter-additional__label-item">
             <ELabel @remove="() => removeFromValuesToPost(labelIndex.toString())">
               {{ label.name }}: {{ label.value }}
@@ -233,8 +262,11 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
               Очистить
             </ELabel>
           </li>
-        </ul>
+        </TransitionGroup> 
         <div class="e-filter-additional__submit-row">
+          <Btn type="button" preference="sea" @click="isExpanded = !isExpanded">Расширенный фильтр
+            <IArrowDown :style="{ 'transform': isExpanded ? 'rotate(180deg)' : '' }" />
+          </Btn>
           <Btn type="submit">Показать</Btn>
           <Btn type="submit" name="on-map" preference="gray">
             <IPlacemark filled />
@@ -248,11 +280,23 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
     </div>
   </form>
 </template>
-<style lang="scss" scoped>
+<style lang="scss" >
 @use "/assets/styles/base/shortcuts.scss";
 @use "/assets/styles/base/variables/colors.scss" as variable;
-@use "/assets/styles/mixins/media.scss" as media;
+@use "/assets/styles/mixins/media.scss" as media; 
 
+.adding-filter-enter-active{
+  transition: all 0.25s ease-out;
+}
+
+.adding-filter-leave-active {
+  transition: all 0.2s ease;
+}
+.adding-filter-enter-from,
+.adding-filter-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
 .e-filter {
   &__toggler-group-1 {
     display: flex;
@@ -277,11 +321,15 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
     }
   }
 
-  &__complex-row { 
+  &__complex-row {
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
+    gap: 12px;
     margin-bottom: 60px;
-    @include media.min-md { 
+
+    @include media.min-md {
+      flex-direction: row;
       margin-bottom: 5px;
     }
   }
@@ -296,7 +344,7 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
     }
 
     @include media.min-md {
-      display: flex; 
+      display: flex;
     }
   }
 
@@ -379,7 +427,7 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
     display: flex;
     flex-direction: column-reverse;
     gap: 40px;
-
+    margin-top: 15px;
     @include media.min-md {
       flex-direction: column;
     }
@@ -423,6 +471,17 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
     display: flex;
     flex-direction: column;
     gap: 4px;
+
+    &.range {
+      width: 240px;
+    }
+
+    // exception 
+    &.list.objectRealty .e-filter-radio-group :nth-child(3){
+
+      margin-right: 10px;
+
+    }
   }
 
   &__group-title {
@@ -439,8 +498,7 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
   }
 
   &__label-row {
-    display: flex;
-    align-items: end;
+    display: flex; 
     flex-direction: row;
     gap: 6px;
     flex-wrap: wrap

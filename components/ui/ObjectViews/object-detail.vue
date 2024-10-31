@@ -7,6 +7,7 @@ import { useFavoriteStore } from "~/store/fav";
 import { useVueToPrint } from "vue-to-print";
 import PropsRow from "../props-row.vue";
 import { propsPush } from "~/composables/propsPush";
+import { useMediaQuery } from "@vueuse/core";
 interface IProps {
   objectItem: ObjectDetail;
 }
@@ -64,10 +65,16 @@ const favStore = useFavoriteStore();
 const isFav = favStore.isFavorite(props.objectItem.id); 
 
 const componentRef = ref();
+
+const usePrintMedia = useMediaQuery('print'); 
+const visibleNumber = ref(usePrintMedia.value);
 const { handlePrint } = useVueToPrint({
   content: componentRef,
   documentTitle: props.objectItem.name,
-  removeAfterPrint: true
+  removeAfterPrint: true,
+  onBeforePrint : ( ) => {
+    visibleNumber.value = true;
+  }
 });
 
 const propsData = computed(( ) => {
@@ -83,7 +90,7 @@ const bottomPropsRow = computed(( ) => propsData.value.slice(5,9));
 
 </script>
 <template>
-  <div ref="componentRef" class="object-detail container">
+  <div ref="componentRef" class="object-detail container"> 
     <div class="object-detail__top-row">
       <ClientOnly>
         <div>
@@ -197,7 +204,7 @@ const bottomPropsRow = computed(( ) => propsData.value.slice(5,9));
               </Transition>
             </div>
           </div>
-          <AgentCard :agent="objectItem.agent"/>
+          <AgentCard v-model="visibleNumber" :agent="objectItem.agent"/>
         </div>
       </div>
     </div>

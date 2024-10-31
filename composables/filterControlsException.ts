@@ -11,6 +11,8 @@ export const filterControlsException = ( obj : KeyedObject ) => {
             if ( newValues ) 
                 newObj['objectRealty'].values = newValues;
         }
+
+        // сортируем 1к, 2к, 3к...
         {
             const checkIfExist  = objectRealtyValues.find( objValue => ['tryohkomnatnye','dnokomnatnye','dvuhkomnatnye','komnata'].indexOf(objValue.xmlId) !== -1 ); 
             if ( checkIfExist) { 
