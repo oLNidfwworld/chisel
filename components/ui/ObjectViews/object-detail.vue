@@ -77,6 +77,11 @@ const { handlePrint } = useVueToPrint({
   }
 });
 
+const print = ( ) => {
+  visibleNumber.value = true;
+  handlePrint()
+}
+
 const propsData = computed(( ) => {
   const detailData = props.objectItem;
   const arr : {name : string, value : string }[] = []; 
@@ -176,7 +181,7 @@ const bottomPropsRow = computed(( ) => propsData.value.slice(5,9));
                 <template v-else> В избранное </template>
               </Btn>
             </ClientOnly> 
-            <Btn class="object-detail__tool-btn" preference="gray" @click="handlePrint" >
+            <Btn class="object-detail__tool-btn" preference="gray" @click="print" >
               <IPrint filled /> Версия для печати
             </Btn>
             <div class="share">

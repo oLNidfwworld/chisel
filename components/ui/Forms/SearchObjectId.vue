@@ -80,6 +80,7 @@ const showCombobox = computed(( ) => isOpened.value && !isPending.value)
         border-radius: 0 0 variable.$border-md variable.$border-md;
         font-size: 15px;
         overflow: scroll;
+        z-index: 20;
     }
 
     &__item {
