@@ -25,7 +25,7 @@ withDefaults(defineProps<IProps>(), {
 
 .props-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 15px;
   background-color: #d9d9d9;
   padding: 12px 9px;

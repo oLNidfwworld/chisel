@@ -11,8 +11,7 @@ const center = computed(( ) => {
     const newCenter = [
         (props.items.reduce((a, b) => a + Number(b.coordinates.lat), 0) / (props.items.length)),
         (props.items.reduce((a, b) => a + Number(b.coordinates.lon), 0) / (props.items.length))
-    ];
-    console.log(newCenter);
+    ]; 
     if ( !Number.isNaN(newCenter[0]) && !Number.isNaN(newCenter[1]) ) return newCenter
     else return defaultCenter.value
 }); 

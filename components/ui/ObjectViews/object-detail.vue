@@ -6,8 +6,7 @@ import type { ObjectDetail } from "~/assets/types/entity/object-detail";
 import { useFavoriteStore } from "~/store/fav";
 import { useVueToPrint } from "vue-to-print";
 import PropsRow from "../props-row.vue";
-import { propsPush } from "~/composables/propsPush";
-import { useMediaQuery } from "@vueuse/core";
+import { propsPush } from "~/composables/propsPush"; 
 interface IProps {
   objectItem: ObjectDetail;
 }
@@ -65,17 +64,37 @@ const favStore = useFavoriteStore();
 const isFav = favStore.isFavorite(props.objectItem.id); 
 
 const componentRef = ref();
-
-const usePrintMedia = useMediaQuery('print'); 
-const visibleNumber = ref(usePrintMedia.value);
+ 
+const visibleNumber = ref('print' in route.query);
+watch(( ) => route.query.print, ( ) => {
+  visibleNumber.value = true
+}); 
 const { handlePrint } = useVueToPrint({
   content: componentRef,
   documentTitle: props.objectItem.name,
   removeAfterPrint: true,
-  onBeforePrint : ( ) => {
+  onBeforePrint : ( ) => { 
     visibleNumber.value = true;
+  },
+  onAfterPrint : ( ) => {
+    router.push({
+      query : {
+        print : null
+      }
+    })
   }
-});
+}); 
+const router = useRouter();
+const print = async ( ) => {
+  router.push({
+    query : {
+      print : ''
+    }
+  });
+  await setTimeout(( ) => {
+    handlePrint();
+  }, 1000);
+}
 
 const print = ( ) => {
   visibleNumber.value = true;
@@ -89,10 +108,10 @@ const propsData = computed(( ) => {
   propsPush(detailData, arr);
 
   return arr;
-})
-const topPropsRow = computed(( ) => propsData.value.slice(0,4));
-const bottomPropsRow = computed(( ) => propsData.value.slice(5,9));
-
+}) 
+const topPropsRow = computed(( ) => propsData.value.slice(0,5));
+const bottomPropsRow = computed(( ) => propsData.value.slice(5,10));
+console.log(props.objectItem);
 </script>
 <template>
   <div ref="componentRef" class="object-detail container"> 

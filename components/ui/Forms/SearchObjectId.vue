@@ -19,8 +19,7 @@ const searchProduct = useDebounceFn(async () => {
     searchData.value = data?.items;
 }, 600);
 
-watch(query, async (queryValue) => {
-    console.log(queryValue?.toString().length)
+watch(query, async (queryValue) => { 
     if (queryValue && queryValue.toString().length > 1) {
         isOpened.value = true;
         await searchProduct();

@@ -71,11 +71,15 @@ const seoData = reactive({
 });
 const share = async () => {
   if ("navigator" in window && "share" in navigator) {
-    await navigator.share({
-      title: seoData.title,
-      url: route.fullPath,
-      text: seoData.description,
-    });
+    try {
+      await navigator.share({
+        title: seoData.title,
+        url: route.fullPath,
+        text: seoData.description,
+      });
+    } catch ( e ) {
+      console.warn('not shared')
+    }
   } else {
     shareLinksShow.value = !shareLinksShow.value;
   }
@@ -194,7 +198,7 @@ const { handlePrint } = useVueToPrint({
           </div>
           <div>
 
-            <AgentCard :agent="{ name: 'kek', phone: '8-901-517-86-51' }" />
+            <AgentCard :agent="{ name: ' ', phone: '8-901-517-86-51' }" />
           </div>
         </div>
       </div>

@@ -8,6 +8,7 @@ import ELabel from "../eLabel.vue";
 import type { NeededParams } from "~/assets/types/entity/filterParams";
 import { filterControlsException } from "~/composables/filterControlsException";
 import SearchObjectId from "../Forms/SearchObjectId.vue";
+import { useDebounceFn } from "@vueuse/core";
 
 // TODO : non existing prop value bug (example : ?house-type=woob-stone-[kekkeelleel])
 
@@ -53,7 +54,7 @@ const onlyFillableFields = computed<KeyedObject>(() => {
 const isExpanded = ref(false);
 const expandFields = computed(() => {
   const fillable = onlyFillableFields.value;
-  const newFields: KeyedObject = {}; 
+  const newFields: KeyedObject = {};
   Object.keys(fillable).forEach((key) => {
     if (key !== 'city' && key !== 'objectRealty' && fillable[key].type !== 'range') {
       if (isExpanded.value) {
@@ -146,7 +147,7 @@ const modelSection = defineModel<string>('section', {
 const modelOfferType = defineModel<string>('offerType', {
   required: true
 });
-watch( [modelOfferType, modelSection], ( ) => {
+watch([modelOfferType, modelSection], () => {
   isExpanded.value = false;
 })
 const offerTypes = shallowReactive([
@@ -173,6 +174,26 @@ const sectionTypes = shallowReactive([
     value: "commerce",
   },
 ]);
+const lengthTotal = ref(0);
+const pendingLengthTotal = ref(false);
+const debouncedLengthTotalCalculate = useDebounceFn(async () => {
+  pendingLengthTotal.value = true;
+  const { elementsCatalog } = await $fetchApi<{ elementsCatalog: { values: Array<unknown> } }>('/NewBack/NewFilter/Filter/', {
+    method: 'POST',
+    body: {
+      ...valuesToPost.value,
+      'section': modelSection.value,
+      'typeOffer': modelOfferType.value,
+    }
+  });
+  lengthTotal.value = elementsCatalog.values.length
+  pendingLengthTotal.value = false;
+}, 700)
+watch(() => valuesToPost.value, () => {
+  debouncedLengthTotalCalculate();
+}, {
+  deep: true
+})
 const submit = async (e: Event) => {
   const cities = nonNullishValues.value['city']?.value as Array<string> | null;
   const objectRealty = nonNullishValues.value['objectRealty']?.value as Array<string> | null;
@@ -208,14 +229,15 @@ const removeFromValuesToPost = (key: string) => {
       break;
   }
 }
-const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key => removeFromValuesToPost(key)); 
+const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key => removeFromValuesToPost(key));
+
+// TODO: clear WARN .e-filter-additional__wrapper <TransitionGroup> children must be keyed. 
 </script>
 <template>
   <form class="e-filter" @submit.prevent="submit">
     <div class="e-filter__toggler-group-1">
       <label v-for="(item, index) in offerTypes" :key="index" class="e-filter-toggler-1">
-        <input 
-          v-model="modelOfferType" type="radio" name="offer-type" :value="item.value"
+        <input v-model="modelOfferType" type="radio" name="offer-type" :value="item.value"
           :checked="item.value === modelOfferType" />
         {{ item.name }}
       </label>
@@ -223,8 +245,7 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
     <div class="e-filter__complex-row">
       <div class="e-filter__toggler-group-2">
         <label v-for="(item, index) in sectionTypes" :key="index" class="e-filter-toggler-2">
-          <input 
-            v-model="modelSection" type="radio" name="object-type" :value="item.value"
+          <input v-model="modelSection" type="radio" name="object-type" :value="item.value"
             :checked="item.value === modelSection" />
           {{ item.name }}
         </label>
@@ -235,8 +256,7 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
     </div>
     <div v-if="Object.keys(onlyFillableFields).length > 0" class="e-filter-additional">
       <TransitionGroup class="e-filter-additional__wrapper" tag="div" name="adding-filter">
-        <div 
-          v-for="(control, index) in expandFields" :key="index" class="e-filter-additional__group"
+        <div v-for="(control, index) in expandFields" :key="index" class="e-filter-additional__group"
           :class="[control.type, index]">
           <span class="e-filter-additional__group-title">{{ control.name }}</span>
           <template v-if="control.type === 'list'">
@@ -262,12 +282,19 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
               Очистить
             </ELabel>
           </li>
-        </TransitionGroup> 
+        </TransitionGroup>
         <div class="e-filter-additional__submit-row">
           <Btn type="button" preference="sea" @click="isExpanded = !isExpanded">Расширенный фильтр
             <IArrowDown :style="{ 'transform': isExpanded ? 'rotate(180deg)' : '' }" />
           </Btn>
-          <Btn type="submit">Показать</Btn>
+          <Btn type="submit">Показать 
+            <span v-if="pendingLengthTotal" class="wave">
+              <span></span> 
+              <span></span> 
+              <span></span> 
+            </span> 
+            <span v-else-if="lengthTotal">{{ lengthTotal }}</span>
+          </Btn>
           <Btn type="submit" name="on-map" preference="gray">
             <IPlacemark filled />
             <span>На карте</span>
@@ -280,23 +307,25 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
     </div>
   </form>
 </template>
-<style lang="scss" >
+<style lang="scss">
 @use "/assets/styles/base/shortcuts.scss";
 @use "/assets/styles/base/variables/colors.scss" as variable;
-@use "/assets/styles/mixins/media.scss" as media; 
+@use "/assets/styles/mixins/media.scss" as media;
 
-.adding-filter-enter-active{
+.adding-filter-enter-active {
   transition: all 0.25s ease-out;
 }
 
 .adding-filter-leave-active {
   transition: all 0.2s ease;
 }
+
 .adding-filter-enter-from,
 .adding-filter-leave-to {
   opacity: 0;
   transform: translateY(30px);
 }
+
 .e-filter {
   &__toggler-group-1 {
     display: flex;
@@ -428,6 +457,7 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
     flex-direction: column-reverse;
     gap: 40px;
     margin-top: 15px;
+
     @include media.min-md {
       flex-direction: column;
     }
@@ -477,7 +507,7 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
     }
 
     // exception 
-    &.list.objectRealty .e-filter-radio-group :nth-child(3){
+    &.list.objectRealty .e-filter-radio-group :nth-child(3) {
 
       margin-right: 10px;
 
@@ -498,7 +528,7 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
   }
 
   &__label-row {
-    display: flex; 
+    display: flex;
     flex-direction: row;
     gap: 6px;
     flex-wrap: wrap
