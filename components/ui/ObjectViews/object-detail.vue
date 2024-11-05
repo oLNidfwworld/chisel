@@ -95,12 +95,7 @@ const print = async ( ) => {
     handlePrint();
   }, 1000);
 }
-
-const print = ( ) => {
-  visibleNumber.value = true;
-  handlePrint()
-}
-
+ 
 const propsData = computed(( ) => {
   const detailData = props.objectItem;
   const arr : {name : string, value : string }[] = []; 
@@ -110,8 +105,7 @@ const propsData = computed(( ) => {
   return arr;
 }) 
 const topPropsRow = computed(( ) => propsData.value.slice(0,5));
-const bottomPropsRow = computed(( ) => propsData.value.slice(5,10));
-console.log(props.objectItem);
+const bottomPropsRow = computed(( ) => propsData.value.slice(5,10)); 
 </script>
 <template>
   <div ref="componentRef" class="object-detail container"> 
