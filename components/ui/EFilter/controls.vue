@@ -289,9 +289,9 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
           </Btn>
           <Btn type="submit">Показать 
             <span v-if="pendingLengthTotal" class="wave">
-              <span></span> 
-              <span></span> 
-              <span></span> 
+              <span/> 
+              <span/> 
+              <span/>
             </span> 
             <span v-else-if="lengthTotal">{{ lengthTotal }}</span>
           </Btn>
