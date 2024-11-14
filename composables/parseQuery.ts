@@ -23,7 +23,7 @@ export const parseFromQuery = (queryString: {
         };
       if (newObject[keyProp].type === "range")
         newObject[keyProp].value[ending] = parseInt(queryString[key]);
-    } else {
+    } else if ( queryString[key] ) {
       newObject[key] = {
         type: "list",
         value: queryString[key].split("-"),
