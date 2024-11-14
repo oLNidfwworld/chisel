@@ -40,7 +40,7 @@ useSeoMeta({
         <Submenu v-for="(linksTab, index) in usefullLinks.links" :key="index" :title="linksTab.name">
           <ul class="menu-col">
             <li v-for="(link, linkIndex) in linksTab.links" :key="linkIndex">
-              <NuxtLink :href="link.link">{{ link.name }} {{ link.count }}</NuxtLink>
+              <NuxtLink :href="link.link">{{ link.name }} {{ link.count > 0 ? link.count : ''  }}</NuxtLink>
             </li>
           </ul>
         </Submenu>

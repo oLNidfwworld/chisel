@@ -6,7 +6,7 @@ export const propsPush = (
 ) => {
   if (detailData.balcony) {
     arr.push({
-      name: "Балкон",
+      name: "Балкон / Лоджия",
       value: detailData.balcony.toString(),
     });
   }
@@ -51,12 +51,12 @@ export const propsPush = (
       });
     }
   }
-  if (detailData.ipoteka) {
-    arr.push({
-      name: "Ипотека",
-      value: "Да",
-    });
-  }
+  // if (detailData.ipoteka) {
+  //   arr.push({
+  //     name: "Ипотека",
+  //     value: "Да",
+  //   });
+  // }
   if (detailData.kitchenSquare) {
     arr.push({
       name: "Пл. кухни",
@@ -115,9 +115,9 @@ const sortBySection = (
           "Жилая пл.",
           "Пл. кухни",
           "Этаж",
+          "Балкон",
           "Тип дома",
           "Санузел",
-          "Балкон",
           "Ипотека",
           "Лифт",
         ];
