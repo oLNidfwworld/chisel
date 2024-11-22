@@ -32,8 +32,9 @@ jobs:
       run: ls -la .nuxt
     - uses: actions/upload-artifact@v4
       with:
+        include-hidden-files: true
         name: nuxt-artifact
-        path: .nuxt/**
+        path: .nuxt/
         
   deploy:
     needs: build
