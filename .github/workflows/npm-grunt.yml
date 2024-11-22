@@ -23,7 +23,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: nuxt-artifact
-        path: .nuxt 
+        path: ./.nuxt/
         
   deploy:
     needs: build
