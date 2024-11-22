@@ -33,7 +33,7 @@ jobs:
       - uses: actions/download-artifact@v4  
         with:
           name: artifacts 
-          path: ./*
+          path: /build/
       - name: Deploy to Server
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
