@@ -20,24 +20,18 @@ jobs:
         
     - run: npm install
     - run: npm run build --if-present 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v3
       with:
-        name: artifacts 
-        path: dist/
+        name: nuxt-artifacts 
+        path: .nuxt/
     - run: ls -a
         
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v4  
+      - uses: actions/download-artifact@v3
         with:
-          name: artifacts 
-          path: dist
-      - name: Deploy to Server
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir:  ${{ vars.FTP_PATH }}
+          name: nuxt-artifacts 
+          path: ./.nuxt/
+      - run: ls -R ./.nuxt/
