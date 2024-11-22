@@ -18,35 +18,36 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }} 
         
-    # - run: npm install
-    # - run: npm run build --if-present  
-    # - uses: actions/upload-artifact@v4
-    #   with:
-    #     include-hidden-files: true
-    #     name: nuxt-artifact
-    #     path: .nuxt/
+    - run: npm install
+    - run: npm run build --if-present  
+    - uses: actions/upload-artifact@v4
+      with:
+        include-hidden-files: true
+        name: nuxt-artifacts
+        path: |
+          .nuxt/
+          .output/
         
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:  
-      # - uses: actions/download-artifact@v4
-      #   with:
-      #     name: nuxt-artifact
-      # - uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-      #   with:
-      #       username: ${{ secrets.FTP_USERNAME }}
-      #       server: ${{ secrets.FTP_SERVER }} 
-      #       password: ${{ secrets.FTP_PASSWORD }} 
-      #       local_path: './*'
-      #       remote_path: '/home/test'
-      #       sftpArgs: '-o ConnectTimeout=5'
-        - name: executing remote ssh commands using password
-          uses: appleboy/ssh-action@v1.2.0
-          with:
-            host: ${{ secrets.FTP_SERVER }} 
+      - uses: actions/download-artifact@v4
+        with:
+          name: nuxt-artifacts
+      - uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
             username: ${{ secrets.FTP_USERNAME }}
-            password: ${{ secrets.FTP_PASSWORD }}  
-            script: |
-              ls -a
-    
+            server: ${{ secrets.FTP_SERVER }} 
+            password: ${{ secrets.FTP_PASSWORD }} 
+            local_path: './*'
+            remote_path: '/home/test'
+            sftpArgs: '-o ConnectTimeout=5'
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.FTP_SERVER }} 
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}  
+          script: |
+            pm2 restart Chisel
