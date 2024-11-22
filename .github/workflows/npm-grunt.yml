@@ -23,7 +23,7 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: artifacts 
-        path: ./*
+        path: dist/
     - run: ls -a
         
   deploy:
@@ -33,7 +33,7 @@ jobs:
       - uses: actions/download-artifact@v4  
         with:
           name: artifacts 
-          path: ./.nuxt/
+          path: dist
       - name: Deploy to Server
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
