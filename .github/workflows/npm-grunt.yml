@@ -28,6 +28,8 @@ jobs:
             echo ".nuxt folder does not exist!";
             exit 1;
           fi
+    - name: List contents of .nuxt folder
+      run: ls -la .nuxt
     - uses: actions/upload-artifact@v4
       with:
         name: nuxt-artifact
