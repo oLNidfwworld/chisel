@@ -19,12 +19,11 @@ jobs:
         node-version: ${{ matrix.node-version }} 
         
     - run: npm install
-    - run: npm run build --if-present
-    - name: Build artifacts  
-      uses: actions/upload-artifact@v4
+    - run: npm run build --if-present 
+    - uses: actions/upload-artifact@v4
       with:
         name: builded artifacts
-        path: /.nuxt
+        path: .nuxt/
         
   deploy:
     needs: build
