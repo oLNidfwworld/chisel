@@ -31,7 +31,7 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: nuxt-artifact
-        path: ./.nuxt
+        path: .nuxt/**
         
   deploy:
     needs: build
