@@ -22,9 +22,8 @@ jobs:
     - run: npm run build --if-present 
     - uses: actions/upload-artifact@v3
       with:
-        name: nuxt-artifacts 
-        path: .nuxt/
-    - run: ls -a
+        name: nuxt-artifact
+        path: .nuxt 
         
   deploy:
     needs: build
@@ -32,6 +31,10 @@ jobs:
     steps:
       - uses: actions/download-artifact@v3
         with:
-          name: nuxt-artifacts 
-          path: ./.nuxt/
-      - run: ls -R ./.nuxt/
+          name: nuxt-artifact
+      - uses: SamKirkland/FTP-Deploy-Action@4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir:  ${{ vars.FTP_PATH }}
