@@ -40,6 +40,7 @@ jobs:
             username: ${{ secrets.FTP_USERNAME }}
             server: ${{ secrets.FTP_SERVER }} 
             password: ${{ secrets.FTP_PASSWORD }} 
+            local_path: './'
             remote_path: '/home/test/'
             sftpArgs: '-o ConnectTimeout=5'
       - name: executing remote ssh commands using password
