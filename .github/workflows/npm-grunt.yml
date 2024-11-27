@@ -24,6 +24,6 @@ jobs:
           host: ${{ secrets.FTP_SERVER }} 
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}  
-          script: | 
-            ls 
-            whoami
+          script: |
+            cd /
+            ls
