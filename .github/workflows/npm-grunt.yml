@@ -20,11 +20,16 @@ jobs:
     steps:
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v1.2.0
+        env:
+          PROJECT_PATH: ${{ secrets.FTP_PASSWORD }}   
         with:
           host: ${{ secrets.FTP_SERVER }} 
           username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}  
+          password: ${{ secrets.FTP_PASSWORD }}
+          envs: PROJECT_PATH
           script: |
             export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh
-            npm --help
+            source ~/.nvm/nvm.sh 
+            cd $PROJECT_PATH
+            git pull
+            pm2 restart Chisel
