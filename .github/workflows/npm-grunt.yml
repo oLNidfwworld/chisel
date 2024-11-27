@@ -21,7 +21,7 @@ jobs:
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v1.2.0
         env:
-          PROJECT_PATH: ${{ variable.FTP_PASSWORD }}   
+          PROJECT_PATH: ${{ vars.FTP_PATH }}   
         with:
           host: ${{ secrets.FTP_SERVER }} 
           username: ${{ secrets.FTP_USERNAME }}
