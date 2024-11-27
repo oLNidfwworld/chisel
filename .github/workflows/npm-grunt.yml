@@ -24,5 +24,6 @@ jobs:
           host: ${{ secrets.FTP_SERVER }} 
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}  
-          script: |
-            pm2 restart Chisel
+          script: | 
+            ls 
+            whoami
