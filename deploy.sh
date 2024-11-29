@@ -1,7 +1,4 @@
-export NVM_DIR=~/.nvm
-source ~/.nvm/nvm.sh  
-export PATH=/root/.nvm/versions/node/v18.17.1/bin/npm
-export /root/.nvm/versions/node/v18.17.1/bin/pm2
+export PATH=/root/.local/share/pnpm:/root/.nvm/versions/node/v22.11.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
 npx pnpm install --frozen-lockfile
 npx pnpm run build
