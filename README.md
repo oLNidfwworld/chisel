@@ -1,7 +1,3 @@
-# Nuxt 3 Minimal Starter
-
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
 ## Setup 
 
 ```bash  
@@ -14,6 +10,36 @@ pnpm install --frozen-lockfile
 pnpm run dev
 pnpm run build
 ```
+
+## For CI/CD:
+
+- fill secrets.FTP_SERVER, vars.FTP_PATH, secrets.FTP_USERNAME, secrets.FTP_PASSWORD
+- git pull your projet at vars.FTP_PATH
+- install node with lts
+  ```bash 
+  nvm install --lts > for current date 22.11.0 is lts
+  ```
+- setup pm2
+  ```bash
+  npm install pm2 -g
+  pm2 start your-filename.config.js
+  ```
+- add deploy key
+  ```bash
+  ssh-keygen -t ed25519 -C "your_email@example.com"
+  ```
+  optional
+  ```bash 
+  $ eval "$(ssh-agent -s)"
+  > Agent pid 59566
+  ssh-add ~/.ssh/id_ed25519
+  ```
+- Setup nginx (certbot, domain etc)
+- be happy with ur project =)
+
+# CI/CD TODO:
+
+- May use docker instead?
 
 ## In TODO:
 
