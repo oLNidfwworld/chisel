@@ -7,12 +7,17 @@ withDefaults(defineProps<{
 defineEmits<{ (e: 'remove'): void }>();
 </script>
 <template>
-    <div class="label-item" :class="{ 'red': hightlighted }">
-        <slot />
-        <button type="button" class="label-item__cross" @click="$emit('remove')">
-            <ICross filled />
-        </button>
-    </div>
+   <div
+      class="label-item"
+      :class="{ 'red': hightlighted }">
+      <slot />
+      <button
+         type="button"
+         class="label-item__cross"
+         @click="$emit('remove')">
+         <ICross filled />
+      </button>
+   </div>
 </template>
 <style lang="scss">
 @use "/assets/styles/base/variables/colors.scss" as variable;

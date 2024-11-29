@@ -17,11 +17,15 @@ if (!objectId || !object.value) {
 }   
 </script>
 <template>
-  <section>
-    <ObjectDetail v-if="object && object?.item" :object-item="object.item" />
-  </section>
-  <section v-if="object && object.similarItems && object.similarItems.length > 0" class="container">
-    <h2 class="title-md title-md-bottom-margin">Похожие объявления</h2>
-    <ObjectList :items="object.similarItems" />
-  </section>
+   <section>
+      <ObjectDetail
+         v-if="object && object?.item"
+         :object-item="object.item" />
+   </section>
+   <section
+      v-if="object && object.similarItems && object.similarItems.length > 0"
+      class="container">
+      <h2 class="title-md title-md-bottom-margin">Похожие объявления</h2>
+      <ObjectList :items="object.similarItems" />
+   </section>
 </template>

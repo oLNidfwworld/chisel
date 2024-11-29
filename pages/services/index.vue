@@ -10,7 +10,7 @@ useSeoMeta({
 })
 </script>
 <template>
-    <ContentInner h1="Услуги">
-        <ServiceBlock />
-    </ContentInner>
+   <ContentInner h1="Услуги">
+      <ServiceBlock />
+   </ContentInner>
 </template>

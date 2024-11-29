@@ -47,32 +47,51 @@ const callbackMe = async () => {
 
 </script>
 <template>
-  <form class="agent-card" @submit.prevent="callbackMe">
-    <div class="agent-card__block agent-card__container">
-      <h4 class="agent-card__title">Специалист по объекту</h4>
-      <Agent :agent="agent" :visible-number="visibleNumber" />
-      <button v-if="!visibleNumber" type="button" class="agent-card__show" @click="visibleNumber = true">
-        Показать
-        <IPhone filled />
-      </button>
-    </div>
-    <div class="agent-card__block">
-      <p class="agent-card__text">Оставьте свой номер,мы вам перезвоним</p>
-      <Inpt v-model="myPhone" v-maska="'+7 ### ### ##-##'" class="agent-card__inpt" type="text" name="number" />
-      <p v-if="validationMessage" class="text-red text-center"  >{{ validationMessage }}</p>
-    </div>
-    <Btn type="submit" class="agent-card__submit">Позвоните мне</Btn>
-  </form> 
-  <EPopupForm :is-visible="show" @close="show = !show">
-    <template #header>
-      {{ title }}
-    </template>
-    <template #content>
-      <p class="text-center">
-        {{ content }}
-      </p>
-    </template>
-  </EPopupForm>
+   <form
+      class="agent-card"
+      @submit.prevent="callbackMe">
+      <div class="agent-card__block agent-card__container">
+         <h4 class="agent-card__title">Специалист по объекту</h4>
+         <Agent
+            :agent="agent"
+            :visible-number="visibleNumber" />
+         <button
+            v-if="!visibleNumber"
+            type="button"
+            class="agent-card__show"
+            @click="visibleNumber = true">
+            Показать
+            <IPhone filled />
+         </button>
+      </div>
+      <div class="agent-card__block">
+         <p class="agent-card__text">Оставьте свой номер,мы вам перезвоним</p>
+         <Inpt
+            v-model="myPhone"
+            v-maska="'+7 ### ### ##-##'"
+            class="agent-card__inpt"
+            type="text"
+            name="number" />
+         <p
+            v-if="validationMessage"
+            class="text-red text-center"  >{{ validationMessage }}</p>
+      </div>
+      <Btn
+         type="submit"
+         class="agent-card__submit">Позвоните мне</Btn>
+   </form> 
+   <EPopupForm
+      :is-visible="show"
+      @close="show = !show">
+      <template #header>
+         {{ title }}
+      </template>
+      <template #content>
+         <p class="text-center">
+            {{ content }}
+         </p>
+      </template>
+   </EPopupForm>
 </template>
 <style lang="scss">
 @use "/assets/styles/base/variables/colors.scss" as variable;

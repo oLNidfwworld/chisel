@@ -23,36 +23,45 @@ const model = defineModel<Array<any>>({
 const isOpened = ref(false); 
 </script>
 <template>
-  <ComboboxRoot v-model:open="isOpened" v-model="model" class="e-filter-combo" multiple>
-    <ComboboxAnchor class="e-filter-combo__anchor">
-      <ComboboxTrigger class="e-filter-combo__trigger">
-        <template v-if="model.length <= 0">
-          <span>Выбрать</span>
-        </template>
-        <div v-else class="e-filter-combo__selected-items">
-          {{ selectedValues }}
-        </div>
-        <IArrowDown 
-          :style="{ transform: isOpened ? 'rotate(180deg)' : '' }" class="e-filter-combo__arrow-down"
-          filled />
-      </ComboboxTrigger>
-    </ComboboxAnchor>
+   <ComboboxRoot
+      v-model:open="isOpened"
+      v-model="model"
+      class="e-filter-combo"
+      multiple>
+      <ComboboxAnchor class="e-filter-combo__anchor">
+         <ComboboxTrigger class="e-filter-combo__trigger">
+            <template v-if="model.length <= 0">
+               <span>Выбрать</span>
+            </template>
+            <div
+               v-else
+               class="e-filter-combo__selected-items">
+               {{ selectedValues }}
+            </div>
+            <IArrowDown 
+               :style="{ transform: isOpened ? 'rotate(180deg)' : '' }"
+               class="e-filter-combo__arrow-down"
+               filled />
+         </ComboboxTrigger>
+      </ComboboxAnchor>
 
-    <ComboboxContent class="e-filter-combo__drop">
-      <ComboboxViewport class="e-filter-combo__viewport">
-        <ComboboxEmpty class="e-filter-combo__empty" />
-        <ComboboxGroup>
-          <ComboboxItem 
-            v-for="(option, index) in items" :key="index" class="e-filter-combo__item"
-            :value="option.xmlId">
-            <span>
-              {{ option.name }}
-            </span>
-          </ComboboxItem>
-        </ComboboxGroup>
-      </ComboboxViewport>
-    </ComboboxContent>
-  </ComboboxRoot>
+      <ComboboxContent class="e-filter-combo__drop">
+         <ComboboxViewport class="e-filter-combo__viewport">
+            <ComboboxEmpty class="e-filter-combo__empty" />
+            <ComboboxGroup>
+               <ComboboxItem 
+                  v-for="(option, index) in items"
+                  :key="index"
+                  class="e-filter-combo__item"
+                  :value="option.xmlId">
+                  <span>
+                     {{ option.name }}
+                  </span>
+               </ComboboxItem>
+            </ComboboxGroup>
+         </ComboboxViewport>
+      </ComboboxContent>
+   </ComboboxRoot>
 </template>
 <style lang="scss">
 @use "/assets/styles/base/variables/colors.scss" as variable;

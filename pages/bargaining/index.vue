@@ -45,7 +45,11 @@ provide('fromIBargainingToPreview', {
 
 </script>
 <template>    
-    <BargainingPreview :photos="photos" :min-price="minPrice" :min-square="minSquare"  :similar="placements.items" />  
+   <BargainingPreview
+      :photos="photos"
+      :min-price="minPrice"
+      :min-square="minSquare"
+      :similar="placements.items" />  
 </template>
 <style >    
 *{

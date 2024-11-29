@@ -6,16 +6,18 @@ import { useUIstore } from "~/store/ui";
 const uiStore = useUIstore();
 </script>
 <template>
-  <div class="page-wrapper">
-    <EHeader />
-    <main class="page-content">
-      <slot />
-    </main>
-    <EFooter />
-    <Transition name="overlay-appear">
-      <div v-if="uiStore.overlayVisibility" class="page-overlay" />
-    </Transition>
-  </div>
+   <div class="page-wrapper">
+      <EHeader />
+      <main class="page-content">
+         <slot />
+      </main>
+      <EFooter />
+      <Transition name="overlay-appear">
+         <div
+            v-if="uiStore.overlayVisibility"
+            class="page-overlay" />
+      </Transition>
+   </div>
 </template>
 <style lang="scss">
 @use "/assets/styles/layouts/default.scss";

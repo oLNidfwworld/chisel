@@ -80,10 +80,7 @@ const seoDataIsNotIndex = computed<{
       'DESCRIPTION': 'N/A',
     }
   }
-});
-watch(( ) => seoDataIsNotIndex.value, ( ) => {
-  console.log(seoDataIsNotIndex.value.H1);
-})
+}); 
 useSeoMeta({
   title: seoData.value?.TITLE,
   description: seoData.value?.DESCRIPTION,
@@ -95,20 +92,24 @@ watch([offerType, section], async () => {
 }) 
 </script>
 <template>
-  <div class="page-wrapper">
-    <EHeader />
-    <EFilter 
-      v-model:offer-type="offerType" v-model:section="section" :seo-data="seoDataIsNotIndex"
-      :controls-data="filterInitial" />
-    <main class="page-content">
-      <slot />
-    </main>
-    <EFooter />
-    <Transition name="overlay-appear">
-      <div v-if="uiStore.overlayVisibility" class="page-overlay" />
-    </Transition>
-    <ECallRow />
-  </div>
+   <div class="page-wrapper">
+      <EHeader />
+      <EFilter 
+         v-model:offer-type="offerType"
+         v-model:section="section"
+         :seo-data="seoDataIsNotIndex"
+         :controls-data="filterInitial" />
+      <main class="page-content">
+         <slot />
+      </main>
+      <EFooter />
+      <Transition name="overlay-appear">
+         <div
+            v-if="uiStore.overlayVisibility"
+            class="page-overlay" />
+      </Transition>
+      <ECallRow />
+   </div>
 </template>
 <style lang="scss">
 @use "/assets/styles/layouts/default.scss";

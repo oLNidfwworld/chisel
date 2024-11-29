@@ -7,19 +7,19 @@ const modelValue = defineModel<string[]>({
 });   
 </script> 
 <template>
-  <ToggleGroupRoot
-    v-model="modelValue"
-    type="multiple"
-    class="e-filter-radio-group"  
-  > 
+   <ToggleGroupRoot
+      v-model="modelValue"
+      type="multiple"
+      class="e-filter-radio-group"  
+   > 
       <ToggleGroupItem
-        v-for="(item,index) in items" 
-        :id="'r-'+item.xmlId"
-        :key="index"
-        class="e-filter-radio"
-        :value="item.xmlId"
+         v-for="(item,index) in items" 
+         :id="'r-'+item.xmlId"
+         :key="index"
+         class="e-filter-radio"
+         :value="item.xmlId"
       >{{item.name}}</ToggleGroupItem> 
-  </ToggleGroupRoot>
+   </ToggleGroupRoot>
 </template>
 <style lang="scss" scoped> 
 @use "/assets/styles/base/variables/colors.scss" as variable;

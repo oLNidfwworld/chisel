@@ -15,10 +15,10 @@ const agentPhoneHidden = computed(() =>
 );
 </script>
 <template>
-  <div class="agent">
-    <span class="agent__name">{{ agent.name }}</span>
-    <span class="agent__phone">{{ agentPhoneHidden }}</span>
-  </div>
+   <div class="agent">
+      <span class="agent__name">{{ agent.name }}</span>
+      <span class="agent__phone">{{ agentPhoneHidden }}</span>
+   </div>
 </template>
 <style lang="scss"> 
 @use "/assets/styles/base/variables/colors.scss" as variable;

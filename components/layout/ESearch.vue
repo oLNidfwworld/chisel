@@ -10,13 +10,20 @@ const submit = ( event ) => {
 }
 </script>
 <template>
-    <div class="header-search">
-        <div class="container">
-            <form action="/search" class="header-search__form w-full" @submit.prevent="submit" >
-                <Inpt v-model="query" name="q" type="search" placeholder="Найти" />
-            </form>
-        </div>
-    </div>
+   <div class="header-search">
+      <div class="container">
+         <form
+            action="/search"
+            class="header-search__form w-full"
+            @submit.prevent="submit" >
+            <Inpt
+               v-model="query"
+               name="q"
+               type="search"
+               placeholder="Найти" />
+         </form>
+      </div>
+   </div>
     
 </template>
 <style lang="scss">

@@ -4,17 +4,21 @@ import FormCallback from '../ui/Forms/FormCallback.vue';
 const formVisible = ref(false);
 </script>
 <template>
-    <div class="call-row">
-        <button class="call-row__btn" @click="formVisible = true">
-            <IPen filled />
-            <span>Написать</span>
-        </button>
-        <a class="call-row__btn" href="tel:+7(901)517-86-51">
-            <IPhoneRinging filled />
-            <span>Позвонить</span>
-        </a>
-    </div>
-    <FormCallback v-model="formVisible" />
+   <div class="call-row">
+      <button
+         class="call-row__btn"
+         @click="formVisible = true">
+         <IPen filled />
+         <span>Написать</span>
+      </button>
+      <a
+         class="call-row__btn"
+         href="tel:+7(901)517-86-51">
+         <IPhoneRinging filled />
+         <span>Позвонить</span>
+      </a>
+   </div>
+   <FormCallback v-model="formVisible" />
 </template>
 <style lang="scss">
 @use '/assets/styles/base/variables/colors.scss' as variable;

@@ -55,8 +55,7 @@ const isExpanded = ref(false);
 const expandFields = computed(() => {
   const fillable = onlyFillableFields.value;
   const newFields: KeyedObject = {};
-  Object.keys(fillable).forEach((key) => {
-    console.log(fillable);
+  Object.keys(fillable).forEach((key) => { 
     if (key !== 'city' && key !== 'objectRealty' && (fillable[key].type !== 'range' || key === 'floor' )) {
       if (isExpanded.value) {
         newFields[key] = fillable[key]
@@ -235,78 +234,128 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
 // TODO: clear WARN .e-filter-additional__wrapper <TransitionGroup> children must be keyed. 
 </script>
 <template>
-  <form class="e-filter" @submit.prevent="submit">
-    <div class="e-filter__toggler-group-1">
-      <label v-for="(item, index) in offerTypes" :key="index" class="e-filter-toggler-1">
-        <input v-model="modelOfferType" type="radio" name="offer-type" :value="item.value"
-          :checked="item.value === modelOfferType" />
-        {{ item.name }}
-      </label>
-    </div>
-    <div class="e-filter__complex-row">
-      <div class="e-filter__toggler-group-2">
-        <label v-for="(item, index) in sectionTypes" :key="index" class="e-filter-toggler-2">
-          <input v-model="modelSection" type="radio" name="object-type" :value="item.value"
-            :checked="item.value === modelSection" />
-          {{ item.name }}
-        </label>
+   <form
+      class="e-filter"
+      @submit.prevent="submit">
+      <div class="e-filter__toggler-group-1">
+         <label
+            v-for="(item, index) in offerTypes"
+            :key="index"
+            class="e-filter-toggler-1">
+            <input
+               v-model="modelOfferType"
+               type="radio"
+               name="offer-type"
+               :value="item.value"
+               :checked="item.value === modelOfferType" >
+            {{ item.name }}
+         </label>
       </div>
-      <div>
-        <SearchObjectId />
+      <div class="e-filter__complex-row">
+         <div class="e-filter__toggler-group-2">
+            <label
+               v-for="(item, index) in sectionTypes"
+               :key="index"
+               class="e-filter-toggler-2">
+               <input
+                  v-model="modelSection"
+                  type="radio"
+                  name="object-type"
+                  :value="item.value"
+                  :checked="item.value === modelSection" >
+               {{ item.name }}
+            </label>
+         </div>
+         <div>
+            <SearchObjectId />
+         </div>
       </div>
-    </div>
-    <div v-if="Object.keys(onlyFillableFields).length > 0" class="e-filter-additional">
-      <TransitionGroup class="e-filter-additional__wrapper" tag="div" name="adding-filter">
-        <div v-for="(control, index) in expandFields" :key="index" class="e-filter-additional__group"
-          :class="[control.type, index]">
-          <span class="e-filter-additional__group-title">{{ control.name }}</span>
-          <template v-if="control.type === 'list'">
-            <AdditionalRadio v-model="(valuesToPost[index] as unknown as string[])" :items="control.values" />
-          </template>
-          <template v-else-if="control.type === 'dropdown-list'">
-            <AdditionalCombo v-model="valuesToPost[index]" :items="control.values" />
-          </template>
-          <template v-else-if="control.type === 'range'">
-            <AdditionalRange v-model="valuesToPost[index]" :min="control.min" :max="control.max" />
-          </template>
-        </div>
-      </TransitionGroup>
-      <div class="e-filter-additional__bottom">
-        <div class="e-filter-additional__submit-row">
-          <Btn type="button" preference="sea" @click="isExpanded = !isExpanded">Расширенный фильтр
-            <IArrowDown :style="{ 'transform': isExpanded ? 'rotate(180deg)' : '' }" />
-          </Btn>
-          <Btn type="submit">Показать 
-            <span v-if="pendingLengthTotal" class="wave">
-              <span/> 
-              <span/> 
-              <span/>
-            </span> 
-            <span v-else-if="lengthTotal">{{ lengthTotal }}</span>
-          </Btn>
-          <Btn type="submit" name="on-map" preference="gray">
-            <IPlacemark filled />
-            <span>На карте</span>
-          </Btn>
-        </div>
-        <TransitionGroup name="adding-filter" tag="ul" class="e-filter-additional__label-row">
-          <li v-for="(label, labelIndex) in labelsData" :key="labelIndex" class="e-filter-additional__label-item">
-            <ELabel @remove="() => removeFromValuesToPost(labelIndex.toString())">
-              {{ label.name }}: {{ label.value }}
-            </ELabel>
-          </li>
-          <li class="e-filter-additional__label-item">
-            <ELabel v-if="Object.keys(labelsData).length > 1" hightlighted @remove="removeAllValuesToPost">
-              Очистить
-            </ELabel>
-          </li>
-        </TransitionGroup>
+      <div
+         v-if="Object.keys(onlyFillableFields).length > 0"
+         class="e-filter-additional">
+         <TransitionGroup
+            class="e-filter-additional__wrapper"
+            tag="div"
+            name="adding-filter">
+            <div
+               v-for="(control, index) in expandFields"
+               :key="index"
+               class="e-filter-additional__group"
+               :class="[control.type, index]">
+               <span class="e-filter-additional__group-title">{{ control.name }}</span>
+               <template v-if="control.type === 'list'">
+                  <AdditionalRadio
+                     v-model="(valuesToPost[index] as unknown as string[])"
+                     :items="control.values" />
+               </template>
+               <template v-else-if="control.type === 'dropdown-list'">
+                  <AdditionalCombo
+                     v-model="valuesToPost[index]"
+                     :items="control.values" />
+               </template>
+               <template v-else-if="control.type === 'range'">
+                  <AdditionalRange
+                     v-model="valuesToPost[index]"
+                     :min="control.min"
+                     :max="control.max" />
+               </template>
+            </div>
+         </TransitionGroup>
+         <div class="e-filter-additional__bottom">
+            <div class="e-filter-additional__submit-row">
+               <Btn
+                  type="button"
+                  preference="sea"
+                  @click="isExpanded = !isExpanded">Расширенный фильтр
+                  <IArrowDown :style="{ 'transform': isExpanded ? 'rotate(180deg)' : '' }" />
+               </Btn>
+               <Btn type="submit">Показать 
+                  <span
+                     v-if="pendingLengthTotal"
+                     class="wave">
+                     <span/> 
+                     <span/> 
+                     <span/>
+                  </span> 
+                  <span v-else-if="lengthTotal">{{ lengthTotal }}</span>
+               </Btn>
+               <Btn
+                  type="submit"
+                  name="on-map"
+                  preference="gray">
+                  <IPlacemark filled />
+                  <span>На карте</span>
+               </Btn>
+            </div>
+            <TransitionGroup
+               name="adding-filter"
+               tag="ul"
+               class="e-filter-additional__label-row">
+               <li
+                  v-for="(label, labelIndex) in labelsData"
+                  :key="labelIndex"
+                  class="e-filter-additional__label-item">
+                  <ELabel @remove="() => removeFromValuesToPost(labelIndex.toString())">
+                     {{ label.name }}: {{ label.value }}
+                  </ELabel>
+               </li>
+               <li class="e-filter-additional__label-item">
+                  <ELabel
+                     v-if="Object.keys(labelsData).length > 1"
+                     hightlighted
+                     @remove="removeAllValuesToPost">
+                     Очистить
+                  </ELabel>
+               </li>
+            </TransitionGroup>
+         </div>
       </div>
-    </div>
-    <div v-else class="e-filter-additional">
-      К сожалению нет подходящих объектов недвижимости
-    </div>
-  </form>
+      <div
+         v-else
+         class="e-filter-additional">
+         К сожалению нет подходящих объектов недвижимости
+      </div>
+   </form>
 </template>
 <style lang="scss">
 @use "/assets/styles/base/shortcuts.scss";

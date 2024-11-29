@@ -6,9 +6,12 @@ const { data } = await useAsyncData(`content-/services`, () => {
 });  
 </script>
 <template>
-    <div class="service-block">
-        <ServiceCard v-for="(item, index) in data" :key="index" :item="item"/>
-    </div>
+   <div class="service-block">
+      <ServiceCard
+         v-for="(item, index) in data"
+         :key="index"
+         :item="item"/>
+   </div>
 </template>
 <style lang="scss">
 @use '/assets/styles/mixins/media.scss' as media;

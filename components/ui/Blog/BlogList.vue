@@ -8,9 +8,12 @@ defineProps<
 
 </script>
 <template>
-    <div class="blog-list">
-        <BlogCard v-for="(item, index) in items" :key="index" :item="item" />
-    </div>
+   <div class="blog-list">
+      <BlogCard
+         v-for="(item, index) in items"
+         :key="index"
+         :item="item" />
+   </div>
 </template>
 <style lang="scss">
 @use '/assets/styles/mixins/media.scss' as media;

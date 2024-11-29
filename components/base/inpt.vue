@@ -7,9 +7,12 @@ const model = defineModel<string | number | undefined>({
 });
 </script>
 <template>
-  <div class="inpt__outer">
-    <input v-model="model" class="inpt" v-bind="$attrs" />
-  </div>
+   <div class="inpt__outer">
+      <input
+         v-model="model"
+         class="inpt"
+         v-bind="$attrs" >
+   </div>
 </template>
 <style lang="scss">
 @use "/assets/styles/base/variables/colors.scss" as variable;

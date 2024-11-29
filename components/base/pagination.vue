@@ -14,30 +14,41 @@ const pageModel = defineModel<number>({
 });
 </script>
 <template>
-    <PaginationRoot
-        v-model:page="pageModel" :total="totalItems" :items-per-page="itemsPerPage" :sibling-count="1"
-        show-edges>
-        <PaginationList v-slot="{ items }" class="pagination-list">
-            <PaginationPrev class="pagination-list__btn">
-                <IArrowDown style="transform:rotate(90deg);" />
-            </PaginationPrev>
-            <div class="pagination-list__pages">
-                <template v-for="(page, index) in items">
-                    <PaginationListItem 
-                        v-if="page.type === 'page'" :key="index" class="pagination-list__btn"
-                        :value="page.value">
-                        {{ page.value }}
-                    </PaginationListItem>
-                    <PaginationEllipsis v-else :key="page.type" :index="index" class="pagination-list__elipsis">
-                        &#8230;
-                    </PaginationEllipsis>
-                </template>
-            </div>
-            <PaginationNext class="pagination-list__btn">
-                <IArrowDown style="transform:rotate(-90deg);" />
-            </PaginationNext>
-        </PaginationList>
-    </PaginationRoot>
+   <PaginationRoot
+      v-model:page="pageModel"
+      :total="totalItems"
+      :items-per-page="itemsPerPage"
+      :sibling-count="1"
+      show-edges>
+      <PaginationList
+         v-slot="{ items }"
+         class="pagination-list">
+         <PaginationPrev class="pagination-list__btn">
+            <IArrowDown style="transform:rotate(90deg);" />
+         </PaginationPrev>
+         <div class="pagination-list__pages">
+            <template v-for="(page, index) in items">
+               <PaginationListItem 
+                  v-if="page.type === 'page'"
+                  :key="index"
+                  class="pagination-list__btn"
+                  :value="page.value">
+                  {{ page.value }}
+               </PaginationListItem>
+               <PaginationEllipsis
+                  v-else
+                  :key="page.type"
+                  :index="index"
+                  class="pagination-list__elipsis">
+                  &#8230;
+               </PaginationEllipsis>
+            </template>
+         </div>
+         <PaginationNext class="pagination-list__btn">
+            <IArrowDown style="transform:rotate(-90deg);" />
+         </PaginationNext>
+      </PaginationList>
+   </PaginationRoot>
 </template>
 <style lang="scss">
 @use '/assets/styles/mixins/media.scss' as media;

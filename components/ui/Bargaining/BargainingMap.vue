@@ -198,45 +198,70 @@ const sendData = async () => {
 
 </script>
 <template>
-    <ClientOnly>
-        <div class="mupp">
-            <YandexMap :controls="[]" :coordinates="mapCenter" :zoom="zoom" @created="mapInit" />
-            <div class="history">
-                <h2 class="history__title">Условные обозначения</h2>
-                <ul class="history__wrapper">
-                    <li><span class="history__col" style="background:var(--reserved);" /> Зарезервированно</li>
-                    <li><span class="history__col" style="background:var(--selled);" /> Продано</li>
-                    <li><span class="history__col" style="background:var(--sellable);" /> В продаже</li>
-                </ul>
+   <ClientOnly>
+      <div class="mupp">
+         <YandexMap
+            :controls="[]"
+            :coordinates="mapCenter"
+            :zoom="zoom"
+            @created="mapInit" />
+         <div class="history">
+            <h2 class="history__title">Условные обозначения</h2>
+            <ul class="history__wrapper">
+               <li><span
+                  class="history__col"
+                  style="background:var(--reserved);" /> Зарезервированно</li>
+               <li><span
+                  class="history__col"
+                  style="background:var(--selled);" /> Продано</li>
+               <li><span
+                  class="history__col"
+                  style="background:var(--sellable);" /> В продаже</li>
+            </ul>
+         </div>
+      </div>
+   </ClientOnly>
+   <EPopupForm 
+      :fallback-income="fallback"
+      :is-visible="isPopupVisible"
+      @fallback-return="fallback = false"
+      @close="isPopupVisible = !isPopupVisible">
+      <template #header>
+         <h3 class="">Заказать участок {{ whatsObject }}</h3>
+      </template>
+      <template #content>
+         <form @submit.prevent="sendData($event)">
+            <div class="popup__fields">
+               <Inpt
+                  v-model="userName"
+                  required
+                  placeholder="Имя*" />
+               <Inpt
+                  v-model="userPhone"
+                  v-maska="'+7 ### ### ##-##'"
+                  type="phone"
+                  required
+                  placeholder="Телефон*" />
+               <Inpt
+                  v-model="userEmail"
+                  type="email"
+                  placeholder="Email" />
+               <!-- <ETextarea v-model="userComment" style="resize: none;" rows="5" placeholder="Комментарий" /> -->
             </div>
-        </div>
-    </ClientOnly>
-    <EPopupForm 
-        :fallback-income="fallback" :is-visible="isPopupVisible" @fallback-return="fallback = false"
-        @close="isPopupVisible = !isPopupVisible">
-        <template #header>
-            <h3 class="">Заказать участок {{ whatsObject }}</h3>
-        </template>
-        <template #content>
-            <form @submit.prevent="sendData($event)">
-                <div class="popup__fields">
-                    <Inpt v-model="userName" required placeholder="Имя*" />
-                    <Inpt v-model="userPhone" v-maska="'+7 ### ### ##-##'" type="phone" required placeholder="Телефон*" />
-                    <Inpt v-model="userEmail" type="email" placeholder="Email" />
-                    <!-- <ETextarea v-model="userComment" style="resize: none;" rows="5" placeholder="Комментарий" /> -->
-                </div>
-                <div class="popup__err">
-                    {{ validationMessage }}
-                </div>
-                <btn type="submit" class="m-auto ">Отправить</btn>
-            </form>
-        </template>
-        <template #response>
-            <h4 class="text-[24px] font-semibold">
-                {{ responseMsg }}
-            </h4>
-        </template>
-    </EPopupForm>
+            <div class="popup__err">
+               {{ validationMessage }}
+            </div>
+            <btn
+               type="submit"
+               class="m-auto ">Отправить</btn>
+         </form>
+      </template>
+      <template #response>
+         <h4 class="text-[24px] font-semibold">
+            {{ responseMsg }}
+         </h4>
+      </template>
+   </EPopupForm>
 
 </template>
 <style lang="scss">

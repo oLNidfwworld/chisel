@@ -10,33 +10,38 @@ const numIsVisible = ref(false);
 const price = computed(() => props.data.price.toLocaleString("ru-RU"));
 </script>
 <template>
-  <div class="mini-card"> 
-    <NuxtLink :href="`/realty/immovable-${data.id}`">
-      <NuxtPicture
-        v-if="(data.photos.length > 0)"
-        class="mini-card__image-wrapper"
-        format="png"
-        :img-attrs="{ class: 'mini-card__img' }"
-        :src="apiServerUrl(data.photos[0].websrc)"
-      />
-      <ICityPlaceholder v-else class="mini-card__placeholder" filled />
-    </NuxtLink>
-    <div class="mini-card__content">
-      <span class="mini-card__red">{{ price }} ₽</span>
+   <div class="mini-card"> 
       <NuxtLink :href="`/realty/immovable-${data.id}`">
-        <h3 class="mini-card__title">{{ data.name }}</h3>
+         <NuxtPicture
+            v-if="(data.photos.length > 0)"
+            class="mini-card__image-wrapper"
+            format="png"
+            :img-attrs="{ class: 'mini-card__img' }"
+            :src="apiServerUrl(data.photos[0].websrc)"
+         />
+         <ICityPlaceholder
+            v-else
+            class="mini-card__placeholder"
+            filled />
       </NuxtLink>
-      <span class="mini-card__desc">{{ data.location }}</span>
-      <Btn
-        v-if="!numIsVisible"
-        class="mini-card__btn"
-        preference="transparent"
-        @click="numIsVisible = !numIsVisible"
-        >Показать телефон</Btn
-      >
-      <Agent v-else :agent="data.agent" />
-    </div>
-  </div>
+      <div class="mini-card__content">
+         <span class="mini-card__red">{{ price }} ₽</span>
+         <NuxtLink :href="`/realty/immovable-${data.id}`">
+            <h3 class="mini-card__title">{{ data.name }}</h3>
+         </NuxtLink>
+         <span class="mini-card__desc">{{ data.location }}</span>
+         <Btn
+            v-if="!numIsVisible"
+            class="mini-card__btn"
+            preference="transparent"
+            @click="numIsVisible = !numIsVisible"
+         >Показать телефон</Btn
+         >
+         <Agent
+            v-else
+            :agent="data.agent" />
+      </div>
+   </div>
 </template>
 <style lang="scss">
 @use "/assets/styles/base/variables/colors.scss" as variable;

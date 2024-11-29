@@ -44,32 +44,45 @@ const showModal = defineModel({
 });
 </script>
 <template>
-    <EPopupForm 
-        :fallback-income="fallback" :is-visible="showModal" @fallback-return="fallback = false"
-        @close="showModal = false">
-        <template #header>
-            <h3 class="">Оставить заявку</h3>
-        </template>
-        <template #content>
-            <form @submit.prevent="sendData($event)">
-                <div class="popup__fields">
-                    <Inpt v-model="userInfo.name" required placeholder="Имя*" />
-                    <Inpt 
-                        v-model="userInfo.phone" v-maska="'+7 ### ### ##-##'" type="phone" required
-                        placeholder="Телефон*" />
-                    <Inpt v-model="userInfo.email" type="email" placeholder="Email" />
-                    <!-- <ETextarea v-model="userInfo.comment" style="resize: none;" rows="5"  placeholder="Комментарий" /> -->
-                </div>
-                <div class="popup__err">
-                    {{ validationMessage }}
-                </div>
-                <Btn type="submit" class="m-auto ">Отправить</Btn>
-            </form>
-        </template>
-        <template #response>
-            <h4 class="text-[24px] font-semibold">
-                {{ responseMsg }}
-            </h4>
-        </template>
-    </EPopupForm> 
+   <EPopupForm 
+      :fallback-income="fallback"
+      :is-visible="showModal"
+      @fallback-return="fallback = false"
+      @close="showModal = false">
+      <template #header>
+         <h3 class="">Оставить заявку</h3>
+      </template>
+      <template #content>
+         <form @submit.prevent="sendData($event)">
+            <div class="popup__fields">
+               <Inpt
+                  v-model="userInfo.name"
+                  required
+                  placeholder="Имя*" />
+               <Inpt 
+                  v-model="userInfo.phone"
+                  v-maska="'+7 ### ### ##-##'"
+                  type="phone"
+                  required
+                  placeholder="Телефон*" />
+               <Inpt
+                  v-model="userInfo.email"
+                  type="email"
+                  placeholder="Email" />
+               <!-- <ETextarea v-model="userInfo.comment" style="resize: none;" rows="5"  placeholder="Комментарий" /> -->
+            </div>
+            <div class="popup__err">
+               {{ validationMessage }}
+            </div>
+            <Btn
+               type="submit"
+               class="m-auto ">Отправить</Btn>
+         </form>
+      </template>
+      <template #response>
+         <h4 class="text-[24px] font-semibold">
+            {{ responseMsg }}
+         </h4>
+      </template>
+   </EPopupForm> 
 </template>

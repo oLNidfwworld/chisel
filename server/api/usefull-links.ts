@@ -1,5 +1,4 @@
-import { KeyedObject } from "~/assets/types/entity/data-object";
-import { $fetchApi, useApiFetch } from "~/composables/api";
+import { $fetchApi } from "~/composables/api";
 
 export default defineEventHandler(async () => {
   const links = [

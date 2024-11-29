@@ -18,14 +18,16 @@ const modelOfferType = defineModel<string>('offerType', {
 
 </script>
 <template>
-    <div class="e-filter-wrapper">
-        <div class="e-filter-wrapper__container container">
-            <h1 class="e-filter__title title-big"> {{ seoData.H1 }}</h1>
-            <Controls 
-                v-if="controlsData" v-model:section="modelSection" v-model:offer-type="modelOfferType"
-                :controls-data="(controlsData as object)" />
-        </div>
-    </div>
+   <div class="e-filter-wrapper">
+      <div class="e-filter-wrapper__container container">
+         <h1 class="e-filter__title title-big"> {{ seoData.H1 }}</h1>
+         <Controls 
+            v-if="controlsData"
+            v-model:section="modelSection"
+            v-model:offer-type="modelOfferType"
+            :controls-data="(controlsData as object)" />
+      </div>
+   </div>
 </template>
 <style lang="scss">
 @use '/assets/styles/base/typography.scss';

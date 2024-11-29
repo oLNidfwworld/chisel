@@ -48,60 +48,91 @@ const toggleOverlay = ( isOverlay ) => {
  
 </script>
 <template>
-  <header class="page-header" :class="{ 'on-top' : searchOpened}">
-    <div class="page-header__wrapper container">
-      <NuxtLink to="/">
-        <ILogoTypeOne filled />
-      </NuxtLink>
-      <nav class="page-header__nav" :class="{ opened: burgerOpened }">
-        <button class="page-header__nav-cross" @click="burgerOpened = false">
-          <ICross />
-        </button>
-        <ul class="page-header-nav">
-          <li v-for="(link, index) in links" :key="index" class="page-header-nav__item">
-            <NuxtLink :href="link.href" @click="burgerOpened = false">{{ link.name }}</NuxtLink>
-          </li>
-        </ul>
-        <ul class="page-header__soc">
-          <a href="https://wa.me/79015178651" rel="noopener noreferrer">
-            <IWhatsupWhite filled />
-          </a>
-          <a href="mailto:ekspert07@bk.ru" rel="noopener noreferrer">
-            <IEmailWhite filled />
-          </a>
-          <a href="https://vk.com/nedvizhimostpp" rel="noopener noreferrer">
-            <IVKWhite filled />
-          </a>
-          <a
-            href="https://www.youtube.com/channel/UCMF6FOeygEuzxZ5Mk7rOIgg"
-            rel="noopener noreferrer"
-          >
-            <IYTWhite filled />
-          </a>
-        </ul>
-      </nav>
-      <button  class="page-header__burger" @click="burgerOpened = !burgerOpened">
-        <IBurger />
-      </button>
-      <a class="page-header__num" href="tel:89015178651">+7 901 517-86-51</a>
-      <ul class="page-header-controls">
-        <li class="page-header-controls__item">
-          <button  class="page-header-controls__button" @click="searchOpened = !searchOpened"> 
-            <ISearch v-if="!searchOpened" filled />
-            <ICross v-else filled/>
-          </button>
-        </li>
-        <li class="page-header-controls__item">
-          <NuxtLink href="/favorites" class="page-header-controls__button">
-            <IFav filled />
-          </NuxtLink>
-        </li>
-      </ul>
-    </div>
-    <Transition name="from-top"> 
-      <ESearch v-if="searchOpened" @submited="searchOpened = false" />
-    </Transition>
-  </header>
+   <header
+      class="page-header"
+      :class="{ 'on-top' : searchOpened}">
+      <div class="page-header__wrapper container">
+         <NuxtLink to="/">
+            <ILogoTypeOne filled />
+         </NuxtLink>
+         <nav
+            class="page-header__nav"
+            :class="{ opened: burgerOpened }">
+            <button
+               class="page-header__nav-cross"
+               @click="burgerOpened = false">
+               <ICross />
+            </button>
+            <ul class="page-header-nav">
+               <li
+                  v-for="(link, index) in links"
+                  :key="index"
+                  class="page-header-nav__item">
+                  <NuxtLink
+                     :href="link.href"
+                     @click="burgerOpened = false">{{ link.name }}</NuxtLink>
+               </li>
+            </ul>
+            <ul class="page-header__soc">
+               <a
+                  href="https://wa.me/79015178651"
+                  rel="noopener noreferrer">
+                  <IWhatsupWhite filled />
+               </a>
+               <a
+                  href="mailto:ekspert07@bk.ru"
+                  rel="noopener noreferrer">
+                  <IEmailWhite filled />
+               </a>
+               <a
+                  href="https://vk.com/nedvizhimostpp"
+                  rel="noopener noreferrer">
+                  <IVKWhite filled />
+               </a>
+               <a
+                  href="https://www.youtube.com/channel/UCMF6FOeygEuzxZ5Mk7rOIgg"
+                  rel="noopener noreferrer"
+               >
+                  <IYTWhite filled />
+               </a>
+            </ul>
+         </nav>
+         <button
+            class="page-header__burger"
+            @click="burgerOpened = !burgerOpened">
+            <IBurger />
+         </button>
+         <a
+            class="page-header__num"
+            href="tel:89015178651">+7 901 517-86-51</a>
+         <ul class="page-header-controls">
+            <li class="page-header-controls__item">
+               <button
+                  class="page-header-controls__button"
+                  @click="searchOpened = !searchOpened"> 
+                  <ISearch
+                     v-if="!searchOpened"
+                     filled />
+                  <ICross
+                     v-else
+                     filled/>
+               </button>
+            </li>
+            <li class="page-header-controls__item">
+               <NuxtLink
+                  href="/favorites"
+                  class="page-header-controls__button">
+                  <IFav filled />
+               </NuxtLink>
+            </li>
+         </ul>
+      </div>
+      <Transition name="from-top"> 
+         <ESearch
+            v-if="searchOpened"
+            @submited="searchOpened = false" />
+      </Transition>
+   </header>
 </template>
 <style lang="scss">
 @use "/assets/styles/base/variables/colors.scss" as variable;

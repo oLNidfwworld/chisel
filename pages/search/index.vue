@@ -41,20 +41,27 @@ watch(page, ( ) => {
 })
 </script>
 <template>
-    <div class="container">
-        <template v-if="data?.items && data?.items?.length > 0">
-            <h1 class="title-md title-md-bottom-margin">Найдено по запросу: {{ route.query.q }}</h1>
-            <ObjectList v-if="slicedPageData.length > 0" :items="slicedPageData" />
-            <div  v-if="data?.items?.length > pageSize" class="mt-4">
-                <Pagination v-model="page" :items-per-page="pageSize" :total-items="data?.items?.length"/>
-            </div>
-        </template>
-        <template v-else> 
-            <div class="text-center font-bold" >
-                По данному запросу ничего не найдено!
-            </div>
-        </template>
-    </div>
+   <div class="container">
+      <template v-if="data?.items && data?.items?.length > 0">
+         <h1 class="title-md title-md-bottom-margin">Найдено по запросу: {{ route.query.q }}</h1>
+         <ObjectList
+            v-if="slicedPageData.length > 0"
+            :items="slicedPageData" />
+         <div
+            v-if="data?.items?.length > pageSize"
+            class="mt-4">
+            <Pagination
+               v-model="page"
+               :items-per-page="pageSize"
+               :total-items="data?.items?.length"/>
+         </div>
+      </template>
+      <template v-else> 
+         <div class="text-center font-bold" >
+            По данному запросу ничего не найдено!
+         </div>
+      </template>
+   </div>
 </template>
 <style lang="scss">
 @use '/assets/styles/base/shortcuts.scss';

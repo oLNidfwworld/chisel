@@ -2,11 +2,11 @@
 
 const props = defineProps({
     isVisible: {
-        Boolean,
+        type: Boolean,
         default: false,
     },
     fallbackIncome: {
-        Boolean,
+        type: Boolean,
         default: false
     }
 })
@@ -25,32 +25,41 @@ watch(
 
 </script>
 <template>
-    <teleport to="body">
-        <div v-if="isVisible" class="popup__outer" @click.self="close($event)">
-            <transition name="appear">
-                <div v-if="isVisible" class="popup">
-                    <div class="popup__wrapper">
-                        <button class="popup__close" @click="$emit('close')">
-                            <ICross filled/>
-                        </button>
-                        <transition mode="out-in" name="sliding">
-                            <div v-if="!fallbackIncome">
-                                <div class="popup__header">
-                                    <slot name="header"/>
-                                </div>
-                                <div class="popup__content">
-                                    <slot name="content"/>
-                                </div>
-                            </div>
-                            <div v-else>
-                                <slot name="response"/>
-                            </div>
-                        </transition>
-                    </div>
-                </div>
-            </transition>
-        </div>
-    </teleport>
+   <teleport to="body">
+      <div
+         v-if="isVisible"
+         class="popup__outer"
+         @click.self="close($event)">
+         <transition name="appear">
+            <div
+               v-if="isVisible"
+               class="popup">
+               <div class="popup__wrapper">
+                  <button
+                     class="popup__close"
+                     @click="$emit('close')">
+                     <ICross filled/>
+                  </button>
+                  <transition
+                     mode="out-in"
+                     name="sliding">
+                     <div v-if="!fallbackIncome">
+                        <div class="popup__header">
+                           <slot name="header"/>
+                        </div>
+                        <div class="popup__content">
+                           <slot name="content"/>
+                        </div>
+                     </div>
+                     <div v-else>
+                        <slot name="response"/>
+                     </div>
+                  </transition>
+               </div>
+            </div>
+         </transition>
+      </div>
+   </teleport>
 </template>
 <style lang="scss">
 @use '/assets/styles/mixins/media.scss' as media;

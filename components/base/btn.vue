@@ -9,15 +9,26 @@ withDefaults(defineProps<IProps>(), {
 });
 </script>
 <template>
-  <a v-if="href" class="btn" :href="href" :class="[preference]">
-    <slot />
-  </a>
-  <NuxtLink v-else-if="to" :to="to" class="btn" :class="[preference]">
-    <slot />
-  </NuxtLink>
-  <button v-else class="btn" :class="[preference]">
-    <slot />
-  </button>
+   <a
+      v-if="href"
+      class="btn"
+      :href="href"
+      :class="[preference]">
+      <slot />
+   </a>
+   <NuxtLink
+      v-else-if="to"
+      :to="to"
+      class="btn"
+      :class="[preference]">
+      <slot />
+   </NuxtLink>
+   <button
+      v-else
+      class="btn"
+      :class="[preference]">
+      <slot />
+   </button>
 </template>
 <style lang="scss">
 @use "/assets/styles/base/variables/colors.scss" as variable;

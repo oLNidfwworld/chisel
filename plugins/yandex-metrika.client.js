@@ -1,6 +1,6 @@
 import { useRouter } from "nuxt/app";
 
-export default defineNuxtPlugin((app) => {
+export default defineNuxtPlugin(() => {
   const router = useRouter();
   if (process.env.NODE_ENV !== "production") return;
 
@@ -30,7 +30,8 @@ export default defineNuxtPlugin((app) => {
     webvisor: true,
   });
 
-  router.afterEach((to, from) => {
+  router.afterEach((to) => {
+    // eslint-disable-next-line no-undef
     ym(5096872, "hit", to.fullPath);
   });
 });

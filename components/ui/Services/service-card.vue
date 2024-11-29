@@ -9,18 +9,22 @@ defineProps<{
 }>();
 </script>
 <template>
-  <NuxtLink :href="item._path" class="service-card">
-    <picture class="service-card__picture">
-      <source :srcset="item.cardImage" />
-      <img class="service-card__img" alt="Name" />
-    </picture>
-    <div class="service-card__content">
-      <h3 class="service-card__title">{{ item.h1 }}</h3>
-      <p class="service-card__desc">
-        {{ item.cardDescription }}
-      </p>
-    </div>
-  </NuxtLink>
+   <NuxtLink
+      :href="item._path"
+      class="service-card">
+      <picture class="service-card__picture">
+         <source :srcset="item.cardImage" >
+         <img
+            class="service-card__img"
+            alt="Name" >
+      </picture>
+      <div class="service-card__content">
+         <h3 class="service-card__title">{{ item.h1 }}</h3>
+         <p class="service-card__desc">
+            {{ item.cardDescription }}
+         </p>
+      </div>
+   </NuxtLink>
 </template>
 <style lang="scss" scoped>
 @use "/assets/styles/base/variables/colors.scss" as variable;

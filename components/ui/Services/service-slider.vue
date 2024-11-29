@@ -7,27 +7,29 @@ const { data } = await useAsyncData(`content-/services`, () => {
 });  
 </script>
 <template>
-  <Swiper
-    :breakpoints="{
-      0: {
-        slidesPerView: 1,
-        spaceBetween: 20,
-      },
-      780: {
-        slidesPerView: 2,
-        spaceBetween: 20,
-        grid: {
-          rows: 2,
-          fill: 'row',
-        },
-      },
-    }"
-    :modules="[SwiperGrid]"
-  >
-    <SwiperSlide v-for="(item,index) in data"  :key="index" >
-      <ServiceCard :item="item" />
-    </SwiperSlide>
-  </Swiper>
+   <Swiper
+      :breakpoints="{
+         0: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+         },
+         780: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+            grid: {
+               rows: 2,
+               fill: 'row',
+            },
+         },
+      }"
+      :modules="[SwiperGrid]"
+   >
+      <SwiperSlide
+         v-for="(item,index) in data"
+         :key="index" >
+         <ServiceCard :item="item" />
+      </SwiperSlide>
+   </Swiper>
 </template>
 <style lang="scss">
 @use "/assets/styles/base/variables/colors.scss" as variable;

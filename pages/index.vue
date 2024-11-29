@@ -33,32 +33,39 @@ useSeoMeta({
 }); 
 </script>
 <template>
-  <div class="container">
-    <section>
-      <h2 class="title-md-bottom-margin title-md">Полезные ссылки</h2>
-      <div v-if="usefullLinks?.links" class="submenus-wrapper">
-        <Submenu v-for="(linksTab, index) in usefullLinks.links" :key="index" :title="linksTab.name">
-          <ul class="menu-col">
-            <li v-for="(link, linkIndex) in linksTab.links" :key="linkIndex">
-              <NuxtLink :href="link.link">{{ link.name }} {{ link.count > 0 ? link.count : ''  }}</NuxtLink>
-            </li>
-          </ul>
-        </Submenu>
-      </div>
-    </section>
-    <section v-if="recommended?.items && recommended.items.length > 0">
-      <h2 class="title-md-bottom-margin title-md">Выгодные предложения</h2>
-      <ClientOnly>
-        <ObjectSlider :items="recommended?.items" />
-      </ClientOnly>
-    </section>
-    <section>
-      <h2 class="title-md-bottom-margin title-md">Услуги</h2>
-      <ClientOnly>
-        <ServiceSlider />
-      </ClientOnly>
-    </section>
-  </div>
+   <div class="container">
+      <section>
+         <h2 class="title-md-bottom-margin title-md">Полезные ссылки</h2>
+         <div
+            v-if="usefullLinks?.links"
+            class="submenus-wrapper">
+            <Submenu
+               v-for="(linksTab, index) in usefullLinks.links"
+               :key="index"
+               :title="linksTab.name">
+               <ul class="menu-col">
+                  <li
+                     v-for="(link, linkIndex) in linksTab.links"
+                     :key="linkIndex">
+                     <NuxtLink :href="link.link">{{ link.name }} {{ link.count > 0 ? link.count : ''  }}</NuxtLink>
+                  </li>
+               </ul>
+            </Submenu>
+         </div>
+      </section>
+      <section v-if="recommended?.items && recommended.items.length > 0">
+         <h2 class="title-md-bottom-margin title-md">Выгодные предложения</h2>
+         <ClientOnly>
+            <ObjectSlider :items="recommended?.items" />
+         </ClientOnly>
+      </section>
+      <section>
+         <h2 class="title-md-bottom-margin title-md">Услуги</h2>
+         <ClientOnly>
+            <ServiceSlider />
+         </ClientOnly>
+      </section>
+   </div>
 </template>
 <style lang="scss" scoped>
 @use "/assets/styles/base/variables/colors.scss" as variable;

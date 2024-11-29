@@ -29,30 +29,42 @@ watch(query, async (queryValue) => {
 const showCombobox = computed(( ) => isOpened.value && !isPending.value)
 </script>
 <template>
-    <div v-on-click-outside="( ) => { isOpened = false }" class="objects-search">
-        <ComboboxRoot :open="showCombobox" class="objects-search__root">
-            <ComboboxAnchor class="objects-search__anchor">
-                <Inpt  v-model="query" type="number" placeholder="Поиск по id объекта"  @focus="() => { isOpened = true } "  />
-                <ISpinnerPreloader v-if="isPending" class="preload"/>
-            </ComboboxAnchor>
-            <ComboboxContent class="objects-search__drop">
-                <ComboboxViewport  class="objects-search__viewport">
-                    <ComboboxEmpty  class="objects-search__empty">
-                        Ничего не найдено
-                    </ComboboxEmpty>
-                    <ComboboxGroup>
-                        <ComboboxItem 
-                            v-for="(item, index) in searchData" :key="index" class="objects-search__item"
-                            :value="item.id">
-                            <NuxtLink :href="`/realty/immovable-${item.id}`">
-                                {{ item.name }}
-                            </NuxtLink>
-                        </ComboboxItem>
-                    </ComboboxGroup>
-                </ComboboxViewport>
-            </ComboboxContent>
-        </ComboboxRoot>
-    </div>
+   <div
+      v-on-click-outside="( ) => { isOpened = false }"
+      class="objects-search">
+      <ComboboxRoot
+         :open="showCombobox"
+         class="objects-search__root">
+         <ComboboxAnchor class="objects-search__anchor">
+            <Inpt
+               v-model="query"
+               type="number"
+               placeholder="Поиск по id объекта"
+               @focus="() => { isOpened = true } "  />
+            <ISpinnerPreloader
+               v-if="isPending"
+               class="preload"/>
+         </ComboboxAnchor>
+         <ComboboxContent class="objects-search__drop">
+            <ComboboxViewport  class="objects-search__viewport">
+               <ComboboxEmpty  class="objects-search__empty">
+                  Ничего не найдено
+               </ComboboxEmpty>
+               <ComboboxGroup>
+                  <ComboboxItem 
+                     v-for="(item, index) in searchData"
+                     :key="index"
+                     class="objects-search__item"
+                     :value="item.id">
+                     <NuxtLink :href="`/realty/immovable-${item.id}`">
+                        {{ item.name }}
+                     </NuxtLink>
+                  </ComboboxItem>
+               </ComboboxGroup>
+            </ComboboxViewport>
+         </ComboboxContent>
+      </ComboboxRoot>
+   </div>
 </template>
 <style lang="scss">
 @use '/assets/styles/base/variables/colors.scss' as variable;

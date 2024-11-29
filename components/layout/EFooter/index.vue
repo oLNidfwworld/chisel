@@ -60,49 +60,72 @@ const currentYear = new Date().getFullYear();
 
 </script>
 <template>
-    <div class="page-footer mob">
-        © 2005–{{ currentYear }}
-    </div>
-    <footer class="page-footer pc">
-        <div class="page-footer__wrapper container">
-            <div class="page-footer__logo-block">
-                <img width="230" src="/footerLogo.png" />
-                <small class="page-footer__years">© 2005–{{ currentYear }}</small>
+   <div class="page-footer mob">
+      © 2005–{{ currentYear }}
+   </div>
+   <footer class="page-footer pc">
+      <div class="page-footer__wrapper container">
+         <div class="page-footer__logo-block">
+            <img
+               width="230"
+               src="/footerLogo.png" >
+            <small class="page-footer__years">© 2005–{{ currentYear }}</small>
+         </div>
+         <div class="page-footer__menus">
+            <Menu
+               :menu="menu1"
+               title="Купить" />
+            <Menu
+               :menu="menu2"
+               title="Арендовать" />
+            <Menu
+               :menu="menu3"
+               title="Услуги" />
+         </div>
+         <div class="page-footer__contacts-block">
+            <div class="page-footer__col-block">
+               <h4 class="font-bold"> Мы в соц.сетях </h4>
+               <ul class="page-footer__socials"> 
+                  <a
+                     href="https://vk.com/nedvizhimostpp"
+                     target="_blank"
+                     class="">
+                     <IVKWhite filled/>
+                  </a>
+                  <a
+                     href="https://www.youtube.com/channel/UCMF6FOeygEuzxZ5Mk7rOIgg"
+                     target="_blank"
+                     class="">
+                     <IYTWhite filled/>
+                  </a>
+               </ul>
+               <NuxtLink href="/blog/">Блог</NuxtLink>
             </div>
-            <div class="page-footer__menus">
-                <Menu :menu="menu1" title="Купить" />
-                <Menu :menu="menu2" title="Арендовать" />
-                <Menu :menu="menu3" title="Услуги" />
+            <div class="page-footer__col-block end-block"> 
+               <a
+                  class="font-bold"
+                  href="tel:+79015178651">+7 901 517-86-51
+               </a> 
+               <ul class="page-footer__socials">
+                  <a
+                     href="https://wa.me/79015178651"
+                     target="_blank"
+                     rel="noopener noreferrer">
+                     <IWhatsupWhite/>
+                  </a>
+                  <a
+                     href="mailto:ekspert07@bk.ru"
+                     rel="noopener noreferrer"> 
+                     <IEmailWhite/>
+                  </a>
+               </ul>
+               <p class="text-sm"><a
+                  href="https://yandex.ru/maps/-/CDQWu6KJ"
+                  target="_blank">МО, г.Павловский Посад,<br> ул. Кирова, д.91</a></p>
             </div>
-            <div class="page-footer__contacts-block">
-                <div class="page-footer__col-block">
-                    <h4 class="font-bold"> Мы в соц.сетях </h4>
-                    <ul class="page-footer__socials"> 
-                        <a href="https://vk.com/nedvizhimostpp" target="_blank" class="">
-                            <IVKWhite filled/>
-                        </a>
-                        <a href="https://www.youtube.com/channel/UCMF6FOeygEuzxZ5Mk7rOIgg" target="_blank" class="">
-                            <IYTWhite filled/>
-                        </a>
-                    </ul>
-                    <NuxtLink href="/blog/">Блог</NuxtLink>
-                </div>
-                <div class="page-footer__col-block end-block"> 
-                        <a class="font-bold" href="tel:+79015178651">+7 901 517-86-51
-                        </a> 
-                    <ul class="page-footer__socials">
-                        <a href="https://wa.me/79015178651" target="_blank" rel="noopener noreferrer">
-                            <IWhatsupWhite/>
-                        </a>
-                        <a href="mailto:ekspert07@bk.ru" rel="noopener noreferrer"> 
-                            <IEmailWhite/>
-                        </a>
-                        </ul>
-                    <p class="text-sm"><a href="https://yandex.ru/maps/-/CDQWu6KJ" target="_blank">МО, г.Павловский Посад,<br> ул. Кирова, д.91</a></p>
-                </div>
-            </div>
-        </div>
-    </footer>
+         </div>
+      </div>
+   </footer>
 </template>
 <style lang="scss">
 @use "/assets/styles/base/variables/colors.scss" as variable;

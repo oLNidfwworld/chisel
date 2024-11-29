@@ -16,9 +16,9 @@ if (error.value) {
 }  
 </script>
 <template>
-    <ContentInner :h1="data?.h1">
+   <ContentInner :h1="data?.h1">
       <ContentDoc />
-    </ContentInner>
+   </ContentInner>
 </template> 
 <style>
 </style>

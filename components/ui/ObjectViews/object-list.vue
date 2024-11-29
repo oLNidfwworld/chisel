@@ -16,9 +16,14 @@ withDefaults(
 
 <template>
    
-  <div class="object-list">
-    <ObjectCard  v-for="(item, index) in items" :key="index" :item="item" :show-fav="showFav"  :show-bottom-row="showBottomRow"/>
-  </div>
+   <div class="object-list">
+      <ObjectCard
+         v-for="(item, index) in items"
+         :key="index"
+         :item="item"
+         :show-fav="showFav"
+         :show-bottom-row="showBottomRow"/>
+   </div>
 </template>
 <style>
 .object-list{

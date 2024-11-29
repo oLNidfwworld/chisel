@@ -55,52 +55,76 @@ const isLink = computed(() => {
       tag: 'div'
     }
   }
-});
-console.log(isLink.value)
+}); 
 </script>
 <template>
-  <div class="object-card">
-    <component :is="isLink.tag" v-bind="isLink.attrs" class="object-card__slider-wrapper">
-      <ClientOnly>
-        <Swiper class="object-card__slider" space-between="15" @swiper="onSwiperInitialized">
-          <SwiperSlide v-for="(photo, index) in photos" :key="index">
-            <picture>
-              <source :srcset="apiServerUrl(photo)" />
-              <img class="object-card__img" :alt="item?.name" />
-            </picture>
-          </SwiperSlide>
-        </Swiper>
-      </ClientOnly>
-    </component>
-    <div class="object-card__content">
-      <div class="object-card__top">
-        <div class="object-card__top-row">
-          <h3 class="object-card__title">{{ item.name }}</h3>
-          <div class="object-card__additional">
-            <span v-if="item.ID_OBJECT">id{{ item.ID_OBJECT }}</span>
-            <ClientOnly v-if="showFav">
-              <button @click="favStore.changeFavorite(item.id)">
-                <IFav :class="{ 'is-fav': inFav }" filled />
-              </button>
-            </ClientOnly>
-          </div>
-        </div>
-        <div class="object-card__red">{{ price }} ₽</div>
-        <div v-if="item.location" class="object-card__desc">
-          {{ item.location }}
-        </div>
-        <PropsRow v-if="topPropsRow && topPropsRow.length > 0" :items="topPropsRow" />
+   <div class="object-card">
+      <component
+         :is="isLink.tag"
+         v-bind="isLink.attrs"
+         class="object-card__slider-wrapper">
+         <ClientOnly>
+            <Swiper
+               class="object-card__slider"
+               space-between="15"
+               @swiper="onSwiperInitialized">
+               <SwiperSlide
+                  v-for="(photo, index) in photos"
+                  :key="index">
+                  <picture>
+                     <source :srcset="apiServerUrl(photo)" >
+                     <img
+                        class="object-card__img"
+                        :alt="item?.name" >
+                  </picture>
+               </SwiperSlide>
+            </Swiper>
+         </ClientOnly>
+      </component>
+      <div class="object-card__content">
+         <div class="object-card__top">
+            <div class="object-card__top-row">
+               <h3 class="object-card__title">{{ item.name }}</h3>
+               <div class="object-card__additional">
+                  <span v-if="item.ID_OBJECT">id{{ item.ID_OBJECT }}</span>
+                  <ClientOnly v-if="showFav">
+                     <button @click="favStore.changeFavorite(item.id)">
+                        <IFav
+                           :class="{ 'is-fav': inFav }"
+                           filled />
+                     </button>
+                  </ClientOnly>
+               </div>
+            </div>
+            <div class="object-card__red">{{ price }} ₽</div>
+            <div
+               v-if="item.location"
+               class="object-card__desc">
+               {{ item.location }}
+            </div>
+            <PropsRow
+               v-if="topPropsRow && topPropsRow.length > 0"
+               :items="topPropsRow" />
+         </div>
+         <div
+            v-if="showBottomRow"
+            class="object-card__bottom">
+            <Btn
+               class="object-card__link"
+               :to="`/realty/immovable-${item.id}`"
+               preference="transparent">Подробнее
+            </Btn>
+            <Btn
+               v-if="!numIsVisible"
+               @click="numIsVisible = !numIsVisible">
+               Показать телефон
+            </Btn>
+            <Agent
+               v-else
+               :agent="item.agent" />
+         </div>
       </div>
-      <div v-if="showBottomRow" class="object-card__bottom">
-        <Btn class="object-card__link" :to="`/realty/immovable-${item.id}`" preference="transparent">Подробнее
-        </Btn>
-        <Btn v-if="!numIsVisible" @click="numIsVisible = !numIsVisible">
-          Показать телефон
-        </Btn>
-        <Agent v-else :agent="item.agent" />
-      </div>
-    </div>
-  </div>
+   </div>
 </template>
 <style lang="scss" scoped>
 @use "/assets/styles/base/variables/colors.scss" as variable;

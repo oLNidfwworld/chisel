@@ -124,20 +124,29 @@ watch(page, () => {
 const objectWithLocation = computed(() => pageData.value?.elementsCatalog?.values.filter((catalogElement) => catalogElement.coordinates?.lat && catalogElement.coordinates?.lon) || []);
 </script>
 <template>
-  <div class="container">
-    <template v-if="isMap">
-      <ObjectMap :items="objectWithLocation" />
-    </template>
-    <template v-else-if="pageData">
-      <ObjectList v-if="slicedPageData.length > 0" :items="slicedPageData" />
-      <div class="text-center font-bold" v-else>
-        Объектов по данному запросу не найдено!
-      </div>
-      <div v-if="pageData.elementsCatalog.values.length > pageSize" class="mt-4">
-        <Pagination v-model="page" :items-per-page="pageSize" :total-items="pageData.elementsCatalog.values.length" />
-      </div>
-    </template>
-  </div>
+   <div class="container">
+      <template v-if="isMap">
+         <ObjectMap :items="objectWithLocation" />
+      </template>
+      <template v-else-if="pageData">
+         <ObjectList
+            v-if="slicedPageData.length > 0"
+            :items="slicedPageData" />
+         <div
+            v-else
+            class="text-center font-bold">
+            Объектов по данному запросу не найдено!
+         </div>
+         <div
+            v-if="pageData.elementsCatalog.values.length > pageSize"
+            class="mt-4">
+            <Pagination
+               v-model="page"
+               :items-per-page="pageSize"
+               :total-items="pageData.elementsCatalog.values.length" />
+         </div>
+      </template>
+   </div>
 </template>
 <style lang="scss">
 @use '/assets/styles/base/shortcuts.scss';

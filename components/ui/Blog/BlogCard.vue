@@ -6,20 +6,24 @@ const props = defineProps<{
 }>(); 
 </script>
 <template>
-    <NuxtLink :href="`/blog/${props.item.CODE}`" class="blog-card">
-        <picture>
-            <source :srcset="apiServerUrl(item.PREVIEW_PICTURE.url)" />
-            <img class="blog-card__img" :alt="item.NAME"/>
-        </picture>
-        <div class="blog-card__content">
-            <h2 class="blog-card__name">
-                {{ item.NAME }}
-            </h2>
-            <p class="blog-card__desc">
-                {{ item.PREVIEW_TEXT }}
-            </p>
-        </div>
-    </NuxtLink>
+   <NuxtLink
+      :href="`/blog/${props.item.CODE}`"
+      class="blog-card">
+      <picture>
+         <source :srcset="apiServerUrl(item.PREVIEW_PICTURE.url)" >
+         <img
+            class="blog-card__img"
+            :alt="item.NAME">
+      </picture>
+      <div class="blog-card__content">
+         <h2 class="blog-card__name">
+            {{ item.NAME }}
+         </h2>
+         <p class="blog-card__desc">
+            {{ item.PREVIEW_TEXT }}
+         </p>
+      </div>
+   </NuxtLink>
 </template>
 <style lang="scss">
 @use '/assets/styles/base/variables/colors.scss' as variable;

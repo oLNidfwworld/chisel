@@ -8,19 +8,23 @@ defineProps<IProps>();
 const visible = ref(false);
 </script>
 <template>
-  <div class="submenu">
-    <div class="submenu__header">
-      <h3 class="submenu__title">{{ title }}</h3>
-      <button class="submenu__trigger" @click="visible = !visible">
-        <IArrowDown filled />
-      </button>
-    </div>
-    <div class="submenu__wrapper" :class="{ visible: visible }">
-      <div class="submenu__content">
-        <slot />
+   <div class="submenu">
+      <div class="submenu__header">
+         <h3 class="submenu__title">{{ title }}</h3>
+         <button
+            class="submenu__trigger"
+            @click="visible = !visible">
+            <IArrowDown filled />
+         </button>
       </div>
-    </div>
-  </div>
+      <div
+         class="submenu__wrapper"
+         :class="{ visible: visible }">
+         <div class="submenu__content">
+            <slot />
+         </div>
+      </div>
+   </div>
 </template>
 <style lang="scss">
 @use "/assets/styles/base/variables/colors.scss" as variable;

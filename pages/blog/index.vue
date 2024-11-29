@@ -50,12 +50,15 @@ watch(() => page.value, async ( newVal ) => {
 
 </script>
 <template>
-    <ContentInner h1="Блог">
-        <BlogList :items="blog.items" />
-        <div class=" mt-4">
-            <Pagination v-model="page" :items-per-page="20" :total-items="20 * blog.nav_size"/>
-        </div>
-    </ContentInner>
+   <ContentInner h1="Блог">
+      <BlogList :items="blog.items" />
+      <div class=" mt-4">
+         <Pagination
+            v-model="page"
+            :items-per-page="20"
+            :total-items="20 * blog.nav_size"/>
+      </div>
+   </ContentInner>
 </template>
 <style lang="scss" >
 @use '/assets/styles/base/shortcuts.scss';

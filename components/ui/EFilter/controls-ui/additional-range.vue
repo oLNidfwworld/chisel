@@ -14,17 +14,19 @@ const model = defineModel<{
 // const numberMin= computed( (  ) => Number(props.min))
 </script>
 <template>
-  <div class="e-filter-range">
-    <input 
-      v-model="model.min"  
-      step="0.01" 
-      placeholder="От" type="number" />
-    <span class="e-filter-range__separator" />
-    <input   
-      v-model="model.max" 
-      step="0.01" 
-      placeholder="До" type="number" />
-  </div>
+   <div class="e-filter-range">
+      <input 
+         v-model="model.min"  
+         step="0.01" 
+         placeholder="От"
+         type="number" >
+      <span class="e-filter-range__separator" />
+      <input   
+         v-model="model.max" 
+         step="0.01" 
+         placeholder="До"
+         type="number" >
+   </div>
 </template>
 <style lang="scss" scoped>
 @use "/assets/styles/base/variables/colors.scss" as variable;

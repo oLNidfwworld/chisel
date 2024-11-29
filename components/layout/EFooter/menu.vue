@@ -9,14 +9,17 @@ interface IProps {
 defineProps<IProps>();
 </script>
 <template>
-  <div class="page-footer-menu">
-    <span class="page-footer-menu__title">{{ title }}</span>
-    <ul class="page-footer-menu__list">
-      <li v-for="(menuItem, index) in menu" :key="index" class="page-footer-menu__list-item">
-        <NuxtLink :href="menuItem.path">{{ menuItem.name }}</NuxtLink>
-      </li>
-    </ul>
-  </div>
+   <div class="page-footer-menu">
+      <span class="page-footer-menu__title">{{ title }}</span>
+      <ul class="page-footer-menu__list">
+         <li
+            v-for="(menuItem, index) in menu"
+            :key="index"
+            class="page-footer-menu__list-item">
+            <NuxtLink :href="menuItem.path">{{ menuItem.name }}</NuxtLink>
+         </li>
+      </ul>
+   </div>
 </template>
 <style lang="scss">
 @use "/assets/styles/base/variables/colors.scss" as variable;

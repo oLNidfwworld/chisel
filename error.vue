@@ -68,41 +68,49 @@ onMounted(() => {
 const handleError = () => clearError({ redirect: '/' })
 </script>
 <template>
-  <div class="page-wrapper">
-    <EHeader />
-    <main class="page-content error">
-      <div class="container">
-        <div v-if="error.statusCode == 404" class="error__description">
-          <div class="error__wrapper">
-            <div id="animate-it" ref="svg404">
-              <INotFound filled />
+   <div class="page-wrapper">
+      <EHeader />
+      <main class="page-content error">
+         <div class="container">
+            <div
+               v-if="error.statusCode == 404"
+               class="error__description">
+               <div class="error__wrapper">
+                  <div
+                     id="animate-it"
+                     ref="svg404">
+                     <INotFound filled />
+                  </div>
+                  <div class="error__desc-404">
+                     <p class="error__title-404">
+                        Страница, которую вы запрашиваете, не существует!
+                     </p>
+                     <p class="error__subdesc-404">
+                        Возможно она устарела, была удалена или был введен неверный адрес в
+                        адресной строке.
+                     </p>
+                     <Btn @click="handleError">На главную</Btn>
+                  </div>
+               </div>
             </div>
-            <div class="error__desc-404">
-              <p class="error__title-404">
-                Страница, которую вы запрашиваете, не существует!
-              </p>
-              <p class="error__subdesc-404">
-                Возможно она устарела, была удалена или был введен неверный адрес в
-                адресной строке.
-              </p>
-              <Btn @click="handleError">На главную</Btn>
+            <div
+               v-else
+               class="error__description">
+               <div class="error__code">{{ error.statusCode }}</div>
+               <p>
+                  Произошла непредвиденная ошибка! <br >
+                  Пожалуйста, свяжитесь с разработчиками
+               </p>
             </div>
-          </div>
-        </div>
-        <div v-else class="error__description">
-          <div class="error__code">{{ error.statusCode }}</div>
-          <p>
-            Произошла непредвиденная ошибка! <br />
-            Пожалуйста, свяжитесь с разработчиками
-          </p>
-        </div>
-        <div v-if="route.query.admindebug == 1" class="error__debug-trace">
-          <pre v-html="error.stack" />
-        </div>
-      </div>
-    </main>
-    <EFooter />
-  </div>
+            <div
+               v-if="route.query.admindebug == 1"
+               class="error__debug-trace">
+               <pre v-html="error.stack" />
+            </div>
+         </div>
+      </main>
+      <EFooter />
+   </div>
 </template>
 <style lang="scss">
 @use "/assets/styles/layouts/default.scss"; 
