@@ -44,10 +44,5 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           envs: PROJECT_PATH
           script: |
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh  
             cd $PROJECT_PATH
-            git pull
-            npx pnpm install --frozen-lockfile
-            npx pnpm run build
-            pm2 restart Chisel
+            source ./deploy.sh
