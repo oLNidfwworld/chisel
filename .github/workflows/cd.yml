@@ -37,13 +37,18 @@ jobs:
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v1.2.0
         env:
-          PROJECT_PATH: ${{ vars.FTP_PATH }}   
+          PROJECT_PATH: ${{ vars.FTP_PATH }} 
+          USER: ${{ secrets.FTP_USERNAME }}   
         with:
           host: ${{ secrets.FTP_SERVER }} 
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          envs: PROJECT_PATH
-          script: |
+          envs: PROJECT_PATH,USER
+          script: | 
+            source ~/.nvm/nvm.sh
+            export PATH=$PATH:~/.local/share/pnpm/pm2 
             cd $PROJECT_PATH
-            git pull
-            source ./deploy.sh
+            git pull  
+            npx pnpm install --frozen-lockfile
+            npx pnpm run build
+            pm2 restart Chisel
