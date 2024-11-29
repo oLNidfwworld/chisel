@@ -10,15 +10,17 @@ const numIsVisible = ref(false);
 const price = computed(() => props.data.price.toLocaleString("ru-RU"));
 </script>
 <template>
-  <div class="mini-card">
-    <NuxtPicture
-      v-if="(data.photos.length > 0)"
-      class="mini-card__image-wrapper"
-      format="png"
-      :img-attrs="{ class: 'mini-card__img' }"
-      :src="apiServerUrl(data.photos[0].websrc)"
-    />
-    <ICityPlaceholder v-else class="mini-card__placeholder" filled />
+  <div class="mini-card"> 
+    <NuxtLink :href="`/realty/immovable-${data.id}`">
+      <NuxtPicture
+        v-if="(data.photos.length > 0)"
+        class="mini-card__image-wrapper"
+        format="png"
+        :img-attrs="{ class: 'mini-card__img' }"
+        :src="apiServerUrl(data.photos[0].websrc)"
+      />
+      <ICityPlaceholder v-else class="mini-card__placeholder" filled />
+    </NuxtLink>
     <div class="mini-card__content">
       <span class="mini-card__red">{{ price }} ₽</span>
       <NuxtLink :href="`/realty/immovable-${data.id}`">

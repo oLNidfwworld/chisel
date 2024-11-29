@@ -80,6 +80,9 @@ const seoDataIsNotIndex = computed<{
       'DESCRIPTION': 'N/A',
     }
   }
+});
+watch(( ) => seoDataIsNotIndex.value, ( ) => {
+  console.log(seoDataIsNotIndex.value.H1);
 })
 useSeoMeta({
   title: seoData.value?.TITLE,

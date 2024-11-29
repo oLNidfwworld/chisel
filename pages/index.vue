@@ -11,7 +11,7 @@ const { data: usefullLinks } = await useFetch('/api/usefull-links', {
     return {
       ...(input as KeyedObject),
       fetchedAt: new Date()
-    }
+    } 
   },
   getCachedData(key, nuxtApp) {
     const data = nuxtApp.payload.data[key] || nuxtApp.static.data[key];

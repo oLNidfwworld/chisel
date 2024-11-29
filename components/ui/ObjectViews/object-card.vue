@@ -27,23 +27,40 @@ const price = computed(() => {
   }
 });
 const photos = computed(() => {
-  return props.item.photos.map((photo : any) => photo?.src || photo)
+  return props.item.photos.map((photo: any) => photo?.src || photo)
 });
 const propsData = computed(() => {
   const detailData = props.item;
-  const arr = [...((props?.item?.customProps || []) as unknown as { name: string, value: string }[])]; 
+  const arr = [...((props?.item?.customProps || []) as unknown as { name: string, value: string }[])];
   propsPush(detailData, arr);
 
   return arr;
 });
-const favStore = useFavoriteStore(); 
+const favStore = useFavoriteStore();
 const inFav = favStore.isFavorite(props.item.id);
 const topPropsRow = computed(() => propsData.value.slice(0, 5));
 // const bottomPropsRow = computed(() => propsData.value.slice(5, 9));
+
+
+const isLink = computed(() => {
+  if (props.item.id) {
+    return {
+      tag: resolveComponent('NuxtLink'),
+      attrs: {
+        href: `/realty/immovable-${props.item.id}`
+      }
+    }
+  } else {
+    return {
+      tag: 'div'
+    }
+  }
+});
+console.log(isLink.value)
 </script>
 <template>
   <div class="object-card">
-    <div class="object-card__slider-wrapper">
+    <component :is="isLink.tag" v-bind="isLink.attrs" class="object-card__slider-wrapper">
       <ClientOnly>
         <Swiper class="object-card__slider" space-between="15" @swiper="onSwiperInitialized">
           <SwiperSlide v-for="(photo, index) in photos" :key="index">
@@ -54,7 +71,7 @@ const topPropsRow = computed(() => propsData.value.slice(0, 5));
           </SwiperSlide>
         </Swiper>
       </ClientOnly>
-    </div>
+    </component>
     <div class="object-card__content">
       <div class="object-card__top">
         <div class="object-card__top-row">
@@ -63,7 +80,7 @@ const topPropsRow = computed(() => propsData.value.slice(0, 5));
             <span v-if="item.ID_OBJECT">id{{ item.ID_OBJECT }}</span>
             <ClientOnly v-if="showFav">
               <button @click="favStore.changeFavorite(item.id)">
-                <IFav :class="{'is-fav' : inFav}" filled />
+                <IFav :class="{ 'is-fav': inFav }" filled />
               </button>
             </ClientOnly>
           </div>
@@ -72,7 +89,7 @@ const topPropsRow = computed(() => propsData.value.slice(0, 5));
         <div v-if="item.location" class="object-card__desc">
           {{ item.location }}
         </div>
-        <PropsRow v-if="topPropsRow && topPropsRow.length > 0" :items="topPropsRow" /> 
+        <PropsRow v-if="topPropsRow && topPropsRow.length > 0" :items="topPropsRow" />
       </div>
       <div v-if="showBottomRow" class="object-card__bottom">
         <Btn class="object-card__link" :to="`/realty/immovable-${item.id}`" preference="transparent">Подробнее
@@ -80,7 +97,7 @@ const topPropsRow = computed(() => propsData.value.slice(0, 5));
         <Btn v-if="!numIsVisible" @click="numIsVisible = !numIsVisible">
           Показать телефон
         </Btn>
-        <Agent v-else :agent="item.agent"  />
+        <Agent v-else :agent="item.agent" />
       </div>
     </div>
   </div>

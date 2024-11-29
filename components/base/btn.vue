@@ -9,7 +9,7 @@ withDefaults(defineProps<IProps>(), {
 });
 </script>
 <template>
-  <a class="btn" v-if="href" :href="href" :class="[preference]">
+  <a v-if="href" class="btn" :href="href" :class="[preference]">
     <slot />
   </a>
   <NuxtLink v-else-if="to" :to="to" class="btn" :class="[preference]">

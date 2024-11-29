@@ -56,7 +56,8 @@ const expandFields = computed(() => {
   const fillable = onlyFillableFields.value;
   const newFields: KeyedObject = {};
   Object.keys(fillable).forEach((key) => {
-    if (key !== 'city' && key !== 'objectRealty' && fillable[key].type !== 'range') {
+    console.log(fillable);
+    if (key !== 'city' && key !== 'objectRealty' && (fillable[key].type !== 'range' || key === 'floor' )) {
       if (isExpanded.value) {
         newFields[key] = fillable[key]
       }
@@ -271,18 +272,6 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
         </div>
       </TransitionGroup>
       <div class="e-filter-additional__bottom">
-        <TransitionGroup name="adding-filter" tag="ul" class="e-filter-additional__label-row">
-          <li v-for="(label, labelIndex) in labelsData" :key="labelIndex" class="e-filter-additional__label-item">
-            <ELabel @remove="() => removeFromValuesToPost(labelIndex.toString())">
-              {{ label.name }}: {{ label.value }}
-            </ELabel>
-          </li>
-          <li class="e-filter-additional__label-item">
-            <ELabel v-if="Object.keys(labelsData).length > 1" hightlighted @remove="removeAllValuesToPost">
-              Очистить
-            </ELabel>
-          </li>
-        </TransitionGroup>
         <div class="e-filter-additional__submit-row">
           <Btn type="button" preference="sea" @click="isExpanded = !isExpanded">Расширенный фильтр
             <IArrowDown :style="{ 'transform': isExpanded ? 'rotate(180deg)' : '' }" />
@@ -300,6 +289,18 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
             <span>На карте</span>
           </Btn>
         </div>
+        <TransitionGroup name="adding-filter" tag="ul" class="e-filter-additional__label-row">
+          <li v-for="(label, labelIndex) in labelsData" :key="labelIndex" class="e-filter-additional__label-item">
+            <ELabel @remove="() => removeFromValuesToPost(labelIndex.toString())">
+              {{ label.name }}: {{ label.value }}
+            </ELabel>
+          </li>
+          <li class="e-filter-additional__label-item">
+            <ELabel v-if="Object.keys(labelsData).length > 1" hightlighted @remove="removeAllValuesToPost">
+              Очистить
+            </ELabel>
+          </li>
+        </TransitionGroup>
       </div>
     </div>
     <div v-else class="e-filter-additional">
@@ -459,12 +460,12 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
     margin-top: 15px;
 
     @include media.min-md {
-      flex-direction: column;
+      flex-direction: column-reverse;
     }
 
     @include media.min-llg {
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: auto 1fr;
     }
   }
 
@@ -507,7 +508,7 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
     }
 
     // exception 
-    &.list.objectRealty .e-filter-radio-group :nth-child(3) {
+    &.list.objectRealty .e-filter-radio-group :nth-child(4) {
 
       margin-right: 10px;
 
