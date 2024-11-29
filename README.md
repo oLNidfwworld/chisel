@@ -43,6 +43,8 @@ pnpm run build
 
 ## In TODO:
 
+- Eslint test
+- Other tests
 - non existing prop value bug (example : ?house-type=woob-stone-[kekkeelleel])  
 - ETextarea
  
