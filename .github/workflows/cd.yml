@@ -45,10 +45,9 @@ jobs:
           envs: PROJECT_PATH
           script: |
             export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh 
-            export PNPM_HOME=/root/.local/share/pnpm/
+            source ~/.nvm/nvm.sh  
             cd $PROJECT_PATH
             git pull
-            pnpm install --frozen-lockfile
-            pnpm run build
+            npx pnpm install --frozen-lockfile
+            npx pnpm run build
             pm2 restart Chisel
