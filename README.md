@@ -1,4 +1,4 @@
-## Setup 
+## Simple setup 
 
 ```bash  
 # pnpm
@@ -14,7 +14,7 @@ pnpm run build
 ## For CI/CD:
 
 - fill secrets.FTP_SERVER, vars.FTP_PATH, secrets.FTP_USERNAME, secrets.FTP_PASSWORD
-- git pull your projet at vars.FTP_PATH
+- git pull your project at vars.FTP_PATH
 - install node with lts
   ```bash 
   nvm install --lts > for current date 22.11.0 is lts
@@ -43,11 +43,6 @@ pnpm run build
 
 ## In TODO:
 
-- non existing prop value bug (example : ?house-type=woob-stone-[kekkeelleel])
-- REMOVE DUPLICATING REQUESTS
-- minor style fixes
-- minor style animations
-- minor refac
-- preview filtering object number on button "Показать"
-- return ETextarea
+- non existing prop value bug (example : ?house-type=woob-stone-[kekkeelleel])  
+- ETextarea
  
