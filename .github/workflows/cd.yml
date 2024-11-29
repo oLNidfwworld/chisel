@@ -11,7 +11,9 @@ jobs:
       matrix:
         node-version: [22.x] 
     steps:
-    - uses: actions/checkout@v4 
+    - uses: actions/checkout@v4    
+    - run: npm ci 
+    - run: npm run lint
   
   run-tests:
     runs-on: ubuntu-latest 
