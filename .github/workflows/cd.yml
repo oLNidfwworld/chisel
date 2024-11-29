@@ -39,6 +39,6 @@ jobs:
             source ~/.nvm/nvm.sh 
             cd $PROJECT_PATH
             git pull
-            pnpm install --frozen-lockfile
-            pnpm run build
+            npm install --frozen-lockfile
+            npm run build
             pm2 restart Chisel
