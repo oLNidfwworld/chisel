@@ -1,4 +1,4 @@
-export PATH=/root/.local/share/pnpm:/root/.nvm/versions/node/v22.11.0/bin
+source ~/.bashrc
 
 npx pnpm install --frozen-lockfile
 npx pnpm run build
