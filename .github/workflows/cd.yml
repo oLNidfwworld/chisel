@@ -46,7 +46,7 @@ jobs:
           script: |
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh 
-            export /root/.local/share/pnpm/pnpm
+            export PNPM_HOME=/root/.local/share/pnpm/
             cd $PROJECT_PATH
             git pull
             pnpm install --frozen-lockfile
