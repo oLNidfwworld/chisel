@@ -5,6 +5,7 @@ interface IProps{
   items : ObjectShorted[],
 }
 defineProps<IProps>();
+defineEmits(['swiper']);
 </script>
 <template>
    <Swiper
@@ -26,6 +27,7 @@ defineProps<IProps>();
             spaceBetween: 20,
          },
       }"
+      @swiper="$emit('swiper',$event)"
    >
       <SwiperSlide
          v-for="(item, index) in items"

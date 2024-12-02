@@ -1,10 +1,10 @@
 <script setup>
 import ServiceCard from "./service-card.vue";
 
-
 const { data } = await useAsyncData(`content-/services`, () => {
   return queryContent('services').find();
 });  
+defineEmits(['swiper']);
 </script>
 <template>
    <Swiper
@@ -23,6 +23,7 @@ const { data } = await useAsyncData(`content-/services`, () => {
          },
       }"
       :modules="[SwiperGrid]"
+      @swiper="$emit('swiper', $event)"
    >
       <SwiperSlide
          v-for="(item,index) in data"

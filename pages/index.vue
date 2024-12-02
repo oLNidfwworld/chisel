@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type Swiper from "swiper";
 import type { KeyedObject } from "~/assets/types/entity/data-object";
 import type { ObjectShorted } from "~/assets/types/entity/object-detail";
+import NavArrows from "~/components/ui/nav-arrows.vue";
 import ObjectSlider from "~/components/ui/ObjectViews/object-slider.vue";
 import ServiceSlider from "~/components/ui/Services/service-slider.vue";
 import Submenu from "~/components/ui/submenu.vue";
@@ -31,7 +33,9 @@ useSeoMeta({
   title: 'Купить, снять квартиру и другую недвижимость | Эксперт ',
   description: 'Эксперт - аренда и продажа недвижимости в Москве и Московской области. Описание объектов, фото, контакты продавца.'
 }); 
-</script>
+const servicesSlider = ref<Swiper>(); 
+const bestsSlider = ref<Swiper>(); 
+</script> 
 <template>
    <div class="container">
       <section>
@@ -47,22 +51,36 @@ useSeoMeta({
                   <li
                      v-for="(link, linkIndex) in linksTab.links"
                      :key="linkIndex">
-                     <NuxtLink :href="link.link">{{ link.name }} {{ link.count > 0 ? link.count : ''  }}</NuxtLink>
+                     <NuxtLink :href="link.link">{{ link.name }} &nbsp; <span>{{ link.count > 0 ? link.count : ''  }}</span></NuxtLink>
                   </li>
                </ul>
             </Submenu>
          </div>
       </section>
       <section v-if="recommended?.items && recommended.items.length > 0">
-         <h2 class="title-md-bottom-margin title-md">Выгодные предложения</h2>
+         <div class="flex-center-between title-md-bottom-margin">
+            <h2 class=" title-md">Выгодные предложения</h2>
+            <ClientOnly>
+               <NavArrows
+                  :swiper-instance="bestsSlider"/>
+            </ClientOnly>
+         </div> 
          <ClientOnly>
-            <ObjectSlider :items="recommended?.items" />
+            <ObjectSlider
+               :items="recommended?.items"    
+               @swiper="bestsSlider = $event" />
          </ClientOnly>
       </section>
       <section>
-         <h2 class="title-md-bottom-margin title-md">Услуги</h2>
+         <div class="flex-center-between title-md-bottom-margin">
+            <h2 class=" title-md">Услуги</h2>
+            <ClientOnly>
+               <NavArrows
+                  :swiper-instance="servicesSlider"/>
+            </ClientOnly>
+         </div> 
          <ClientOnly>
-            <ServiceSlider />
+            <ServiceSlider @swiper="servicesSlider = $event" />
          </ClientOnly>
       </section>
    </div>

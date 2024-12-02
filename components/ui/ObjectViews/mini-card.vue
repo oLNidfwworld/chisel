@@ -73,11 +73,24 @@ const price = computed(() => props.data.price.toLocaleString("ru-RU"));
     font-weight: 600;
     display: block;
     margin-bottom: 9px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    height: 44px;
   }
   &__desc {
     color: variable.$gray-dark;
     display: block;
     margin-bottom: 25px;
+
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    height: 66px;
   }
   &__btn.btn {
     margin: auto;
