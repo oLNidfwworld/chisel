@@ -15,9 +15,11 @@ body {
     system-ui;
 }
 .nuxt-icon {
-  width: fit-content !important;
-  height: fit-content !important;
-  margin: 0 !important;
+  width: inherit !important;
+  height: inherit !important; 
+  // width: -webkit-fit-content !important;
+  // height: -webkit-fit-content !important;
+  margin: 0 !important; 
 }
 
 /* Chrome, Safari, Edge, Opera */

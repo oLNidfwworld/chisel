@@ -91,9 +91,7 @@ const isOpened = ref(false);
     top: 0;
     bottom: 0;
     right: 9px;
-    margin: auto 0 !important;
-    width: fit-content;
-    height: fit-content;
+    margin: auto 0 !important; 
   }
 
   &__drop {
