@@ -15,8 +15,8 @@ body {
     system-ui;
 }
 .nuxt-icon {
-  width: inherit !important;
-  height: inherit !important; 
+  width: unset !important;
+  height: unset !important; 
   // width: -webkit-fit-content !important;
   // height: -webkit-fit-content !important;
   margin: 0 !important; 
