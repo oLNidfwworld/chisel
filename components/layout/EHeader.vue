@@ -53,7 +53,10 @@ const toggleOverlay = ( isOverlay ) => {
       :class="{ 'on-top' : searchOpened}">
       <div class="page-header__wrapper container">
          <NuxtLink to="/">
-            <ILogoTypeOne width="117" height="33" filled />
+            <ILogoTypeOne 
+               width="117"
+               height="33"
+               filled />
          </NuxtLink>
          <nav
             class="page-header__nav"
