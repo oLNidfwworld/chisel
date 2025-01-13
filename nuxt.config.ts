@@ -99,6 +99,9 @@ export default defineNuxtConfig({
     "/favorites": {
       ssr: false,
     },
+    "/bitrix":{
+      redirect: "https://api-ekspert.tw1.ru/bitrix/"
+    }
   },
 
   svgo: {
@@ -132,6 +135,7 @@ export default defineNuxtConfig({
   eslint: {
     checker: true,
   },
+  
 
   ssr: true,
 });
