@@ -170,7 +170,7 @@ const sectionTypes = shallowReactive([
     value: "zagorodnaya",
   },
   {
-    name: "Комерческая",
+    name: "Коммерческая",
     value: "commerce",
   },
 ]);

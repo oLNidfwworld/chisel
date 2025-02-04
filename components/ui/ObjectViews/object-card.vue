@@ -5,7 +5,7 @@ import PropsRow from "../props-row.vue";
 import type { Swiper } from 'swiper';
 import type { KeyedObject } from "~/assets/types/entity/data-object";
 import Agent from "../Agent/agent.vue";
-import { useFavoriteStore } from "~/store/fav";
+import { useFavoriteStore } from "~/store/fav"; 
 const numIsVisible = ref(false);
 const swiperInstance = ref<Swiper | null>();
 const onSwiperInitialized = (newSwiperInstance: Swiper) => {
@@ -26,9 +26,9 @@ const price = computed(() => {
     return 'цена не указана';
   }
 });
-const photos = computed(() => {
+const photos = computed<string[]>(() => {
   return props.item.photos.map((photo: any) => photo?.src || photo)
-});
+}); 
 const propsData = computed(() => {
   const detailData = props.item;
   const arr = [...((props?.item?.customProps || []) as unknown as { name: string, value: string }[])];
@@ -84,7 +84,9 @@ const isLink = computed(() => {
       <div class="object-card__content">
          <div class="object-card__top">
             <div class="object-card__top-row">
-               <h3 class="object-card__title">{{ item.name }}</h3>
+               <NuxtLink :to="`/realty/immovable-${item.id}`">
+                  <h3 class="object-card__title">{{ item.name }}</h3>
+               </NuxtLink>
                <div class="object-card__additional">
                   <span v-if="item.ID_OBJECT">id{{ item.ID_OBJECT }}</span>
                   <ClientOnly v-if="showFav">
