@@ -145,6 +145,9 @@ const isLink = computed(() => {
   &__title {
     font-size: 18px;
     font-weight: 700;
+    &:hover{
+      color: variable.$red;
+    }
   }
 
   &__img {

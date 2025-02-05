@@ -16,6 +16,12 @@ export const propsPush = (
       value: detailData.bathroom.toString(),
     });
   }
+  if (detailData.houseFloor) {
+    arr.push({
+      name: "Этаж",
+      value: detailData.houseFloor.toString(),
+    });
+  }
   if (detailData.elevator && detailData.section !== "commerce") {
     arr.push({
       name: "Лифт",

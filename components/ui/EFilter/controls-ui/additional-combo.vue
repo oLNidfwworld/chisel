@@ -104,8 +104,7 @@ const isOpened = ref(false);
 
   &__item {
     padding: 8px 14px;
-    max-height: 200px;
-    overflow-y: scroll;
+    max-height: 200px; 
     background-color: variable.$white;
     cursor: pointer;
 

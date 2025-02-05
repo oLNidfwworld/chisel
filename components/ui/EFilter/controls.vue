@@ -20,6 +20,12 @@ const { controlsData } = toRefs(props);
 const routeQuery = useRoute().query as KeyedObject;
 const routeParams = useRoute().params as NeededParams;
 
+const modelSection = defineModel<string>('section', {
+  required: true
+});
+const modelOfferType = defineModel<string>('offerType', {
+  required: true
+});
 const onlyFillableFields = computed<KeyedObject>(() => {
   const controlsDataValueCopy = Object.assign({}, toRaw(controlsData.value));
   const fields: KeyedObject = {};
@@ -43,12 +49,12 @@ const onlyFillableFields = computed<KeyedObject>(() => {
             fields[key]['inExpandedFilter'] = false;
           } else {
             fields[key]['inExpandedFilter'] = true;
-          }
+          }  
         }
       }
     });
   }
-  return filterControlsException(fields);
+  return filterControlsException(fields, modelSection.value);
 });
 
 const isExpanded = ref(false);
@@ -141,12 +147,6 @@ const labelsData = computed(() => {
   return data;
 })
 watch(controlsData, () => { valuesToPost.value = prepareValues(onlyFillableFields.value) })
-const modelSection = defineModel<string>('section', {
-  required: true
-});
-const modelOfferType = defineModel<string>('offerType', {
-  required: true
-});
 watch([modelOfferType, modelSection], () => {
   isExpanded.value = false;
 })
@@ -176,19 +176,26 @@ const sectionTypes = shallowReactive([
 ]);
 const lengthTotal = ref(0);
 const pendingLengthTotal = ref(false);
-const debouncedLengthTotalCalculate = useDebounceFn(async () => {
-  pendingLengthTotal.value = true;
+async function fetchCount ( valsToPost? : Record<string | number, unknown> ) {
   const { elementsCatalog } = await $fetchApi<{ elementsCatalog: { values: Array<unknown> } }>('/NewBack/NewFilter/Filter/', {
     method: 'POST',
     body: {
-      ...valuesToPost.value,
+      ...valsToPost,
       'section': modelSection.value,
       'typeOffer': modelOfferType.value,
     }
-  });
-  lengthTotal.value = elementsCatalog.values.length
+  }); 
+  return elementsCatalog.values.length;
+}
+const debouncedLengthTotalCalculate = useDebounceFn(async () => {
+  pendingLengthTotal.value = true;
+  lengthTotal.value = await fetchCount(valuesToPost.value);
   pendingLengthTotal.value = false;
-}, 700)
+}, 700);
+const { data: initialCount } =  await useAsyncData( ( ) => {
+  return fetchCount();
+}); 
+lengthTotal.value = initialCount?.value ?? 0;
 watch(() => valuesToPost.value, () => {
   debouncedLengthTotalCalculate();
 }, {

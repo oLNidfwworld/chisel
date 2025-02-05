@@ -1,6 +1,6 @@
 import type { KeyedObject } from "~/assets/types/entity/data-object";
 
-export const filterControlsException = ( obj : KeyedObject ) => { 
+export const filterControlsException = ( obj : KeyedObject, section : string ) => { 
     const newObj = Object.assign({}, obj);
     if ( 'objectRealty' in newObj ) { 
         // убираем доли
@@ -19,7 +19,16 @@ export const filterControlsException = ( obj : KeyedObject ) => {
                 newObj['objectRealty'].values = objectRealtyValues.sort( (a , b ) => a.name.charCodeAt(0) - b.name.charCodeAt(0));    
             }
         }
-    } 
-    
+        {
+            const relativeSort = ['house','dacha','area'];
+            const checkIfExist  = objectRealtyValues.find( objValue => relativeSort.indexOf(objValue.xmlId) !== -1 ); 
+            if ( checkIfExist ) { 
+                newObj['objectRealty'].values = objectRealtyValues.sort( ( a , b ) => relativeSort.indexOf(a.xmlId) - relativeSort.indexOf(b.xmlId));    
+            }
+        }
+        if ( section === 'zagorodnaya' ) {
+             delete newObj['floor'];
+        }
+    }  
     return newObj;
 }

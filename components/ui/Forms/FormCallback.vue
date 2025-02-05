@@ -1,8 +1,7 @@
 <script setup>
 import Inpt from '~/components/base/inpt.vue';
 import EPopupForm from '../e-popup-form.vue';
-import Btn from '~/components/base/btn.vue';
-
+import Btn from '~/components/base/btn.vue';  
 
 const sendData = async () => {
 
@@ -35,7 +34,8 @@ const userInfo = ref({
     name: null,
     phone: null,
     email: null,
-    comment: null
+    comment: null,
+    captchaResult : null
 })
 const validation = ref(false), validationMessage = ref('');
 
@@ -70,6 +70,9 @@ const showModal = defineModel({
                   type="email"
                   placeholder="Email" />
                <!-- <ETextarea v-model="userInfo.comment" style="resize: none;" rows="5"  placeholder="Комментарий" /> -->
+               <RecaptchaCheckbox
+                  theme="light" 
+                  size="normal"  />
             </div>
             <div class="popup__err">
                {{ validationMessage }}

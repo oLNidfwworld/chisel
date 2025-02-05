@@ -12,10 +12,17 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "radix-vue/nuxt",
     "@nuxt/content",
+    "vue-recaptcha/nuxt"
   ],
+  build : {
+    transpile: ["vue-recaptcha"],
+  },
   css: ["./assets/styles/main.scss"],
   runtimeConfig: {
-    public: {
+    public: { 
+      recaptcha: {
+        v2SiteKey: '6LcDu80qAAAAABVa5nxIoG1DySz32grZftYlEdvv', 
+      },
       apiUrl: process.env.API_BASE_URL,
       siteUrl: process.env.BASE_URL,
     },
