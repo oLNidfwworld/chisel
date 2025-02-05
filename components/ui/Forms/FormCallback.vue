@@ -8,7 +8,11 @@ const sendData = async () => {
     if ( !userInfo.value.captchaResult ) {
       validation.value = false
       validationMessage.value = 'Пройдите проверку ReCaptcha!'
-    } else validation.value = true ;
+      return
+    } else {
+      validation.value = true 
+        validationMessage.value = ''
+    };
     if (userInfo.value.phone.length < 16) {
         validationMessage.value = 'Неверный формат номера телефона'
         validation.value = false;

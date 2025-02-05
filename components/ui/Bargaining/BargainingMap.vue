@@ -172,7 +172,11 @@ const sendData = async () => {
     if ( !captchaResult.value ) {
       validation.value = false
       validationMessage.value = 'Пройдите проверку ReCaptcha!'
-    } else validation.value = true
+      return
+    } else {
+        validation.value = true;
+        validationMessage.value = ''
+    }
 
     if (userPhone.value.length < 16) {
         validationMessage.value = 'Неверный формат номера телефона'
