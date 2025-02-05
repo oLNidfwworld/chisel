@@ -4,6 +4,7 @@ import EFooter from "~/components/layout/EFooter";
 import { useUIstore } from "~/store/ui";
 
 const uiStore = useUIstore();
+useRecaptchaProvider()
 </script>
 <template>
    <div class="page-wrapper">

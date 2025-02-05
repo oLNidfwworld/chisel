@@ -13,14 +13,14 @@ export default defineNuxtConfig({
     "radix-vue/nuxt",
     "@nuxt/content",
     "vue-recaptcha/nuxt"
-  ],
+  ], 
   build : {
     transpile: ["vue-recaptcha"],
   },
   css: ["./assets/styles/main.scss"],
   runtimeConfig: {
     public: { 
-      recaptcha: {
+      recaptcha: { 
         v2SiteKey: '6LcDu80qAAAAABVa5nxIoG1DySz32grZftYlEdvv', 
       },
       apiUrl: process.env.API_BASE_URL,

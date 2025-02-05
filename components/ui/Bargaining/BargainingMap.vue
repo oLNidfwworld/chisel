@@ -146,7 +146,7 @@ const balloonContentTemplate = (name, square, stat, price) => {
 }  
 const whatsObject = ref(undefined);
 
-const userName = ref(''), userPhone = ref(''), userComment = ref(''), userEmail = ref('')
+const userName = ref(''), userPhone = ref(''), userComment = ref(''), userEmail = ref(''), captchaResult = ref('');
 
 const fallback = ref(false), responseMsg = ref('');
 const isPopupVisible = ref(false);
@@ -168,6 +168,12 @@ const makeOrder = (id) => {
 // }
 
 const sendData = async () => { 
+
+    if ( !captchaResult.value ) {
+      validation.value = false
+      validationMessage.value = 'Пройдите проверку ReCaptcha!'
+    } else validation.value = true
+
     if (userPhone.value.length < 16) {
         validationMessage.value = 'Неверный формат номера телефона'
         validation.value = false;
@@ -246,6 +252,7 @@ const sendData = async () => {
                   v-model="userEmail"
                   type="email"
                   placeholder="Email" />
+               <RecaptchaCheckbox v-model="captchaResult" />
                <!-- <ETextarea v-model="userComment" style="resize: none;" rows="5" placeholder="Комментарий" /> -->
             </div>
             <div class="popup__err">

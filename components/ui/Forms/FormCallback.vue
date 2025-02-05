@@ -5,6 +5,10 @@ import Btn from '~/components/base/btn.vue';
 
 const sendData = async () => {
 
+    if ( !userInfo.value.captchaResult ) {
+      validation.value = false
+      validationMessage.value = 'Пройдите проверку ReCaptcha!'
+    } else validation.value = true ;
     if (userInfo.value.phone.length < 16) {
         validationMessage.value = 'Неверный формат номера телефона'
         validation.value = false;
@@ -71,6 +75,7 @@ const showModal = defineModel({
                   placeholder="Email" />
                <!-- <ETextarea v-model="userInfo.comment" style="resize: none;" rows="5"  placeholder="Комментарий" /> -->
                <RecaptchaCheckbox
+                  v-model="userInfo.captchaResult"
                   theme="light" 
                   size="normal"  />
             </div>

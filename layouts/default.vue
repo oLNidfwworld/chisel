@@ -90,6 +90,8 @@ watch(route, () => refreshSeo());
 watch([offerType, section], async () => {
   refresh();
 }) 
+useRecaptchaProvider()
+
 </script>
 <template>
    <div class="page-wrapper">
