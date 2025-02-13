@@ -28,7 +28,13 @@ export const filterControlsException = ( obj : KeyedObject, section : string ) =
         }
         if ( section === 'zagorodnaya' ) {
              delete newObj['floor'];
-        }
+        } 
     }  
+    if ( section === 'zagorodnaya') {
+        if ( 'totalSpace' in newObj ){
+            newObj.totalSpace.name = 'Площадь дома'
+        } 
+    }
+
     return newObj;
 }

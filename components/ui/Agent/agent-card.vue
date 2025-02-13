@@ -4,6 +4,7 @@ import Agent from "./agent.vue";
 import Inpt from "~/components/base/inpt.vue";
 import type IAgent from "~/assets/types/entity/agent";
 import EPopupForm from "../e-popup-form.vue";
+import { Checkbox } from "vue-recaptcha";
 
 defineProps<{ agent: IAgent }>();
  
@@ -12,11 +13,19 @@ const visibleNumber = defineModel({
   type: Boolean
 }); 
 
+const captResponse = ref('');
 const myPhone = ref('')
 const validation = ref(false), validationMessage = ref('');
 const show = ref(false), title = ref(''), content = ref('');
 const callbackMe = async () => {
 
+  if( !captResponse.value ){
+
+    validationMessage.value = 'Пройдите проверку ReCapthca!'
+    validation.value = false;
+
+    return;
+  } else { validation.value = true}
   if (myPhone.value.length < 16) {
     validationMessage.value = 'Неверный формат номера телефона'
     validation.value = false;
@@ -76,7 +85,11 @@ const callbackMe = async () => {
          <p
             v-if="validationMessage"
             class="text-red text-center"  >{{ validationMessage }}</p>
-      </div>
+         <Checkbox
+            v-model="captResponse"
+            style="width:fit-content;margin: auto;"
+            theme="light"/>
+      </div> 
       <Btn
          type="submit"
          class="agent-card__submit">Позвоните мне</Btn>
