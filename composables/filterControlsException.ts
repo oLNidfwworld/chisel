@@ -32,7 +32,7 @@ export const filterControlsException = ( obj : KeyedObject, section : string ) =
     }  
     if ( section === 'zagorodnaya') {
         if ( 'totalSpace' in newObj ){
-            newObj.totalSpace.name = 'Площадь дома'
+            newObj.totalSpace.name = 'Площадь строения, м2'
         } 
     }
 

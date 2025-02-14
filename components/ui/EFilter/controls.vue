@@ -147,7 +147,8 @@ const labelsData = computed(() => {
   return data;
 })
 watch(controlsData, () => { valuesToPost.value = prepareValues(onlyFillableFields.value) })
-watch([modelOfferType, modelSection], () => {
+watch([modelOfferType, modelSection], ([modellOfferTypeValue, modelSectionValue]) => {
+  navigateTo(`/realty/all-cities/${modellOfferTypeValue}/${modelSectionValue}`);
   isExpanded.value = false;
 })
 const offerTypes = shallowReactive([
