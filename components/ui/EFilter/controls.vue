@@ -17,8 +17,9 @@ interface IProps {
 }
 const props = defineProps<IProps>();
 const { controlsData } = toRefs(props);
-const routeQuery = useRoute().query as KeyedObject;
-const routeParams = useRoute().params as NeededParams;
+const route = useRoute()
+const routeQuery = route.query as KeyedObject;
+const routeParams = route.params as NeededParams;
 
 const modelSection = defineModel<string>('section', {
   required: true
@@ -148,7 +149,7 @@ const labelsData = computed(() => {
 })
 watch(controlsData, () => { valuesToPost.value = prepareValues(onlyFillableFields.value) })
 watch([modelOfferType, modelSection], ([modellOfferTypeValue, modelSectionValue]) => {
-  navigateTo(`/realty/all-cities/${modellOfferTypeValue}/${modelSectionValue}`);
+  if ( route.query.onMap ) navigateTo(`/realty/all-cities/${modellOfferTypeValue}/${modelSectionValue}`);
   isExpanded.value = false;
 })
 const offerTypes = shallowReactive([
