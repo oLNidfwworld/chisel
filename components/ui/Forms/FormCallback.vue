@@ -70,9 +70,9 @@ const showModal = defineModel({
                <Inpt 
                   v-model="userInfo.phone"
                   v-maska="'+7 ### ### ##-##'"
+                  placeholder="+7 ___ ___ __-__"
                   type="phone"
-                  required
-                  placeholder="Телефон*" />
+                  required/>
                <Inpt
                   v-model="userInfo.email"
                   type="email"

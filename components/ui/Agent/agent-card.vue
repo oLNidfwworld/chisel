@@ -78,7 +78,7 @@ const callbackMe = async () => {
          <Inpt
             v-model="myPhone"
             v-maska="'+7 ### ### ##-##'"
-            placeholder="+7 123 456 78-90"
+            placeholder="+7 ___ ___ __-__"
             class="agent-card__inpt"
             type="text"
             name="number" />

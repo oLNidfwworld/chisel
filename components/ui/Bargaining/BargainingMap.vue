@@ -249,9 +249,9 @@ const sendData = async () => {
                <Inpt
                   v-model="userPhone"
                   v-maska="'+7 ### ### ##-##'"
+                  placeholder="+7 ___ ___ __-__"
                   type="phone"
-                  required
-                  placeholder="Телефон*" />
+                  required/>
                <Inpt
                   v-model="userEmail"
                   type="email"

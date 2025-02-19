@@ -223,7 +223,8 @@ const submit = async (e: Event) => {
 
   resultUrl += parseIntoQuery(params);
   if ((((e as SubmitEvent)?.submitter) as HTMLButtonElement).name === 'on-map') {
-    resultUrl.indexOf('?') !== -1 ? resultUrl += '&onMap=1' : resultUrl += '?onMap=1';
+    if('onMap' in route.query) resultUrl = resultUrl.replaceAll('onMap=1', '');
+    else resultUrl.indexOf('?') !== -1 ? resultUrl += '&onMap=1' : resultUrl += '?onMap=1';
   }
   navigateTo(resultUrl);
 }
