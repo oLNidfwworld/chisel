@@ -15,7 +15,7 @@ export default defineNuxtConfig({
     "vue-recaptcha/nuxt"
   ], 
   build : {
-    transpile: ["vue-recaptcha"],
+    transpile: ["vue-recaptcha", "qs"],
   },
   css: ["./assets/styles/main.scss"],
   runtimeConfig: {
@@ -25,6 +25,7 @@ export default defineNuxtConfig({
       },
       apiUrl: process.env.API_BASE_URL,
       siteUrl: process.env.BASE_URL,
+      intrumToken: process.env.INTRUM_API_TOKEN
     },
   },
   hooks: {
