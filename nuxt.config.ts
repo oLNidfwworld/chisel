@@ -12,7 +12,8 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "radix-vue/nuxt",
     "@nuxt/content",
-    "vue-recaptcha/nuxt"
+    "vue-recaptcha/nuxt",
+    "@prisma/nuxt"
   ], 
   build : {
     transpile: ["vue-recaptcha", "qs"],

@@ -9,6 +9,7 @@ interface IntrumResponse<T> {
 export type IntrumStockType = {
     id: string,
     name: string,
+    code?: string,
     groups: Array<unknown>,
     stockFields?: IntrumStockField
 }
@@ -22,6 +23,7 @@ export type IntrumStockField = {
 export type IntrumStockObject = {
     id: string,
     stock_type: string,
+    stock_type_name?: string,
     type: string,
     parent: string,
     name: string,
@@ -45,7 +47,8 @@ export type IntrumStockObject = {
             id: string,
             name?: string,
             type: "select" | "decimal" | "multiselect" | "radio" | "integer" | "text" | "file",
-            value: string
+            value: string,
+            code?: string,
         } |
         {
             id: string,
@@ -55,6 +58,7 @@ export type IntrumStockObject = {
                 x: string,
                 y: string
             }
+            code?: string,
         }
     >
 }

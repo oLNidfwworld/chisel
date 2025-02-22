@@ -5,6 +5,6 @@ export const cachedStockFields = defineCachedFunction(async (api: IntrumApi, key
     return await api.getStockFields()
 }, {
     maxAge: 60 * 60,
-    name: 'stockTypes',
+    name: 'stockFields',
     getKey: (intrumObj, key : string) => key
 })
