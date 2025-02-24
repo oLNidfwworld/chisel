@@ -1,18 +1,11 @@
 import type { KeyedObject } from "~/assets/types/entity/data-object";
 
 export const filterControlsException = ( obj : KeyedObject, section : string ) => { 
-    const newObj = Object.assign({}, obj);
+    const newObj = Object.assign({}, obj); 
     if ( 'objectRealty' in newObj ) { 
         // убираем доли
-        const objectRealtyValues = newObj['objectRealty'].values as Array<{name: string, xmlId : string}>;
-
-        {
-            const newValues = objectRealtyValues.filter( objValue => objValue.xmlId !== 'part')
-            if ( newValues ) 
-                newObj['objectRealty'].values = newValues;
-        }
-
         // сортируем 1к, 2к, 3к...
+        const objectRealtyValues = newObj['objectRealty'].values as Array<{name: string, xmlId : string}>;
         {
             const checkIfExist  = objectRealtyValues.find( objValue => ['tryohkomnatnye','dnokomnatnye','dvuhkomnatnye','komnata'].indexOf(objValue.xmlId) !== -1 ); 
             if ( checkIfExist) { 
@@ -29,6 +22,14 @@ export const filterControlsException = ( obj : KeyedObject, section : string ) =
         if ( section === 'zagorodnaya' ) {
              delete newObj['floor'];
         } 
+
+
+        {
+            const newValues = objectRealtyValues.filter( objValue => objValue.xmlId !== 'part')
+            if ( newValues ) 
+                newObj['objectRealty'].values = newValues;
+        }
+
     }  
     if ( section === 'zagorodnaya') {
         if ( 'totalSpace' in newObj ){

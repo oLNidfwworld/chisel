@@ -148,6 +148,9 @@ const whatsObject = ref(undefined);
 
 const userName = ref(''), userPhone = ref(''), userComment = ref(''), userEmail = ref(''), captchaResult = ref('');
 
+const showCaptcha = ref(false);
+watch([userName, userPhone, userComment, userEmail], ( ) => showCaptcha.value = true);
+
 const fallback = ref(false), responseMsg = ref('');
 const isPopupVisible = ref(false);
 const validation = ref(false);
@@ -248,15 +251,18 @@ const sendData = async () => {
                   placeholder="Имя*" />
                <Inpt
                   v-model="userPhone"
-                  v-maska="'+7 ### ### ##-##'"
+                  v-maska="'+7 ### ### ##-##'" 
                   placeholder="+7 ___ ___ __-__"
                   type="phone"
-                  required/>
+                  required
+                  @focus="moveToStart"/>
                <Inpt
                   v-model="userEmail"
                   type="email"
                   placeholder="Email" />
-               <RecaptchaCheckbox v-model="captchaResult" />
+               <RecaptchaCheckbox
+                  v-show="showCaptcha"
+                  v-model="captchaResult" />
                <!-- <ETextarea v-model="userComment" style="resize: none;" rows="5" placeholder="Комментарий" /> -->
             </div>
             <div class="popup__err">

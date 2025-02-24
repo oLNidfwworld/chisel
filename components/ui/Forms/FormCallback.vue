@@ -45,6 +45,8 @@ const userInfo = ref({
     comment: null,
     captchaResult : null
 })
+const showRecaptcha = ref(false);
+watch(userInfo, ( ) => showRecaptcha.value = true, { deep: true }) 
 const validation = ref(false), validationMessage = ref('');
 
 const showModal = defineModel({
@@ -68,17 +70,19 @@ const showModal = defineModel({
                   required
                   placeholder="Имя*" />
                <Inpt 
-                  v-model="userInfo.phone"
-                  v-maska="'+7 ### ### ##-##'"
+                  v-model="userInfo.phone" 
+                  v-maska="'+7 ### ### ##-##'" 
                   placeholder="+7 ___ ___ __-__"
                   type="phone"
-                  required/>
+                  required
+                  @focus="moveToStart"/>
                <Inpt
                   v-model="userInfo.email"
                   type="email"
                   placeholder="Email" />
                <!-- <ETextarea v-model="userInfo.comment" style="resize: none;" rows="5"  placeholder="Комментарий" /> -->
                <RecaptchaCheckbox
+                  v-show="showRecaptcha"
                   v-model="userInfo.captchaResult"
                   theme="light" 
                   size="normal"  />

@@ -3,6 +3,7 @@ import EHeader from "~/components/layout/EHeader.vue";
 import EFooter from "~/components/layout/EFooter";
 import { useUIstore } from "~/store/ui";
 
+useRecaptchaProvider()
 const uiStore = useUIstore(); 
 </script>
 <template>

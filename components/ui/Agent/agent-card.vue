@@ -3,8 +3,7 @@ import Btn from "~/components/base/btn.vue";
 import Agent from "./agent.vue";
 import Inpt from "~/components/base/inpt.vue";
 import type IAgent from "~/assets/types/entity/agent";
-import EPopupForm from "../e-popup-form.vue";
-import { Checkbox } from "vue-recaptcha";
+import EPopupForm from "../e-popup-form.vue"; 
 
 defineProps<{ agent: IAgent }>();
  
@@ -53,7 +52,8 @@ const callbackMe = async () => {
     }
   }
 }
-
+const showCaptcha = ref (false);
+watch(myPhone, ( ) => showCaptcha.value = true);
 </script>
 <template>
    <form
@@ -81,11 +81,13 @@ const callbackMe = async () => {
             placeholder="+7 ___ ___ __-__"
             class="agent-card__inpt"
             type="text"
-            name="number" />
+            name="number"
+            @focus="moveToStart"  />
          <p
             v-if="validationMessage"
             class="text-red text-center"  >{{ validationMessage }}</p>
-         <Checkbox
+         <RecaptchaCheckbox
+            v-show="showCaptcha"
             v-model="captResponse"
             style="width:fit-content;margin: auto;"
             theme="light"/>

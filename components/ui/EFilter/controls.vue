@@ -319,7 +319,7 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
                   @click="isExpanded = !isExpanded">Расширенный фильтр
                   <IArrowDown :style="{ 'transform': isExpanded ? 'rotate(180deg)' : '' }" />
                </Btn>
-               <Btn type="submit">Показать 
+               <Btn type="submit"> Всего объектов  
                   <span
                      v-if="pendingLengthTotal"
                      class="wave">
