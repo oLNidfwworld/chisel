@@ -84,9 +84,17 @@ const isLink = computed(() => {
       <div class="object-card__content">
          <div class="object-card__top">
             <div class="object-card__top-row">
-               <NuxtLink :to="`/realty/immovable-${item.id}`">
+               <NuxtLink
+                  v-if="item.id"
+                  :to="`/realty/immovable-${item.id}`"
+                  class="object-card__title-link"
+               >
                   <h3 class="object-card__title">{{ item.name }}</h3>
                </NuxtLink>
+               <h3
+                  v-else
+                  class="object-card__title">{{ item.name }}</h3>
+               
                <div class="object-card__additional">
                   <span v-if="item.ID_OBJECT">id{{ item.ID_OBJECT }}</span>
                   <ClientOnly v-if="showFav">
@@ -145,8 +153,12 @@ const isLink = computed(() => {
   &__title {
     font-size: 18px;
     font-weight: 700;
+
+    &-link{
+
     &:hover{
       color: variable.$red;
+    }
     }
   }
 

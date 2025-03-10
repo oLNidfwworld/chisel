@@ -1,7 +1,5 @@
 <script setup>
-import BargainingPreview from '~/components/ui/Bargaining/BargainingPreview.vue';
-
-  
+import BargainingPreview from '~/components/ui/Bargaining/BargainingPreview.vue'; 
 
 definePageMeta({
     layout : 'no-filter'

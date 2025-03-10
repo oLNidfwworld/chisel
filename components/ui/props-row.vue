@@ -33,6 +33,7 @@ withDefaults(defineProps<IProps>(), {
 @use "/assets/styles/mixins/media.scss" as media;
 
 .props-row {
+  hyphens: auto;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 15px;

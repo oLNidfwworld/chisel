@@ -71,6 +71,9 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      htmlAttrs: {
+        lang: "ru",
+      },
       meta: [
         {
           name: "keywords",

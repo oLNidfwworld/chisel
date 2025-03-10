@@ -108,9 +108,9 @@ const balloonContentTemplate = (name, square, stat, price) => {
 
           <div class="ballon__title">Участок номер ${name}</div>
           <ul class="ballon__list">
-              <li><span>Стоимость :</span><span>${price} ₽</span></li>
+              <li><span>Стоимость :</span><span>${price.toLocaleString('ru-RU')} ₽</span></li>
               <li><span>Площадь :</span><span>${square} м<sup>2</sup></span></li>
-              <li><span>Статус :</span><span class="stat_${stat.CODE}">${stat.NAME}</span></li>
+              <li><span>Статус :</span><span class="ballon__stat-badge stat_${stat.CODE}">${stat.NAME}</span></li>
           </ul> 
       </div>
 
@@ -126,9 +126,9 @@ const balloonContentTemplate = (name, square, stat, price) => {
 
           <div class="ballon__title">Участок номер ${name}</div>
           <ul class="ballon__list">
-              <li><span>Стоимость :</span><span>${price} ₽</span></li>
+              <li><span>Стоимость :</span><span>${price.toLocaleString('ru-RU')} ₽</span></li>
               <li><span>Площадь :</span><span>${square} м<sup>2</sup></span></li>
-              <li><span>Статус :</span><span class="stat_${stat.CODE}">${stat.NAME}</span></li>
+              <li><span>Статус :</span><span class="ballon__stat-badge stat_${stat.CODE}">${stat.NAME}</span></li>
           </ul>
           <div class="flex flex-row">
             
@@ -366,36 +366,39 @@ const sendData = async () => {
 
     &__list {
         display: grid;
-        width: 75%;
+        width: 100%;
+        align-items: center;
+        margin-bottom: 12px;
 
         & li {
             display: flex;
             justify-content: space-between;
-
+            align-items: center;
+            
             & span:first-child {
                 font-weight: 700;
+                height: fit-content;
             }
         }
 
-        & .stat_SELLABLE {
-            font-weight: 700;
-            padding: 5px 10px;
-            background-color: var(--sellable);
-            color: variable.$white;
+        
+    }
+    &__stat-badge{
+        font-weight: 700;
+        padding: 5px 10px;
+        color: variable.$white;
+        width: fit-content;
+        height: fit-content;
+        &.stat_SELLABLE { 
+            background-color: var(--sellable); 
         }
 
-        & .stat_RESERVED {
-            font-weight: 700;
-            padding: 5px 10px;
-            background-color: var(--reserved);
-            color: variable.$white;
+        &.stat_RESERVED {
+            background-color: var(--reserved); 
         }
 
-        & .stat_SELLED {
-            font-weight: 700;
-            padding: 5px 10px;
+        &.stat_SELLED { 
             background-color: var(--selled);
-            color: variable.$white;
         }
     }
 }
