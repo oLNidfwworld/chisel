@@ -135,8 +135,12 @@ const currentYear = new Date().getFullYear();
     font-size: 15px;
     color: variable.$white;
     flex: 0 0;
-    padding: 55px 0;
+    padding: 25px 0;
     background-color: variable.$red;
+
+    @include media.min-md {
+        padding: 55px 0;    
+    }
 
     &.mob{
         display: block;
