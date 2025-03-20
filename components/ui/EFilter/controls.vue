@@ -46,7 +46,7 @@ const onlyFillableFields = computed<KeyedObject>(() => {
           fields[key]['type'] = 'range'
         }
         if (fields[key]) {
-          if ((fields[key]?.type && fields[key].type === 'range') || key === 'objectRealty' || key === 'city') {
+          if (((fields[key]?.type && (fields[key].type === 'range' )) && key !=='floor') || key === 'objectRealty' || key === 'city' ) {
             fields[key]['inExpandedFilter'] = false;
           } else {
             fields[key]['inExpandedFilter'] = true;
@@ -68,11 +68,9 @@ const expandFields = computed(() => {
         newFields[key] = fillable[key]
       }
     } else newFields[key] = fillable[key]
-  })
-
-  return newFields
-})
-
+  })   
+  return Object.entries(newFields).map(data => {return { ...data[1], objectKey: data[0] }}).sort((a,b) => a?.inExpandedFilter - b?.inExpandedFilter)
+}) 
 const prepareValues = (onlyFillableFieldsVal: KeyedObject): KeyedObject => {
   const newValuesToPost: { [index: string]: any } = {};
   Object.keys(onlyFillableFieldsVal).forEach(key => {
@@ -241,40 +239,34 @@ const removeFromValuesToPost = (key: string) => {
 }
 const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key => removeFromValuesToPost(key));
 
-// TODO: clear WARN .e-filter-additional__wrapper <TransitionGroup> children must be keyed. 
+// TODO: clear WARN .e-filter-additional__wrapper <TransitionGroup> children must be keyed.  
 </script>
 <template>
    <form
       class="e-filter"
       @submit.prevent="submit">
       <div class="e-filter__toggler-group-1">
-         <label
+         <NuxtLink
             v-for="(item, index) in offerTypes"
             :key="index"
-            class="e-filter-toggler-1">
-            <input
-               v-model="modelOfferType"
-               type="radio"
-               name="offer-type"
-               :value="item.value"
-               :checked="item.value === modelOfferType" >
+            :to="`/realty/all-cities/${item.value}/${modelSection}`"
+            class="e-filter-toggler-1"
+            :class="{'active' : item.value == modelOfferType}" 
+            @click="modelOfferType = item.value">
             {{ item.name }}
-         </label>
+         </NuxtLink>
       </div>
       <div class="e-filter__complex-row">
          <div class="e-filter__toggler-group-2">
-            <label
+            <NuxtLink
                v-for="(item, index) in sectionTypes"
                :key="index"
-               class="e-filter-toggler-2">
-               <input
-                  v-model="modelSection"
-                  type="radio"
-                  name="object-type"
-                  :value="item.value"
-                  :checked="item.value === modelSection" >
+               :to="`/realty/all-cities/${modelOfferType}/${item.value}`"
+               class="e-filter-toggler-2"
+               :class="{'active' : item.value == modelSection}"
+               @click="modelSection = item.value"> 
                {{ item.name }}
-            </label>
+            </NuxtLink>
          </div>
          <div>
             <SearchObjectId />
@@ -287,25 +279,26 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
             class="e-filter-additional__wrapper"
             tag="div"
             name="adding-filter">
+            
             <div
-               v-for="(control, index) in expandFields"
-               :key="index"
+               v-for="control in expandFields"
+               :key="control.objectKey"
                class="e-filter-additional__group"
-               :class="[control.type, index]">
+               :class="[control.type, control.objectKey]">
                <span class="e-filter-additional__group-title">{{ control.name }}</span>
                <template v-if="control.type === 'list'">
                   <AdditionalRadio
-                     v-model="(valuesToPost[index] as unknown as string[])"
+                     v-model="(valuesToPost[control.objectKey] as unknown as string[])"
                      :items="control.values" />
                </template>
                <template v-else-if="control.type === 'dropdown-list'">
                   <AdditionalCombo
-                     v-model="valuesToPost[index]"
+                     v-model="valuesToPost[control.objectKey]"
                      :items="control.values" />
                </template>
                <template v-else-if="control.type === 'range'">
                   <AdditionalRange
-                     v-model="valuesToPost[index]"
+                     v-model="valuesToPost[control.objectKey]"
                      :min="control.min"
                      :max="control.max" />
                </template>
@@ -454,7 +447,7 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
   transition: 0.3s ease-out background-color, 0.3s ease-out color;
   border-radius: variable.$border-sm;
 
-  &:has(input[type="radio"]:checked) {
+  &.active {
     background-color: variable.$red;
     color: variable.$white;
   }
@@ -476,7 +469,7 @@ const removeAllValuesToPost = () => Object.keys(valuesToPost.value).forEach(key 
   border-radius: variable.$border-sm;
   transition: 0.3s ease-out background-color, 0.3s ease-out color;
 
-  &:has(input[type="radio"]:checked) {
+  &.active {
     background-color: variable.$red;
     color: variable.$white;
   }

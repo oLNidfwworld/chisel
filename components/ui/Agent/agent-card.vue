@@ -75,14 +75,16 @@ watch(myPhone, ( ) => showCaptcha.value = true);
       </div>
       <div class="agent-card__block">
          <p class="agent-card__text">Оставьте свой номер,мы вам перезвоним</p>
-         <Inpt
-            v-model="myPhone"
-            v-maska="'+7 ### ### ##-##'"
-            placeholder="+7 ___ ___ __-__"
-            class="agent-card__inpt"
-            type="text"
-            name="number"
-            @focus="moveToStart"  />
+         <div class="agent-card__inpt-wrapper">
+            <Inpt
+               v-model="myPhone"
+               v-maska="'+7 ### ### ##-##'"
+               placeholder="+7 ___ ___ __-__"
+               class="agent-card__inpt"
+               type="text"
+               name="number"
+               @focus="moveToStart"  />
+         </div>
          <p
             v-if="validationMessage"
             class="text-red text-center"  >{{ validationMessage }}</p>
@@ -157,7 +159,12 @@ watch(myPhone, ( ) => showCaptcha.value = true);
   }
 
   &__inpt.inpt {
-    text-align: center;
+    text-align: left;
+  }
+  &__inpt-wrapper {
+    display: flex; 
+    width: 140px;
+    margin: 0 auto;
   }
 }
 </style>
