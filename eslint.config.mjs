@@ -6,17 +6,18 @@ export default withNuxt(
   {
     rules: {
       "no-console": ["error", { allow: ["warn", "error"] }],
-      "vue/max-attributes-per-line": [
-        "error",
-        {
-          singleline: {
-            max: 1,
-          },
-          multiline: {
-            max: 1,
-          },
-        },
-      ],
+      // "vue/max-attributes-per-line": [
+      //   "error",
+      //   {
+      //     singleline: {
+      //       max: 1,
+      //     },
+      //     multiline: {
+      //       max: 1,
+      //     },
+      //   },
+      // ],
+      "vue/first-attribute-linebreak" : [ 'off'],
       "vue/html-self-closing": [
         "error",
         {
@@ -48,17 +49,17 @@ export default withNuxt(
           alphabetical: false,
         },
       ], 
-      "vue/html-indent": [
-        "error",
-        3,
-        {
-          attribute: 1,
-          baseIndent: 1,
-          closeBracket: 0,
-          alignAttributesVertically: true,
-          ignores: [],
-        },
-      ],
+      // "vue/html-indent": [
+      //   "error",
+      //   3,
+      //   {
+      //     attribute: 1,
+      //     baseIndent: 1,
+      //     closeBracket: 0,
+      //     alignAttributesVertically: true,
+      //     ignores: [],
+      //   },
+      // ],
 
       // optional 
       "vue/no-multiple-template-root": ["off"],

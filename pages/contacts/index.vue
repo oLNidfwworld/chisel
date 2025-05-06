@@ -2,12 +2,12 @@
 import { YandexMap } from 'vue-yandex-maps';
 import ContentInner from '~/components/ui/content-inner.vue';
 definePageMeta({
-    layout: 'content'
+   layout: 'content'
 });
 
 useSeoMeta({
-    title: 'Контакты | АН "Эксперт"',
-    description : "На электричке: С Курского вокзала доехать до ж/д станции Павловский Посад(приблизительное время в пути 1час 10минут), выйти в город на Привокзальную площадь. Далее 700 метров пешком до ДК «Октябрь»."
+   title: 'Контакты | АН "Эксперт"',
+   description: "На электричке: С Курского вокзала доехать до ж/д станции Павловский Посад(приблизительное время в пути 1час 10минут), выйти в город на Привокзальную площадь. Далее 700 метров пешком до ДК «Октябрь»."
 })
 const mapCenter = ref([55.780826, 38.670362])
 const controls = ['fullscreenControl'];
@@ -17,23 +17,16 @@ const detailedControls = { zoomControl: { position: { right: 10, top: 50 } } };
    <ContentInner h1="Контакты">
       <div class="contacts">
          <div class="contacts-top">
-            <img src="/contacts-photo.webp" >
+            <img src="/contacts-photo.webp">
             <div class="contacts-blocks">
                <div class="contacts-block">
-                  <a
-                     href="tel:+79015178651"
-                     class="contacts-row">
+                  <a href="tel:+79015178651" class="contacts-row">
                      <IPhone filled /> +7 (901) 517-86-51
                   </a>
-                  <a
-                     target="_blank"
-                     href="https://yandex.ru/maps/-/CDhFmI8w"
-                     class="contacts-row">
+                  <a target="_blank" href="https://yandex.ru/maps/-/CDhFmI8w" class="contacts-row">
                      <IPlacemark filled /> МО, г. Павловский Посад, ул. Кирова 91
                   </a>
-                  <a
-                     href="mailto:ekspert07@bk.ru"
-                     class="contacts-row">
+                  <a href="mailto:ekspert07@bk.ru" class="contacts-row">
                      <IEmailWhite filled /> ekspert07@bk.ru
                   </a>
                </div>
@@ -41,31 +34,25 @@ const detailedControls = { zoomControl: { position: { right: 10, top: 50 } } };
                   <div class="contacts-block__pre">
                      <IClock filled />
                   </div>
-                  <div>
-                     Пн. – Чт.: с 9:00 до 18:00 <br >
-                     Пт.: с 9:00 до 17:00 <br >
-                     Сб.: с 10:00 до 16:00 <br >
-                     Вс.: Выходной <br >
+                  <div class="contacts-block__aligned">
+                     Пн. – Чт.: с 9:00 до 18:00 <br>
+                     Пт.: с 9:00 до 17:00 <br>
+                     Сб.: с 10:00 до 16:00 <br>
+                     Вс.: Выходной <br>
                   </div>
                </div>
             </div>
          </div>
          <div>
             <ClientOnly>
-               <YandexMap
-                  style="height: 300px"
-                  :controls="controls"
-                  :detailed-controls="detailedControls"
+               <YandexMap style="height: 300px" :controls="controls" :detailed-controls="detailedControls"
                   :coordinates="mapCenter">
-                  <YandexMarker
-                     :coordinates="[55.780826, 38.670362]"
-                     :options="{
-                        iconLayout: 'default#imageWithContent',
-                        iconImageHref: '/ekspertMarker.svg',
-                        iconImageSize: [50, 50],
-                        iconImageOffset: [-25, -55]
-                     }"
-                     :marker-id="`home`">
+                  <YandexMarker :coordinates="[55.780826, 38.670362]" :options="{
+                     iconLayout: 'default#imageWithContent',
+                     iconImageHref: '/ekspertMarker.svg',
+                     iconImageSize: [50, 50],
+                     iconImageOffset: [-25, -55]
+                  }" :marker-id="`home`">
                      <template #component>
                         <div class="yandex-balloon">
                            <p class="mb-3">Мы</p>
@@ -76,12 +63,10 @@ const detailedControls = { zoomControl: { position: { right: 10, top: 50 } } };
                </YandexMap>
             </ClientOnly>
          </div>
-         <div class="absaz" >
-            <div
-               class="inside"
-               style="position: relative;">
+         <div class="absaz">
+            <div class="inside" style="position: relative;">
                <h2 class="spec spec_f"><span class="name">Как
-                  добраться:</span></h2>
+                     добраться:</span></h2>
             </div>
             <p><b>На электричке:</b> С Курского вокзала доехать до ж/д станции
                Павловский
@@ -112,63 +97,67 @@ const detailedControls = { zoomControl: { position: { right: 10, top: 50 } } };
 @use '/assets/styles/mixins/media.scss' as media;
 
 .contacts>*+* {
-    margin-top: 20px;
+   margin-top: 20px;
 }
 
 .contacts-top {
-    display: grid;
-    gap: 20px;
-    font-weight: 500;
+   display: grid;
+   gap: 20px;
+   font-weight: 500;
 
-    @include media.min-lg {
-        grid-template-columns: 5fr 3fr;
-    }
+   @include media.min-lg {
+      grid-template-columns: 5fr 3fr;
+   }
 
-    img {
-        widht: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+   img {
+      widht: 100%;
+      height: 100%;
+      object-fit: cover;
+   }
 }
 
 .contacts-blocks {
-    display: grid;
-    gap: 40px;
+   display: grid;
+   gap: 40px;
 }
 
 .contacts-block {
-    position: relative;
+   position: relative;
 
-    justify-content: center;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    border: 1px solid variable.$another-gray;
+   justify-content: center;
+   padding: 20px;
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+   border: 1px solid variable.$another-gray;
 
-    &__pre {
-        position: absolute;
+   &__aligned {
+      text-align: center;
+   }
 
-        top: -12px;
-        left: 0;
-        right: 0;
+   &__pre {
+      position: absolute;
 
-        margin: auto;
-        width: fit-content;
-    }
+      top: -12px;
+      left: 0;
+      right: 0;
+
+      margin: auto;
+      width: fit-content;
+   }
 }
 
 .contacts-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
+   display: flex;
+   gap: 8px;
+   align-items: center;
 
-    & svg {
-        width: 16px !important;
+   & svg {
+      width: 16px !important;
 
-        * {
-            fill: variable.$red !important;
-        }
-    }
+      * {
+         fill: variable.$red !important;
+      }
+   }
 }
 </style>
