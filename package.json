@@ -1,5 +1,11 @@
 {
-  "name": "nuxt-app",
+  "name": "chisel-app",
+  "author": {
+    "name": "Daniil Kuvetov",
+    "url": "https://github.com/oLNidfwworld/"
+  },
+  "description": "not the best code",
+  "license": "UNLICENSED",
   "private": true,
   "type": "module",
   "scripts": {
